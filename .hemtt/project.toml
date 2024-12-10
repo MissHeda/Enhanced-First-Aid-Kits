@@ -1,0 +1,34 @@
+name = "Advanced First Aid Kits"
+prefix = "afak"
+author = "Miss Heda"
+mainprefix = "z"
+
+#modname = "{{prefix}}_mods"
+#key_name = "{{prefix}}_{{version}}"
+#authority = "{{prefix}}_{{version}}"
+
+[files]
+include = [
+    "mod.cpp",
+    "logo.paa",
+]
+
+[version]
+git_hash = 0
+
+[hemtt.config]
+preset = "Hemtt"
+
+[hemtt.launch]
+workshop = [
+    "463939057", # ACE3's Workshop ID
+    "1779063631", # Zeus Enhanced
+    "450814997", # CBA_A3's Workshop ID
+    "2369477168" # Advanced Dev Tools
+]
+parameters = [
+    '"-profiles=C:\Users\Heda\OneDrive\Documents\Arma 3 - Other Profiles\Mia"'  
+]
+dlc = [
+    
+]
