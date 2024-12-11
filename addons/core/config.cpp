@@ -7,8 +7,7 @@ class CfgPatches {
         weapons[] = {};
         requiredVersion = REQUIRED_VERSION;
         requiredAddons[] = {
-            "cba_keybinding",
-            "cba_main"
+            "efak_main"
         };
         author = "Miss Heda";
         url = ECSTRING(main,URL);

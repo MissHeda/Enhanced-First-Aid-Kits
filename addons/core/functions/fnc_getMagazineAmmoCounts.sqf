@@ -13,7 +13,7 @@
  * <ARRAY>
  *
  * Example:
- * [player, "afak_IFAK_Magazine"] call afak_misc_fnc_getMagazineAmmoCounts;
+ * [player, "efak_IFAK_Magazine"] call efak_misc_fnc_getMagazineAmmoCounts;
  *
  * Public: No
  */

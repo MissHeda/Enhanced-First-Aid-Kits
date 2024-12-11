@@ -11,7 +11,7 @@
  * None
  *
  * Example:
- * [player, 0] call afak_misc_fnc_FAK_displayContent;
+ * [player, 0] call efak_misc_fnc_FAK_displayContent;
  *
  * Public: No
  */

@@ -10,7 +10,7 @@
  * None
  *
  * Example:
- * [] call afak_misc_fnc_FAK_updateContents;
+ * [] call efak_misc_fnc_FAK_updateContents;
  *
  * Public: No
  */

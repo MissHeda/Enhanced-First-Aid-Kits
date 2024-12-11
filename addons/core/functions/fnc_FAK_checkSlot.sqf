@@ -13,7 +13,7 @@
  * Is usable <BOOLEAN>
  *
  * Example:
- * [player, "afak_IFAK_Magazine", 0, 0] call afak_misc_fnc_FAK_checkSlot;
+ * [player, "efak_IFAK_Magazine", 0, 0] call efak_misc_fnc_FAK_checkSlot;
  *
  * Public: No
  */

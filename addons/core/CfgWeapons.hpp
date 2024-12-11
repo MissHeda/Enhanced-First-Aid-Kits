@@ -2,7 +2,7 @@ class CfgWeapons
 {
     class ACE_ItemCore;
     class CBA_MiscItem_ItemInfo;
-    class afak_IFAK: ACE_ItemCore {
+    class efak_IFAK: ACE_ItemCore {
         author = "Miss Heda";
         displayName = CSTRING(IFAK_Display);
         descriptionShort = CSTRING(IFAK_DESC);
@@ -15,7 +15,7 @@ class CfgWeapons
         };
     };
 
-    class afak_AFAK: afak_IFAK {
+    class efak_AFAK: efak_IFAK {
         displayName = CSTRING(AFAK_Display);
         descriptionShort = CSTRING(AFAK_DESC);
         editorPreview = QPATHTOF(ui\AFAK.paa);
@@ -25,7 +25,7 @@ class CfgWeapons
         };
     };
 
-    class afak_MFAK: afak_IFAK {
+    class efak_MFAK: efak_IFAK {
         displayName = CSTRING(MFAK_Display);
         descriptionShort = CSTRING(MFAK_DESC);
         editorPreview = QPATHTOF(ui\MFAK.paa);

@@ -11,7 +11,7 @@
  * Array of states <ARRAY>
  *
  * Example:
- * [255, 0] call afak_misc_fnc_FAK_ammoToArray;
+ * [255, 0] call efak_misc_fnc_FAK_ammoToArray;
  *
  * Public: No
  */

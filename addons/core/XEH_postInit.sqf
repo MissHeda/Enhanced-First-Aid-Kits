@@ -29,6 +29,6 @@
 ////////////////////////////////////////////////////////////////////////////////////////////////////
 
 // Associates a pretty name to a keybinding mod entry.
-["AFAK", "Advanced First Aid Kits"] call CBA_fnc_registerKeybindModPrettyName;
+["EFAK", "Enhanced First Aid Kits"] call CBA_fnc_registerKeybindModPrettyName;
 
 call FUNC(FAK_updateContents);

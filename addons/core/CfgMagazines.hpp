@@ -1,7 +1,7 @@
 class CfgMagazines {
     class CA_Magazine;
 
-    class afak_IFAK_Magazine: CA_Magazine {
+    class efak_IFAK_Magazine: CA_Magazine {
         scope = 2;
         scopeArsenal = 0;
         author = "Miss Heda";
@@ -17,7 +17,7 @@ class CfgMagazines {
         mass = 15;
     };
 
-    class afak_AFAK_Magazine: CA_Magazine {
+    class efak_AFAK_Magazine: CA_Magazine {
         scope = 2;
         scopeArsenal = 0;
         author = "Miss Heda";
@@ -33,7 +33,7 @@ class CfgMagazines {
         mass = 25;
     };
 
-    class afak_MFAK_Magazine: CA_Magazine {
+    class efak_MFAK_Magazine: CA_Magazine {
         scope = 2;
         scopeArsenal = 0;
         author = "Miss Heda";

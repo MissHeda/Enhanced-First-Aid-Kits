@@ -13,7 +13,7 @@
  * None
  *
  * Example:
- * [player, "afak_IFAK_Magazine", 0, 1] call afak_misc_fnc_FAK_repack;
+ * [player, "efak_IFAK_Magazine", 0, 1] call efak_misc_fnc_FAK_repack;
  *
  * Public: No
  */
@@ -64,17 +64,17 @@ private _max = 0;
 
 switch (_type) do {
     case 0: { // IFAK
-        _FAKToAdd = "afak_IFAK";
+        _FAKToAdd = "efak_IFAK";
         _itemList = missionNamespace getVariable [QGVAR(IFAKContents), []];
         _max = 15;
     };
     case 1: { // AFAK
-        _FAKToAdd = "afak_AFAK";
+        _FAKToAdd = "efak_AFAK";
         _itemList = missionNamespace getVariable [QGVAR(AFAKContents), []];
         _max = 63;
     };
     default { // MFAK
-        _FAKToAdd = "afak_MFAK";
+        _FAKToAdd = "efak_MFAK";
         _itemList = missionNamespace getVariable [QGVAR(MFAKContents), []];
         _max = 255;
     };

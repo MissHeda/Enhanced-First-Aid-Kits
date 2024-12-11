@@ -13,7 +13,7 @@
  * Can repack <BOOLEAN>
  *
  * Example:
- * [player, "afak_IFAK_Magazine", 0, 1] call afak_misc_fnc_FAK_checkRepack;
+ * [player, "efak_IFAK_Magazine", 0, 1] call efak_misc_fnc_FAK_checkRepack;
  *
  * Public: No
  */

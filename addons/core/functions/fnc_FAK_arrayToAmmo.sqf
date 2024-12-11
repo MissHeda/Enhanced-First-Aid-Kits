@@ -10,7 +10,7 @@
  * Ammo count <INT>
  *
  * Example:
- * [[true,true,true,true,false,false,false,false]] call afak_misc_fnc_FAK_arrayToAmmo;
+ * [[true,true,true,true,false,false,false,false]] call efak_misc_fnc_FAK_arrayToAmmo;
  *
  * Public: No
  */

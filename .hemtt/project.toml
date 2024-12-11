@@ -1,5 +1,5 @@
-name = "Advanced First Aid Kits"
-prefix = "afak"
+name = "Enhanced First Aid Kits"
+prefix = "efak"
 author = "Miss Heda"
 mainprefix = "z"
 
@@ -24,7 +24,8 @@ workshop = [
     "463939057", # ACE3's Workshop ID
     "1779063631", # Zeus Enhanced
     "450814997", # CBA_A3's Workshop ID
-    "2369477168" # Advanced Dev Tools
+    "2369477168", # Advanced Dev Tools
+    "3316254084" # ACM
 ]
 parameters = [
     '"-profiles=C:\Users\Heda\OneDrive\Documents\Arma 3 - Other Profiles\Mia"'  

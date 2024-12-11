@@ -13,7 +13,7 @@
  * None
  *
  * Example:
- * [player, "afak_IFAK", 0, 0] call afak_misc_fnc_FAK_unpack;
+ * [player, "efak_IFAK", 0, 0] call efak_misc_fnc_FAK_unpack;
  *
  * Public: No
  */
@@ -63,21 +63,21 @@ private _removeOnEmptyCondition = false;
 
 switch (_type) do {
     case 0: { // IFAK
-        _FAKToAdd = "afak_IFAK_Magazine";
+        _FAKToAdd = "efak_IFAK_Magazine";
         _slotArray = [true,true,true,true,false,false,false,false];
         _container = [(missionNamespace getVariable [QGVAR(IFAK_Container), 0])] call _fnc_getContainer;
         _itemList = missionNamespace getVariable [QGVAR(IFAKContents), []];
         _removeOnEmptyCondition = GVAR(IFAK_RemoveWhenEmpty);
     };
     case 1: { // AFAK
-        _FAKToAdd = "afak_AFAK_Magazine";
+        _FAKToAdd = "efak_AFAK_Magazine";
         _slotArray = [true,true,true,true,true,true,false,false];
         _container = [(missionNamespace getVariable [QGVAR(AFAK_Container), 0])] call _fnc_getContainer;
         _itemList = missionNamespace getVariable [QGVAR(AFAKContents), []];
         _removeOnEmptyCondition = GVAR(AFAK_RemoveWhenEmpty);
     };
     default { // MFAK
-        _FAKToAdd = "afak_MFAK_Magazine";
+        _FAKToAdd = "efak_MFAK_Magazine";
         _slotArray = [true,true,true,true,true,true,true,true];
         _container = [(missionNamespace getVariable [QGVAR(MFAK_Container), 0])] call _fnc_getContainer;
         _itemList = missionNamespace getVariable [QGVAR(MFAKContents), []];

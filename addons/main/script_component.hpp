@@ -1,6 +1,6 @@
 #define COMPONENT main
-#define COMPONENT_BEAUTIFIED AFAK - Main
-#include "\z\afak\addons\main\script_mod.hpp"
+#define COMPONENT_BEAUTIFIED EFAK - Main
+#include "\z\efak\addons\main\script_mod.hpp"
 
 // #define DEBUG_MODE_FULL
 // #define DISABLE_COMPILE_CACHE
@@ -14,4 +14,4 @@
     #define DEBUG_SETTINGS DEBUG_SETTINGS_MAIN
 #endif
 
-#include "\z\afak\addons\main\script_macros.hpp"
+#include "\z\efak\addons\main\script_macros.hpp"

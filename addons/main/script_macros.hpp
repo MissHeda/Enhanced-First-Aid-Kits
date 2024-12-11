@@ -2,8 +2,8 @@
 #include "\x\cba\addons\main\script_macros_common.hpp"
 #include "\x\cba\addons\xeh\script_xeh.hpp"
 
-#define DGVAR(varName)    if(isNil "AFAK_DEBUG_NAMESPACE") then { AFAK_DEBUG_NAMESPACE = []; }; if(!(QUOTE(GVAR(varName)) in AFAK_DEBUG_NAMESPACE)) then { PUSH(AFAK_DEBUG_NAMESPACE, QUOTE(GVAR(varName))); }; GVAR(varName)
-#define DVAR(varName)     if(isNil "AFAK_DEBUG_NAMESPACE") then { AFAK_DEBUG_NAMESPACE = []; }; if(!(QUOTE(varName) in AFAK_DEBUG_NAMESPACE)) then { PUSH(AFAK_DEBUG_NAMESPACE, QUOTE(varName)); }; varName
+#define DGVAR(varName)    if(isNil "EFAK_DEBUG_NAMESPACE") then { EFAK_DEBUG_NAMESPACE = []; }; if(!(QUOTE(GVAR(varName)) in EFAK_DEBUG_NAMESPACE)) then { PUSH(EFAK_DEBUG_NAMESPACE, QUOTE(GVAR(varName))); }; GVAR(varName)
+#define DVAR(varName)     if(isNil "EFAK_DEBUG_NAMESPACE") then { EFAK_DEBUG_NAMESPACE = []; }; if(!(QUOTE(varName) in EFAK_DEBUG_NAMESPACE)) then { PUSH(EFAK_DEBUG_NAMESPACE, QUOTE(varName)); }; varName
 #define DFUNC(var1) TRIPLES(ADDON,fnc,var1)
 #define DEFUNC(var1,var2) TRIPLES(DOUBLES(PREFIX,var1),fnc,var2)
 
