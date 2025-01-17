@@ -2,40 +2,40 @@
 <Project name="efak">
     <Package name="core">
         <Key ID="STR_efak_core_SubCategory_IFAK">
-            <English>(IFAK) Individual First Aid Kit</English>
-            <German>(IFAK) Individuelles Erste Hilfe Kit</German>
-            <Spanish>(BPAI) Botiquín de primeros auxilios individual</Spanish>
-            <Japanese>(IFAK) 個人用応急処置キット</Japanese>
-            <French>(TIC) Trousse individuelle du combattant</French>
-            <Finnish>(IFAK) Yksilöllinen ensiapulaukku</Finnish>
-            <Russian>(IFAK) Индивидуальная аптечка первой помощи</Russian>
-            <Portuguese>(KPSI) Kit de Primeiros Socorros Individual</Portuguese>
-            <Dutch>(IFAK) Individuele Eerste hulpkit</Dutch>
-            <Italian>(IFAK) Kit di Pronto Soccorso Individuale</Italian>
+            <English>1) Individual First Aid Kit</English>
+            <German>1) Individuelles Erste Hilfe Kit</German>
+            <Spanish>1) Botiquín de primeros auxilios individual</Spanish>
+            <Japanese>1) 個人用応急処置キット</Japanese>
+            <French>1) Trousse individuelle du combattant</French>
+            <Finnish>1) Yksilöllinen ensiapulaukku</Finnish>
+            <Russian>1) Индивидуальная аптечка первой помощи</Russian>
+            <Portuguese>1) Kit de Primeiros Socorros Individual</Portuguese>
+            <Dutch>1) Individuele Eerste hulpkit</Dutch>
+            <Italian>1) Kit di Pronto Soccorso Individuale</Italian>
         </Key>
         <Key ID="STR_efak_core_SubCategory_MFAK">
-            <English>(MFAK) Multiple First Aid Kit</English>
-            <German>(MFAK) Mehrfaches Erste Hilfe Kit</German>
-            <Spanish>(BPAM) Botiquín de primeros auxilios múltiple</Spanish>
-            <Japanese>(MFAK) 多用途応急処置キット</Japanese>
-            <French>(MFAK) Trousse de secours multiple</French>
-            <Finnish>(MFAK) Useita ensiapulaukkuja</Finnish>
-            <Russian>(MFAK) Многофункциональная аптечка первой помощи</Russian>
-            <Portuguese>(KPSM) Kit de Primeiros Socorros Múltiplo</Portuguese>
-            <Dutch>(MFAK) Meervoudige Eerste hulpkit</Dutch>
-            <Italian>(MFAK) Kit di Pronto Soccorso Multiplo</Italian>
+            <English>3) Multiple First Aid Kit</English>
+            <German>3) Mehrfaches Erste Hilfe Kit</German>
+            <Spanish>3) Botiquín de primeros auxilios múltiple</Spanish>
+            <Japanese>3) 多用途応急処置キット</Japanese>
+            <French>3) Trousse de secours multiple</French>
+            <Finnish>3) Useita ensiapulaukkuja</Finnish>
+            <Russian>3) Многофункциональная аптечка первой помощи</Russian>
+            <Portuguese>3) Kit de Primeiros Socorros Múltiplo</Portuguese>
+            <Dutch>3) Meervoudige Eerste hulpkit</Dutch>
+            <Italian>3) Kit di Pronto Soccorso Multiplo</Italian>
         </Key>
         <Key ID="STR_efak_core_SubCategory_AFAK">
-            <English>(AFAK) Advanced First Aid Kit</English>
-            <German>(AFAK) Erweitertes Erste Hilfe Kit</German>
-            <Spanish>(BPAA) Botiquín de primeros auxilios avanzado</Spanish>
-            <Japanese>(AFAK) 高等応急処置キット</Japanese>
-            <French>(AFAK) Trousse de secours avancée</French>
-            <Finnish>(AFAK) Edistyksellinen ensiapulaukku</Finnish>
-            <Russian>(AFAK) Усовершенствованная аптечка первой помощи</Russian>
-            <Portuguese>(KPSA) Kit de Primeiros Socorros Avançado</Portuguese>
-            <Dutch>(AFAK) Geadvanceerde Eerste hulpkit</Dutch>
-            <Italian>(AFAK) Kit di Pronto Soccorso Avanzato</Italian>
+            <English>2) Advanced First Aid Kit</English>
+            <German>2) Erweitertes Erste Hilfe Kit</German>
+            <Spanish>2) Botiquín de primeros auxilios avanzado</Spanish>
+            <Japanese>2) 高等応急処置キット</Japanese>
+            <French>2) Trousse de secours avancée</French>
+            <Finnish>2) Edistyksellinen ensiapulaukku</Finnish>
+            <Russian>2) Усовершенствованная аптечка первой помощи</Russian>
+            <Portuguese>2) Kit de Primeiros Socorros Avançado</Portuguese>
+            <Dutch>2) Geadvanceerde Eerste hulpkit</Dutch>
+            <Italian>2) Kit di Pronto Soccorso Avanzato</Italian>
         </Key>
         <Key ID="STR_efak_core_SETTING_FAK_Container">
             <English>Items unload Container</English>
@@ -195,16 +195,7 @@
             <Italian>Articoli e quantità della sezione miscellanea</Italian>
         </Key>
         <Key ID="STR_efak_core_IFAK_Display">
-            <English>Individual First Aid Kit</English>
-            <Spanish>Kit individual de primeros auxilios</Spanish>
-            <German>Individuelles Erste Hilfe Kit (IFAK)</German>
-            <Japanese>個人用応急処置キット (IFAK)</Japanese>
-            <French>Trousse individuelle du combattant</French>
-            <Finnish>Yksilöllinen ensiapulaukku</Finnish>
-            <Russian>Индивидуальная аптечка первой помощи</Russian>
-            <Portuguese>Kit de Primeiros Socorros Individual</Portuguese>
-            <Dutch>Individuele Eerste hulpskit</Dutch>
-            <Italian>Kit di Primo Soccorso Individuale (IFAK)</Italian>
+            <English>First Aid Kit (IFAK)</English>
         </Key>
         <Key ID="STR_efak_core_IFAK_DESC">
             <English>The IFAK can be unpacked to provide useful medical items</English>
@@ -219,16 +210,7 @@
             <Italian>Il IFAK può essere disimballato per fornire articoli medici utili</Italian>
         </Key>
         <Key ID="STR_efak_core_MFAK_Display">
-            <English>Multiple First Aid Kit</English>
-            <German>Mehrfaches Erste Hilfe Kit (MFAK)</German>
-            <Spanish>Botiquín de primeros auxilios múltiple</Spanish>
-            <Japanese>多用途応急処置キット (MFAK)</Japanese>
-            <French>Trousse de secours multiple</French>
-            <Finnish>Useita ensiapulaukkuja</Finnish>
-            <Russian>Многофункциональная аптечка первой помощи</Russian>
-            <Portuguese>Kit de Primeiros Socorros Múltiplo</Portuguese>
-            <Dutch>Meervoudige Eerste hulpskit</Dutch>
-            <Italian>Kit di Primo Soccorso Multiplo (MFAK)</Italian>
+            <English>First Aid Kit (MFAK)</English>
         </Key>
         <Key ID="STR_efak_core_MFAK_DESC">
             <English>The MFAK can be unpacked to provide useful medical items</English>
@@ -243,16 +225,7 @@
             <Italian>Il MFAK può essere disimballato per fornire articoli medici utili</Italian>
         </Key>
         <Key ID="STR_efak_core_AFAK_Display">
-            <English>Advanced First Aid Kit</English>
-            <German>Erweitertes Erste Hilfe Kit (AFAK)</German>
-            <Spanish>Botiquín de primeros auxilios avanzado</Spanish>
-            <Japanese>高度応急処置キット (AFAK)</Japanese>
-            <French>Trousse de secours avancée</French>
-            <Finnish>Edistyksellinen ensiapulaukku</Finnish>
-            <Russian>Усовершенствованная аптечка первой помощи</Russian>
-            <Portuguese>Kit de Primeiros Socorros Avançado</Portuguese>
-            <Dutch>Geadvanceerde Eerste hulpskit</Dutch>
-            <Italian>Kit di Primo Soccorso Avanzato (AFAK)</Italian>
+            <English>First Aid Kit (AFAK)</English>
         </Key>
         <Key ID="STR_efak_core_AFAK_DESC">
             <English>The AFAK can be unpacked to provide useful medical items</English>

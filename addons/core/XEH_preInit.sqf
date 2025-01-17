@@ -54,7 +54,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_FirstSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    "[['ACE_tourniquet', 2]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(IFAKFirstSlotItem), []];
@@ -70,7 +70,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_SecondSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    "[['ACE_packingBandage', 5], ['ACE_quikclot', 5]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(IFAKSecondSlotItem), []];
@@ -86,7 +86,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_ThirdSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    "[['kat_Painkiller', 1]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(IFAKThirdSlotItem), []];
@@ -102,7 +102,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_FourthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    "[['kat_chestSeal', 1]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(IFAKFourthSlotItem), []];
@@ -158,7 +158,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_FirstSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['ACE_tourniquet', 4], ['ACE_splint', 2]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(AFAKFirstSlotItem), []];
@@ -174,7 +174,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_SecondSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['ACE_packingBandage', 10], ['ACE_quikclot', 10]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(AFAKSecondSlotItem), []];
@@ -190,7 +190,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_ThirdSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['ACE_morphine', 3], ['kat_Penthrox', 1], ['kat_Painkiller', 1]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(AFAKThirdSlotItem), []];
@@ -206,7 +206,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_FourthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['kat_chestSeal', 3], ['kat_ncdKit', 3]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(AFAKFourthSlotItem), []];
@@ -222,7 +222,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_FifthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['kat_guedel', 4]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(AFAKFifthSlotItem), []];
@@ -238,7 +238,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_SixthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['ACE_epinephrine', 3], ['kat_Carbonate', 1]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(AFAKSixthSlotItem), []];
@@ -294,7 +294,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_FirstSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_tourniquet', 6], ['ACE_splint', 4]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(MFAKFirstSlotItem), []];
@@ -310,7 +310,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_SecondSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_packingBandage', 15], ['ACE_quikclot', 15], ['ACE_fieldDressing', 15]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(MFAKSecondSlotItem), []];
@@ -326,7 +326,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_ThirdSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_morphine', 6], ['kat_Painkiller', 2], ['kat_Penthrox', 2]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(MFAKThirdSlotItem), []];
@@ -342,7 +342,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_FourthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['kat_chestSeal', 6], ['kat_aatKit', 3], ['kat_ncdKit', 3], ['kat_stethoscope', 1]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(MFAKFourthSlotItem), []];
@@ -358,7 +358,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_FifthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['kat_larynx', 6]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(MFAKFifthSlotItem), []];
@@ -374,7 +374,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_SixthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_epinephrine', 6], ['kat_IV_16', 4], ['kat_nitroglycerin', 2], ['kat_phenylephrine', 2], ['kat_atropine', 2], ['kat_naloxone', 2], ['kat_Carbonate', 1]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(MFAKSixthSlotItem), []];
@@ -390,7 +390,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_SeventhSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_salineIV_250', 4], ['kat_IV_16', 4]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(MFAKSeventhSlotItem), []];
@@ -406,7 +406,7 @@ PREP_RECOMPILE_END;
     "EDITBOX",
     [LLSTRING(SETTING_EighthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
     [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['kat_Pulseoximeter', 1], ['kat_pocketBVM', 1], ['kat_AED', 1]]",
+    "[['ACE_Banana', 1]]",
     0,
     {
         private _string = missionNamespace getVariable [QGVAR(MFAKEighthSlotItem), []];
