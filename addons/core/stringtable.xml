@@ -12,6 +12,7 @@
             <Portuguese>1) Kit de Primeiros Socorros Individual</Portuguese>
             <Dutch>1) Individuele Eerste hulpkit</Dutch>
             <Italian>1) Kit di Pronto Soccorso Individuale</Italian>
+            <Polish>1) Indywidualny zestaw pierwszej pomocy</Polish>
         </Key>
         <Key ID="STR_efak_core_SubCategory_MFAK">
             <English>3) Multiple First Aid Kit</English>
@@ -24,6 +25,7 @@
             <Portuguese>3) Kit de Primeiros Socorros Múltiplo</Portuguese>
             <Dutch>3) Meervoudige Eerste hulpkit</Dutch>
             <Italian>3) Kit di Pronto Soccorso Multiplo</Italian>
+            <Polish>3) Masowy zestaw pierwszej pomocy</Polish>
         </Key>
         <Key ID="STR_efak_core_SubCategory_AFAK">
             <English>2) Advanced First Aid Kit</English>
@@ -36,6 +38,7 @@
             <Portuguese>2) Kit de Primeiros Socorros Avançado</Portuguese>
             <Dutch>2) Geadvanceerde Eerste hulpkit</Dutch>
             <Italian>2) Kit di Pronto Soccorso Avanzato</Italian>
+            <Polish>2) Zaawansowany zestaw pierwszej pomocy</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_FAK_Container">
             <English>Items unload Container</English>
@@ -47,6 +50,7 @@
             <Russian>Предметы выгружаются с контейнера</Russian>
             <Dutch>Items ontlaad container</Dutch>
             <Italian>Contenitore per scaricare gli articoli</Italian>
+            <Polish>Miejsce wypakowania przedmiotów</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_FAK_Container_DESC">
             <English>Defines where the items from the First Aid Kit are added into. If there is no space left they will be dropped on the ground. \n Default: Items are added where space is left. </English>
@@ -58,6 +62,7 @@
             <Russian>Определяет, куда складываются предметы из аптечки первой помощи. Если не останется свободного места, они будут брошены на землю. \n По умолчанию: Предметы добавляются туда, где осталось свободное место.</Russian>
             <Dutch>Bepaald waar de items van een Eerste hulpkit worden geplaatst. Als er geen plek is, worden ze op de grond geplaatst. \n Standaard: Items worden geplaatst waar plek is.</Dutch>
             <Italian>Definisce dove gli articoli del Kit di Pronto Soccorso vengono aggiunti. Se non c'è spazio disponibile, verranno lasciati a terra. \n Predefinito: Gli articoli vengono aggiunti dove c'è spazio.</Italian>
+            <Polish>Określa gdzie są wypakowywane przedmioty. Jeżeli zabraknie miejsca, przedmioty wypadną na ziemie. \n Domyślnie: przedmioty są wypakowywane tam gdzie jest wolne miejsce.</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_Container_Default">
             <English>Default</English>
@@ -69,6 +74,7 @@
             <Russian>По умолчанию</Russian>
             <Dutch>Standaard</Dutch>
             <Italian>Predefinito</Italian>
+            <Polish>Domyślnie</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_Container_Uniform">
             <English>Uniform</English>
@@ -80,6 +86,7 @@
             <Russian>Униформа</Russian>
             <Dutch>Uniform</Dutch>
             <Italian>Uniforme</Italian>
+            <Polish>Mundur</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_Container_Vest">
             <English>Vest</English>
@@ -91,6 +98,7 @@
             <Russian>Жилет</Russian>
             <Dutch>Vest</Dutch>
             <Italian>Gibernaggio</Italian>
+            <Polish>Kamizelka</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_Container_Backpack">
             <English>Backpack</English>
@@ -102,6 +110,7 @@
             <Russian>Рюкзак</Russian>
             <Dutch>Rugzak</Dutch>
             <Italian>Zaino</Italian>
+            <Polish>Plecak</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_ItemSlot_DESC">
             <English>The items &amp; quantity that is given to the player.\n If you want to add/change items remove existing entry &amp; insert item name-tag &amp; quantity you want. \n Example: [['ACE_packingBandage', 10], ['ACE_quikclot', 15]]  TO  [['ACE_packingBandage', 10], ['ACE_quikclot', 15], ['ACE_Banana', 10]]</English>
@@ -113,6 +122,7 @@
             <Russian>Предметы и количество, которые выдаются игроку.\n Если вы хотите добавить / изменить предметы, удалите существующую запись и вставьте название предмета-тег и количество, которое вы хотите. \n Пример: [['ACE_packingBandage', 10], ['ACE_quikclot', 15]]  В [['ACE_packingBandage', 10], ['ACE_quikclot', 15], ['ACE_Banana', 10]]</Russian>
             <Dutch>De items en de hoeveelheid dat gegeven wordt aan de speler. \n Als je items wilt toevoegen of veranderen, verwijder dan de bestaande entree en voeg item naam en de hoeveelheid die je wilt in. \n Voorbeeld: [['ACE_packingBandage', 10], ['ACE_quikclot', 15]]  NAAR  [['ACE_packingBandage', 10], ['ACE_quikclot', 15], ['ACE_Banana', 10]]</Dutch>
             <Italian>Gli articoli e la quantità che vengono dati al giocatore. \n Se desideri aggiungere/cambiare articoli, rimuovi la voce esistente e inserisci il nome dell'articolo con il tag e la quantità che desideri. \n Esempio: [['ACE_packingBandage', 10], ['ACE_quikclot', 15]] A [['ACE_packingBandage', 10], ['ACE_quikclot', 15], ['ACE_Banana', 10]]</Italian>
+            <Polish>Przedmioty i ilość, która jest dodawana graczowi. \n Jeżeli chcesz dodać/zmienić przedmioty, usuń obecną zawartość i wprowadź nazwę przedmiotu oraz zakładaną ilość. \n Przykład: [['ACE_packingBandage', 10], ['ACE_quikclot', 15]]  TO  [['ACE_packingBandage', 10], ['ACE_quikclot', 15], ['ACE_Banana', 10]]</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_FirstSlot_Item">
             <English>Trauma Section Items &amp; Quantity</English>
@@ -123,6 +133,7 @@
             <French>Objets et quantité de la section de traumatologie</French>
             <Dutch>Trauma sectie items &amp; hoeveelheden</Dutch>
             <Italian>Articoli e quantità della sezione trauma</Italian>
+            <Polish>Moduł urazowy przedmioty &amp; ilość</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_SecondSlot_Item">
             <English>Bandage Section Items &amp; Quantity</English>
@@ -133,6 +144,7 @@
             <French>Objets et quantité de la section de bandages</French>
             <Dutch>Verbandssectie items &amp; hoeveelheden</Dutch>
             <Italian>Articoli e quantità della sezione bende</Italian>
+            <Polish>Moduł opatrunkowy przedmioty &amp; ilość</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_ThirdSlot_Item">
             <English>Pain Management Section Items &amp; Quantity</English>
@@ -143,6 +155,7 @@
             <French>Objets et quantité de la section de régulation de la douleur</French>
             <Dutch>Pijnbestrijdingssectie items &amp; hoeveelheden</Dutch>
             <Italian>Articoli e quantità della sezione gestione del dolore</Italian>
+            <Polish>Moduł leczenia bólu przedmioty &amp; ilość</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_FourthSlot_Item">
             <English>Breathing Section Items &amp; Quantity</English>
@@ -153,6 +166,7 @@
             <French>Objets et quantité de la section d'articles respiratoires</French>
             <Dutch>Ademhalingssectie items &amp; hoeveelheden</Dutch>
             <Italian>Articoli e quantità della sezione respirazione</Italian>
+            <Polish>Moduł oddechowy przedmioty &amp; ilość</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_FifthSlot_Item">
             <English>Airway Section Items &amp; Quantity</English>
@@ -163,6 +177,7 @@
             <French>Objets et quantité de la section des voies aériennes</French>
             <Dutch>Luchtweg sectie items &amp; hoeveelheden</Dutch>
             <Italian>Articoli e quantità della sezione vie aeree</Italian>
+            <Polish>Moduł drożności dróg oddechowych przedmioty &amp; ilość</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_SixthSlot_Item">
             <English>Pharmaceutical Section Items &amp; Quantity</English>
@@ -173,6 +188,7 @@
             <French>Objets et quantités de la section pharmaceutique</French>
             <Dutch>Pharmaceutische sectie items &amp; hoeveelheden</Dutch>
             <Italian>Articoli e quantità della sezione farmaceutica</Italian>
+            <Polish>Moduł farmaceutyczny przedmioty &amp; ilość</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_SeventhSlot_Item">
             <English>Fluid Section Items &amp; Quantity</English>
@@ -183,6 +199,7 @@
             <French>Objets et quantités de la section des fluides</French>
             <Dutch>Vloeistofsectie items &amp; hoeveelheden</Dutch>
             <Italian>Articoli e quantità della sezione fluidi</Italian>
+            <Polish>Moduł płynoterapii przedmioty &amp; ilość</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_EighthSlot_Item">
             <English>Miscellaneous Section Items &amp; Quantity</English>
@@ -193,9 +210,11 @@
             <French>Objets et quantités de la section autres</French>
             <Dutch>Overige sectie items &amp; hoeveelheden</Dutch>
             <Italian>Articoli e quantità della sezione miscellanea</Italian>
+            <Polish>Modu pozostałości przedmioty &amp; ilość</Polish>
         </Key>
         <Key ID="STR_efak_core_IFAK_Display">
             <English>First Aid Kit (IFAK)</English>
+            <Polish>Indywidualny zestaw pierwszej pomocy (IFAK)</Polish>
         </Key>
         <Key ID="STR_efak_core_IFAK_DESC">
             <English>The IFAK can be unpacked to provide useful medical items</English>
@@ -208,9 +227,11 @@
             <Portuguese>O KPSI pode ser desembalado para prover itens médicos úteis</Portuguese>
             <Dutch>De IFAK kan uitgepakt worden om nuttige producten te verschaffen</Dutch>
             <Italian>Il IFAK può essere disimballato per fornire articoli medici utili</Italian>
+            <Polish>IFAK może zostać odpakowany w celu zapewnienia sprzętu medycznego</Polish>
         </Key>
         <Key ID="STR_efak_core_MFAK_Display">
             <English>First Aid Kit (MFAK)</English>
+            <Polish>Masowy zestaw pierwszej pomocy (MFAK)</Polish>
         </Key>
         <Key ID="STR_efak_core_MFAK_DESC">
             <English>The MFAK can be unpacked to provide useful medical items</English>
@@ -223,9 +244,11 @@
             <Portuguese>O KPSM pode ser desembalado para prover itens médicos úteis</Portuguese>
             <Dutch>De MFAK kan uitgepakt worden om nuttige producten te verschaffen</Dutch>
             <Italian>Il MFAK può essere disimballato per fornire articoli medici utili</Italian>
+            <Polish>MFAK może zostać odpakowany w celu zapewnienia sprzętu medycznego</Polish>
         </Key>
         <Key ID="STR_efak_core_AFAK_Display">
             <English>First Aid Kit (AFAK)</English>
+            <Polish>Zaawansowany zestaw pierwszej pomocy (AFAK)</Polish>
         </Key>
         <Key ID="STR_efak_core_AFAK_DESC">
             <English>The AFAK can be unpacked to provide useful medical items</English>
@@ -238,6 +261,7 @@
             <Portuguese>O KPSA pode ser desembalado para prover itens médicos úteis</Portuguese>
             <Dutch>de AFAK kan uitgepakt worden om nuttige producten te verschaffen</Dutch>
             <Italian>Il AFAK può essere disimballato per fornire articoli medici utili</Italian>
+            <Polish>AFAK może zostać odpakowany w celu zapewnienia sprzętu medycznego</Polish>
         </Key>
         <Key ID="STR_efak_core_IFAK_Unpack">
             <English>IFAK</English>
@@ -250,6 +274,7 @@
             <Portuguese>KPSI</Portuguese>
             <Dutch>IFAK</Dutch>
             <Italian>IFAK</Italian>
+            <Polish>IFAK</Polish>
         </Key>
         <Key ID="STR_efak_core_MFAK_Unpack">
             <English>MFAK</English>
@@ -262,6 +287,7 @@
             <Portuguese>KPSM</Portuguese>
             <Dutch>MFAK</Dutch>
             <Italian>MFAK</Italian>
+            <Polish>MFAK</Polish>
         </Key>
         <Key ID="STR_efak_core_AFAK_Unpack">
             <English>AFAK</English>
@@ -274,6 +300,7 @@
             <Portuguese>KPSA</Portuguese>
             <Dutch>AFAK</Dutch>
             <Italian>AFAK</Italian>
+            <Polish>AFAK</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_DisplayItems">
             <English>View Packing List</English>
@@ -286,6 +313,7 @@
             <Portuguese>Ver lista</Portuguese>
             <Dutch>Zie paklijst</Dutch>
             <Italian>Visualizza la lista di imballaggio</Italian>
+            <Polish>Zobacz zawartość modułów</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_1_Hint">
             <English>Trauma Section:</English>
@@ -298,6 +326,7 @@
             <Portuguese>Seção de trauma:</Portuguese>
             <Dutch>Trauma sectie:</Dutch>
             <Italian>Sezione Trauma:</Italian>
+            <Polish>Moduł urazowy:</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_2_Hint">
             <English>Bandage Section:</English>
@@ -310,6 +339,7 @@
             <Portuguese>Seção de bandagens:</Portuguese>
             <Dutch>Verbandssectie:</Dutch>
             <Italian>Sezione Bende:</Italian>
+            <Polish>Moduł opatrunkowy:</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_3_Hint">
             <English>Pain Management Section:</English>
@@ -322,6 +352,7 @@
             <Portuguese>Seção de gerenciamento de dor:</Portuguese>
             <Dutch>Pijnbestrijdingssectie:</Dutch>
             <Italian>Sezione Gestione del Dolore:</Italian>
+            <Polish>Moduł leczenia bólu:</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_4_Hint">
             <English>Breathing Section:</English>
@@ -334,6 +365,7 @@
             <Portuguese>Seção de respiração:</Portuguese>
             <Dutch>Ademhalingssectie:</Dutch>
             <Italian>Sezione Respirazione:</Italian>
+            <Polish>Moduł oddechowy:</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_5_Hint">
             <English>Airway Section:</English>
@@ -346,6 +378,7 @@
             <Portuguese>Seção de vias aéreas:</Portuguese>
             <Dutch>Luchtweg sectie:</Dutch>
             <Italian>Sezione Vie Aeree:</Italian>
+            <Polish>Moduł drożności dróg oddechowych:</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_6_Hint">
             <English>Pharmaceutical Section:</English>
@@ -358,6 +391,7 @@
             <Portuguese>Seção farmacêutica:</Portuguese>
             <Dutch>Pharmaceutische sectie:</Dutch>
             <Italian>Sezione Farmaceutica:</Italian>
+            <Polish>Moduł farmaceutyczny:</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_7_Hint">
             <English>Fluid Section:</English>
@@ -370,6 +404,7 @@
             <Portuguese>Seção de flúidos:</Portuguese>
             <Dutch>Vloeistofsectie:</Dutch>
             <Italian>Sezione Fluidi:</Italian>
+            <Polish>Moduł płynoterapii:</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_8_Hint">
             <English>Miscellaneous Section:</English>
@@ -382,6 +417,7 @@
             <Portuguese>Seção miscelânea:</Portuguese>
             <Dutch>Overige sectie:</Dutch>
             <Italian>Sezione Miscellanea:</Italian>
+            <Polish>Moduł pozostałości:</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_1">
             <English>Unpack Trauma Section</English>
@@ -394,6 +430,7 @@
             <Portuguese>Descompactar seção de trauma</Portuguese>
             <Dutch>Pak trauma sectie uit</Dutch>
             <Italian>Sblocca la Sezione Trauma</Italian>
+            <Polish>Odpakuj moduł urazowy</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_2">
             <English>Unpack Bandage Section</English>
@@ -406,6 +443,7 @@
             <Portuguese>Descompactar seção de bandagem</Portuguese>
             <Dutch>Pak verbandssectie uit</Dutch>
             <Italian>Sblocca la Sezione Bende</Italian>
+            <Polish>Odpakuj moduł opatrunkowy</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_3">
             <English>Unpack Pain Management Section</English>
@@ -418,6 +456,7 @@
             <Portuguese>Descompactar seção de gerenciamento de dor</Portuguese>
             <Dutch>Pak pijnbestrijdingssectie uit</Dutch>
             <Italian>Sblocca la Sezione Gestione del Dolore</Italian>
+            <Polish>Odpakuj moduł leczenia bólu</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_4">
             <English>Unpack Breathing Section</English>
@@ -430,6 +469,7 @@
             <Portuguese>Descompactar seção de respiração</Portuguese>
             <Dutch>Pak ademhalingssectie uit</Dutch>
             <Italian>Sblocca la Sezione Respirazione</Italian>
+            <Polish>Odpakuj moduł oddechowy</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_5">
             <English>Unpack Airway Section</English>
@@ -442,6 +482,7 @@
             <Portuguese>Descompactar seção de vias aéreas</Portuguese>
             <Dutch>Pak luchtweg sectie uit</Dutch>
             <Italian>Sblocca la Sezione Vie Aeree</Italian>
+            <Polish>Odpakuj moduł drożności dróg oddechowych</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_6">
             <English>Unpack Pharmaceutical Section</English>
@@ -454,6 +495,7 @@
             <Portuguese>Descompactar seção farmacêutica</Portuguese>
             <Dutch>Pak pharmaceutische sectie uit</Dutch>
             <Italian>Sblocca la Sezione Farmaceutica</Italian>
+            <Polish>Odpakuj moduł farmaceutyczny</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_7">
             <English>Unpack Fluid Section</English>
@@ -466,6 +508,7 @@
             <Portuguese>Descompactar seção de fluidos</Portuguese>
             <Dutch>Pak vloeistoffen sectie uit</Dutch>
             <Italian>Sblocca la Sezione Fluidi</Italian>
+            <Polish>Odpakuj moduł płynoterapii</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_8">
             <English>Unpack Miscellaneous Section</English>
@@ -478,6 +521,7 @@
             <Portuguese>Descompactar seção miscelânea</Portuguese>
             <Dutch>Pak overige sectie uit</Dutch>
             <Italian>Sblocca la Sezione Miscellanea</Italian>
+            <Polish>Odpakuj moduł pozostałości</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_1_Repack">
             <English>Repack Trauma Section</English>
@@ -490,6 +534,7 @@
             <Portuguese>Compactar seção de trauma</Portuguese>
             <Dutch>Herpak trauma sectie</Dutch>
             <Italian>Rimballa la Sezione Trauma</Italian>
+            <Polish>Spakuj moduł urazowy</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_2_Repack">
             <English>Repack Bandage Section</English>
@@ -502,6 +547,7 @@
             <Portuguese>Compactar seção de bandagem</Portuguese>
             <Dutch>Herpak verbandssectie</Dutch>
             <Italian>Rimballa la Sezione Bende</Italian>
+            <Polish>Spakuj moduł opatrunkowy</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_3_Repack">
             <English>Repack Pain Management Section</English>
@@ -514,6 +560,7 @@
             <Portuguese>Compactar seção de gerenciamento de dor</Portuguese>
             <Dutch>Herpack pijnbestrijdingssectie</Dutch>
             <Italian>Rimballa la Sezione Gestione del Dolore</Italian>
+            <Polish>Spakuj moduł leczenia bólu</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_4_Repack">
             <English>Repack Breathing Section</English>
@@ -526,6 +573,7 @@
             <Portuguese>Compactar seção de respiração</Portuguese>
             <Dutch>Herpack ademhalingssectie</Dutch>
             <Italian>Rimballa la Sezione Respirazione</Italian>
+            <Polish>Spakuj moduł oddechowy</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_5_Repack">
             <English>Repack Airway Section</English>
@@ -538,6 +586,7 @@
             <Portuguese>Compactar seção de vias aéreas</Portuguese>
             <Dutch>Herpack luchtweg sectie</Dutch>
             <Italian>Rimballa la Sezione Vie Aeree</Italian>
+            <Polish>Spakuj moduł drożności dróg oddechowych</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_6_Repack">
             <English>Repack Pharmaceutical Section</English>
@@ -550,6 +599,7 @@
             <Portuguese>Compactar seção farmacêutica</Portuguese>
             <Dutch>Herpak pharmaceutische sectie</Dutch>
             <Italian>Rimballa la Sezione Farmaceutica</Italian>
+            <Polish>Spakuj moduł farmaceutyczny</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_7_Repack">
             <English>Repack Fluid Section</English>
@@ -562,6 +612,7 @@
             <Portuguese>Compactar seção de fluidos</Portuguese>
             <Dutch>Herpak vloeistoffen sectie</Dutch>
             <Italian>Rimballa la Sezione Fluidi</Italian>
+            <Polish>Spakuj moduł płynoterapii</Polish>
         </Key>
         <Key ID="STR_efak_core_FAK_Slot_8_Repack">
             <English>Repack Miscellaneous Section</English>
@@ -574,6 +625,7 @@
             <Portuguese>Compactar seção miscelânea</Portuguese>
             <Dutch>Herpak overige sectie</Dutch>
             <Italian>Rimballa la Sezione Miscellanea</Italian>
+            <Polish>Spakuj moduł pozostałości</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_FAK_ItemColor">
             <English>Hint Item Color</English>
@@ -585,6 +637,7 @@
             <French>Couleur d'indice de l'objet</French>
             <Dutch>kleur van itemhint</Dutch>
             <Italian>Colore dell'Articolo Suggerito</Italian>
+            <Polish>Kolor nazwy przedmiotu w oknie podpowiedzi</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_FAK_ItemColor_DESC">
             <English>The item color of the text that is displayed via a hint</English>
@@ -596,6 +649,7 @@
             <French>La couleur de l'objet du texte affiché via un indice</French>
             <Dutch>De kleur van de tekstitem die weergeven wordt via een hint</Dutch>
             <Italian>Il colore dell'articolo del testo che viene mostrato tramite un suggerimento</Italian>
+            <Polish>Kolor nazwy przedmiotu w oknie podpowiedzi</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_FAK_SlotColor">
             <English>Hint Section Color</English>
@@ -606,6 +660,7 @@
             <French>Couleur d'indice de la section</French>
             <Dutch>Hint sectie kleur</Dutch>
             <Italian>Colore della Sezione Suggerita</Italian>
+            <Polish>Kolor nazwy modułu w oknie podpowiedzi</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_FAK_SlotColor_DESC">
             <English>The Section color of the text that is displayed via a hint</English>
@@ -616,6 +671,7 @@
             <French>La couleur de la section du texte affiché via un indice</French>
             <Dutch>De kleur van de sectie die weergeven wordt met een hint</Dutch>
             <Italian>Il colore della sezione del testo che viene mostrato tramite un suggerimento</Italian>
+            <Polish>Kolor nazwy modułu w oknie podpowiedzi</Polish>
         </Key>
         <Key ID="STR_efak_core_SETTING_FAK_RemoveWhenEmpty">
             <English>Remove when empty</English>
@@ -627,6 +683,7 @@
             <Russian>Удалить, когда опустеет</Russian>
             <Dutch>Verwijder wanneer leeg</Dutch>
             <Italian>Rimuovi quando vuoto</Italian>
+            <Polish>Usuń gdy puste</Polish>
         </Key>
     </Package>
 </Project>
