@@ -3,8 +3,6 @@
     <Package name="main">
         <Key ID="STR_efak_main_URL">
             <English>https://discord.gg/Jud6gyzFYx</English>
-            <German>https://discord.gg/Jud6gyzFYx</German>
-            <Polish>https://discord.gg/Jud6gyzFYx</Polish>
         </Key>
     </Package>
 </Project>
