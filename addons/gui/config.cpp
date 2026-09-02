@@ -1,13 +1,14 @@
 #include "script_component.hpp"
+#include "defines.hpp"
 
 class CfgPatches {
     class ADDON {
         name = COMPONENT_NAME;
         units[] = {};
-        weapons[] = {"efak_IFAK", "efak_AFAK", "efak_MFAK"};
+        weapons[] = {};
         requiredVersion = REQUIRED_VERSION;
         requiredAddons[] = {
-            "efak_main"
+            "efak_core"
         };
         author = "Miss Heda";
         url = ECSTRING(main,URL);
@@ -16,6 +17,4 @@ class CfgPatches {
 };
 
 #include "CfgEventHandlers.hpp"
-#include "CfgEFAKKits.hpp"
-#include "CfgMagazines.hpp"
-#include "CfgWeapons.hpp"
+#include "RscDialog.hpp"

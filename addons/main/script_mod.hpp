@@ -16,7 +16,7 @@
 #define REQUIRED_CBA_VERSION {3,17,0}
 
 #ifdef COMPONENT_BEAUTIFIED
-    #define COMPONENT_NAME QUOTE(Advanced First Aid Kits - COMPONENT_BEAUTIFIED)
+    #define COMPONENT_NAME QUOTE(Enhanced First Aid Kits - COMPONENT_BEAUTIFIED)
 #else
-    #define COMPONENT_NAME QUOTE(Advanced First Aid Kits - COMPONENT)
+    #define COMPONENT_NAME QUOTE(Enhanced First Aid Kits - COMPONENT)
 #endif

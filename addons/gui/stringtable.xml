@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="efak">
+    <Package name="gui">
+        <Key ID="STR_efak_gui_Header_Inventory">
+            <English>Your inventory</English>
+            <German>Dein Inventar</German>
+        </Key>
+        <Key ID="STR_efak_gui_Header_Kit">
+            <English>Kit contents</English>
+            <German>Kit-Inhalt</German>
+        </Key>
+        <Key ID="STR_efak_gui_Capacity">
+            <English>Capacity</English>
+            <German>Kapazität</German>
+        </Key>
+        <Key ID="STR_efak_gui_MassUnit">
+            <English>mass</English>
+            <German>Masse</German>
+        </Key>
+        <Key ID="STR_efak_gui_UnpackAll">
+            <English>Unpack everything</English>
+            <German>Alles auspacken</German>
+        </Key>
+        <Key ID="STR_efak_gui_Close">
+            <English>Close</English>
+            <German>Schließen</German>
+        </Key>
+        <Key ID="STR_efak_gui_Hint_Controls">
+            <English>Drag or double click to move a whole stack. Ctrl+click moves one, Shift+click moves half.</English>
+            <German>Ziehen oder Doppelklick verschiebt einen ganzen Stapel. Strg+Klick verschiebt einen, Shift+Klick die Hälfte.</German>
+        </Key>
+    </Package>
+</Project>
