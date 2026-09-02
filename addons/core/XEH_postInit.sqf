@@ -31,7 +31,7 @@
 
 if (isServer) then {
     [QGVAR(requestInstance), {
-        params ["_unit", "_carriedClass", "_prototype", "_owner"];
+        params ["_unit", "_carriedClass", "_prototype"];
 
         private _instance = [_prototype] call FUNC(allocateInstance);
 
@@ -40,7 +40,9 @@ if (isServer) then {
         };
 
         [_instance, [_prototype] call FUNC(getDefaultContents)] call FUNC(setContents);
-        [QGVAR(grantInstance), [_unit, _carriedClass, _instance], _owner] call CBA_fnc_ownerEvent;
+        // Routed by object rather than by client id, so this behaves the same in
+        // single player, on a listen server and on a dedicated server.
+        [QGVAR(grantInstance), [_unit, _carriedClass, _instance], _unit] call CBA_fnc_targetEvent;
     }] call CBA_fnc_addEventHandler;
 
     [QGVAR(freeInstance), {

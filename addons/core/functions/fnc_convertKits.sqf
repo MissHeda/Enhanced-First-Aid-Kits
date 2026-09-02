@@ -49,7 +49,7 @@ private _carried = createHashMap;
         for "_i" from 1 to _missing do {
             [
                 QGVAR(requestInstance),
-                [_unit, _x, GVAR(needsConversion) get _x, clientOwner]
+                [_unit, _x, GVAR(needsConversion) get _x]
             ] call CBA_fnc_serverEvent;
         };
     };

@@ -19,16 +19,8 @@
 
 if !(hasInterface) exitWith {};
 
-private _selfActions = configFile >> "CfgVehicles" >> "CAManBase" >> "ACE_SelfActions";
-
-// Slot into whichever equipment submenu exists, so the entries end up where
-// people already look for them.
-private _parentPath = switch (true) do {
-    case (isClass (_selfActions >> "ACM_Equipment")): {["ACM_Equipment"]};
-    case (isClass (_selfActions >> "ACE_Equipment")): {["ACE_Equipment"]};
-    default {[]};
-};
-
+// ACE builds the self action tree under a synthetic "ACE_SelfActions" root, so
+// that has to be the first element of the parent path.
 private _selfAction = [
     QGVAR(root),
     LLSTRING(Action_Root),
@@ -38,7 +30,7 @@ private _selfAction = [
     {[_player, _player] call FUNC(getKitActions)}
 ] call ACEFUNC(interact_menu,createAction);
 
-["CAManBase", 1, _parentPath, _selfAction, true] call ACEFUNC(interact_menu,addActionToClass);
+["CAManBase", 1, ["ACE_SelfActions"], _selfAction, true] call ACEFUNC(interact_menu,addActionToClass);
 
 // Reaching into someone else's kit - the medic case. Off limits while they are
 // awake unless the mission says otherwise.
