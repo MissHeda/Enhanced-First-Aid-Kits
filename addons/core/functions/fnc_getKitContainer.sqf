@@ -1,8 +1,8 @@
 #include "..\script_component.hpp"
 /*
  * Author: Miss Heda
- * Returns the container unpacked items should go into, as expected by
- * ace_common_fnc_addToInventory. "" lets ACE pick.
+ * The container items taken out of this kit go into first, as the player chose it in the kit
+ * window (fnc_getTakeInto). "" means no preference: uniform, then vest, then backpack.
  *
  * Arguments:
  * 0: Kit class <STRING>
@@ -18,11 +18,7 @@
 
 params ["_class"];
 
-private _kit = [_class] call FUNC(getKitData);
-
-if (_kit isEqualTo []) exitWith {""};
-
-switch (missionNamespace getVariable [format [QGVAR(kit_%1_container), _kit select KIT_ID], CONTAINER_AUTO]) do {
+switch ([_class] call FUNC(getTakeInto)) do {
     case CONTAINER_UNIFORM: {"uniform"};
     case CONTAINER_VEST: {"vest"};
     case CONTAINER_BACKPACK: {"backpack"};

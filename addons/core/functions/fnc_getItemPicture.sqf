@@ -17,8 +17,10 @@
 
 params ["_class"];
 
-private _config = _class call CBA_fnc_getItemConfig;
+GVAR(pictureCache) getOrDefaultCall [toLowerANSI _class, {
+    private _config = _class call CBA_fnc_getItemConfig;
 
-if (isNull _config) exitWith {""};
+    if (isNull _config) exitWith {""};
 
-getText (_config >> "picture")
+    getText (_config >> "picture")
+}, true]

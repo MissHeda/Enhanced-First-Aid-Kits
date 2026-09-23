@@ -20,10 +20,68 @@
 
 params ["_unit", "_kitClass", "_itemClass", ["_count", 1]];
 
-private _available = [_unit, _itemClass] call ACEFUNC(common,getCountOfItem);
+private _isMagazine = isClass (configFile >> "CfgMagazines" >> _itemClass);
+private _containers = [uniformContainer _unit, vestContainer _unit, backpackContainer _unit] select {!isNull _x};
+
+// Counted here rather than with ACE's getCountOfItem, which with efak_compat_acme counts what is in the
+// kits too. Every magazine with its rounds and where it is, the emptiest first: an opened bottle goes
+// in before a full one, and keeps its rounds in the kit.
+private _magazines = [];
+private _available = 0;
+
+{
+    private _container = _x;
+
+    if (_isMagazine) then {
+        {
+            _x params ["_magazine", "_rounds"];
+
+            if (_magazine == _itemClass) then {
+                _magazines pushBack [_rounds, _container];
+            };
+        } forEach (magazinesAmmoCargo _container);
+    } else {
+        (getItemCargo _container) params ["_classes", "_counts"];
+
+        _available = _available + (_counts param [_classes find _itemClass, 0]);
+    };
+} forEach _containers;
+
+if (_isMagazine) then {
+    _magazines sort true;
+    _available = count _magazines;
+};
+
 _count = (floor _count) min _available;
 
 if (_count <= 0) exitWith {0};
+
+if !([_kitClass] call FUNC(canPackInto)) exitWith {
+    [LLSTRING(Error_PackingDisabled)] call ACEFUNC(common,displayTextStructured);
+    0
+};
+
+// Whether this kind of item goes in at all, before counting how many.
+([_kitClass, _itemClass, _count, true] call FUNC(canPackItem)) params ["_rulesAllow", "_rulesReason"];
+
+if !(_rulesAllow) exitWith {
+    if (_rulesReason isNotEqualTo "") then {
+        [_rulesReason] call ACEFUNC(common,displayTextStructured);
+    };
+    0
+};
+
+// Packed only up to the default contents: no more than they hold.
+private _limit = [_kitClass, _itemClass] call FUNC(getPackLimit);
+
+if (_limit >= 0) then {
+    _count = _count min (_limit - ([[_kitClass] call FUNC(getContents), _itemClass] call FUNC(countItem)));
+};
+
+if (_count <= 0) exitWith {
+    [LLSTRING(Error_DefaultsReached)] call ACEFUNC(common,displayTextStructured);
+    0
+};
 
 // Only take as many as actually fit.
 private _mass = [_itemClass] call FUNC(getItemMass);
@@ -47,12 +105,17 @@ if !(_allowed) exitWith {
     0
 };
 
-private _isMagazine = ((_itemClass call ACEFUNC(common,getItemType)) select 0) isEqualTo "magazine";
+private _packed = [];
 
-for "_i" from 1 to _count do {
-    if (_isMagazine) then {
-        _unit removeMagazine _itemClass;
-    } else {
+if (_isMagazine) then {
+    {
+        _x params ["_rounds", "_container"];
+
+        _container addMagazineAmmoCargo [_itemClass, -1, _rounds];
+        _packed pushBack _rounds;
+    } forEach (_magazines select [0, _count]);
+} else {
+    for "_i" from 1 to _count do {
         _unit removeItem _itemClass;
     };
 };
@@ -60,8 +123,6 @@ for "_i" from 1 to _count do {
 private _contents = [_kitClass] call FUNC(getContents);
 _contents pushBack [_itemClass, _count];
 
-[_kitClass, _contents] call FUNC(setContents);
-
-TRACE_4("packed",_unit,_kitClass,_itemClass,_count);
+[_kitClass, _contents, [[_kitClass] call FUNC(getCharges), _itemClass, _packed] call FUNC(adjustCharges)] call FUNC(setContents);
 
 _count

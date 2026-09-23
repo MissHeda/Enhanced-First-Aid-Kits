@@ -1,7 +1,7 @@
 #include "..\script_component.hpp"
 /*
  * Author: Miss Heda
- * Returns every kit instance a unit is carrying. Prototypes and legacy classes
+ * Returns every kit instance a unit is carrying. Prototypes
  * are skipped - they are not usable until they have been given an identity.
  *
  * Arguments:

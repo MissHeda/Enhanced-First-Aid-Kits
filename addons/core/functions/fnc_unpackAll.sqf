@@ -26,4 +26,5 @@ if (isNull _kitOwner) then {_kitOwner = _unit};
     [_unit, _kitClass, _itemClass, _count, _kitOwner, true] call FUNC(unpackItem);
 } forEach ([_kitClass] call FUNC(getContents));
 
+// The cleanup is skipped above so it cannot fire halfway through, which leaves it to here.
 [_kitOwner, _kitClass] call FUNC(removeKit);

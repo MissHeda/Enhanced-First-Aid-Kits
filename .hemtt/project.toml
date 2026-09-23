@@ -29,5 +29,19 @@ workshop = [
     "463939057",  # ACE3
     "1779063631", # Zeus Enhanced
     "2369477168", # Advanced Developer Tools
-    "3316254084", # ACM - Advanced Combat Medical
+    # "3316254084", # ACM - Advanced Combat Medical
+    "3749759934", # ACME
+    # "3800798331" # ACME DEV
+]
+
+# The same without ACM Extended from the workshop, to test a local build of it instead - `hemtt build`
+# in the ACM-Extended repo first, then:
+#
+#   hemtt launch local-acme -- "-mod=<ACM-Extended repo>/.hemttout/build"
+[hemtt.launch.local-acme]
+workshop = [
+    "450814997",  # CBA_A3
+    "463939057",  # ACE3
+    "1779063631", # Zeus Enhanced
+    "2369477168", # Advanced Developer Tools
 ]

@@ -2,7 +2,8 @@
 #include "..\defines.hpp"
 /*
  * Author: Miss Heda
- * Cleans up after the pouch dialog.
+ * Cleans up after the kit window. Every move was applied the moment it was made, so there is
+ * nothing left to apply or to throw away - only the window's own state to reset.
  *
  * Arguments:
  * None
@@ -24,3 +25,20 @@ if !(isNil {GVAR(refreshHandler)}) then {
 uiNamespace setVariable [QGVAR(display), displayNull];
 GVAR(kitClass) = "";
 GVAR(owner) = objNull;
+GVAR(patient) = objNull;
+GVAR(crate) = objNull;
+GVAR(baseline) = createHashMap;
+
+// The next window starts a pile of its own.
+GVAR(groundHolder) = objNull;
+
+GVAR(kitChoices) = [];
+GVAR(removedKits) = createHashMap;
+
+// Whatever came out of a kit is its own business once the window is closed.
+GVAR(kitStart) = createHashMap;
+GVAR(kitStartCharges) = createHashMap;
+
+call FUNC(onDragEnd);
+GVAR(message) = "";
+GVAR(applying) = false;

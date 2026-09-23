@@ -28,16 +28,16 @@ if (_kit isEqualTo []) exitWith {false};
 
 if (([_kitClass] call FUNC(getContents)) isNotEqualTo []) exitWith {false};
 
+// Off unless the mission says otherwise: an emptied kit is still a container, and taking it out
+// of somebody's hands the moment the last dressing leaves it is not what anybody expects.
 private _removeWhenEmpty = missionNamespace getVariable [
     format [QGVAR(kit_%1_removeWhenEmpty), _kit select KIT_ID],
-    true
+    false
 ];
 
 if !(_removeWhenEmpty) exitWith {false};
 
 [QGVAR(removeItem), [_kitOwner, _kitClass], _kitOwner] call CBA_fnc_targetEvent;
 [_kitClass] call FUNC(freeInstance);
-
-TRACE_2("kit removed",_kitOwner,_kitClass);
 
 true

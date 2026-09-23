@@ -22,8 +22,4 @@ private _kit = [_class] call FUNC(getKitData);
 
 if (_kit isEqualTo []) exitWith {_class};
 
-private _custom = missionNamespace getVariable [format [QGVAR(kit_%1_displayName), _kit select KIT_ID], ""];
-
-if (_custom isEqualTo "") exitWith {_kit select KIT_NAME};
-
-_custom
+_kit select KIT_NAME

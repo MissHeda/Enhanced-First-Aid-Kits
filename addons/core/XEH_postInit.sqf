@@ -5,33 +5,88 @@
 //
 // Contents live on the classname, not on the item, so every machine keeps the
 // same lookup table. The server owns the master copy and hands it to anyone
-// joining in progress.
+// joining in progress. The events that change the table are registered in
+// preInit, see there.
 // ---------------------------------------------------------------------------
-
-[QGVAR(contentsChanged), {
-    params ["_class", "_contents"];
-
-    private _key = toLowerANSI _class;
-
-    if (_contents isEqualTo []) then {
-        GVAR(contents) deleteAt _key;
-    } else {
-        GVAR(contents) set [_key, _contents];
-    };
-}] call CBA_fnc_addEventHandler;
 
 // Removing an item only works on the machine the unit is local on.
 [QGVAR(removeItem), {
-    params ["_unit", "_class"];
+    params ["_holder", "_class"];
 
-    if (local _unit) then {
-        _unit removeItem _class;
+    if !(local _holder) exitWith {};
+
+    // A kit lying in a crate is cargo, not a carried item, and answers to a different command.
+    if (_holder isKindOf "CAManBase") then {
+        _holder removeItem _class;
+    } else {
+        _holder addItemCargoGlobal [_class, -1];
     };
+}] call CBA_fnc_addEventHandler;
+
+// ---------------------------------------------------------------------------
+// Instance pool
+//
+// Only the server hands out instance ids. The unit's owner asks for one per prototype it carries,
+// passing along the contents a loadout promised that kit (or -1 for the defaults), and swaps the
+// prototype once the id arrives.
+// ---------------------------------------------------------------------------
+
+// Registered on every machine: whoever owns the unit when the grant arrives has to either swap it
+// in or give the id back, and that can be a headless client after a locality change.
+[QGVAR(grantInstance), {
+    params ["_unit", "_carriedClass", "_instance", ["_slot", -1], ["_generation", 0], ["_requestId", -1]];
+
+    if (isNull _unit || {!local _unit}) exitWith {
+        [_instance] call FUNC(freeInstance);
+    };
+
+    private _pending = _unit getVariable [QGVAR(pendingConversions), createHashMap];
+    private _inFlight = _pending getOrDefault [format ["%1:%2", _slot, toLowerANSI _carriedClass], []];
+    private _index = _inFlight findIf {(_x select 0) == _requestId};
+
+    if (_index > -1) then {
+        _inFlight deleteAt _index;
+    };
+
+    // A loadout was set after this was requested. The prototype it was meant for went with the old
+    // loadout, and one of the same type the new loadout brought may be waiting for saved contents.
+    if (_generation != (_unit getVariable [QGVAR(loadoutGeneration), 0])) exitWith {
+        [_instance] call FUNC(freeInstance);
+    };
+
+    // The kit may already be gone again (dropped, traded, respawned). Give the
+    // id straight back instead of leaking it.
+    if !([_unit, _carriedClass, _instance, _slot] call FUNC(replaceItem)) then {
+        [_instance] call FUNC(freeInstance);
+
+        // A prototype that turned up while this request was out was never asked for, and a failed
+        // swap changes nothing the loadout player event would notice.
+        [FUNC(convertKits), [_unit]] call CBA_fnc_execNextFrame;
+    };
+}] call CBA_fnc_addEventHandler;
+
+// Somebody reached for the kits of an AI this machine owns, see fnc_requestUnitKits.
+[QGVAR(convertUnitKits), {
+    params ["_unit"];
+
+    if (isNull _unit || {!local _unit} || {[_unit] call ACEFUNC(common,isPlayer)}) exitWith {};
+
+    [_unit] call FUNC(convertKits);
 }] call CBA_fnc_addEventHandler;
 
 if (isServer) then {
     [QGVAR(requestInstance), {
-        params ["_unit", "_carriedClass", "_prototype"];
+        params ["_unit", "_carriedClass", "", ["_slot", -1], ["_contents", -1], ["_generation", 0], ["_requestId", -1]];
+
+        // Nobody left to hand it to.
+        if (isNull _unit) exitWith {};
+
+        // The prototype is looked up here rather than taken from the request.
+        private _prototype = GVAR(needsConversion) getOrDefault [toLowerANSI _carriedClass, ""];
+
+        if (_prototype isEqualTo "") exitWith {
+            WARNING_1("Instance requested for '%1', which is not a kit prototype.",_carriedClass);
+        };
 
         private _instance = [_prototype] call FUNC(allocateInstance);
 
@@ -39,10 +94,16 @@ if (isServer) then {
             WARNING_1("Could not allocate an instance for '%1'.",_prototype);
         };
 
-        [_instance, [_prototype] call FUNC(getDefaultContents)] call FUNC(setContents);
+        // Saved contents are checked against the packing rules before they go in.
+        [_instance, _contents] call FUNC(fillNewInstance);
+
         // Routed by object rather than by client id, so this behaves the same in
         // single player, on a listen server and on a dedicated server.
-        [QGVAR(grantInstance), [_unit, _carriedClass, _instance], _unit] call CBA_fnc_targetEvent;
+        [
+            QGVAR(grantInstance),
+            [_unit, _carriedClass, _instance, _slot, _generation, _requestId],
+            _unit
+        ] call CBA_fnc_targetEvent;
     }] call CBA_fnc_addEventHandler;
 
     [QGVAR(freeInstance), {
@@ -50,10 +111,42 @@ if (isServer) then {
         [_class] call FUNC(freeInstance);
     }] call CBA_fnc_addEventHandler;
 
-    [QGVAR(requestSync), {
-        params ["_owner"];
-        [QGVAR(syncAll), [toArray GVAR(contents)], _owner] call CBA_fnc_ownerEvent;
-    }] call CBA_fnc_addEventHandler;
+    // A unit that is deleted - a body the garbage collector clears away, an AI a Zeus deletes -
+    // takes its kits with it, and their ids would stay taken for the rest of the mission. With AI
+    // converting their kits too, a mission spawning waves would run through the pool. Units only:
+    // a weapon holder is deleted the moment its last item is picked up, and that kit lives on.
+    addMissionEventHandler ["EntityDeleted", {
+        params ["_entity"];
+
+        if !(_entity isKindOf "CAManBase") exitWith {};
+
+        {
+            [_x] call FUNC(freeInstance);
+        } forEach ([_entity] call FUNC(getCarriedKits));
+    }];
+} else {
+    // Every machine that is not the server asks for the full table - headless clients too: they own
+    // AI units, and reading those units' loadouts writes kit contents into them. At mission start
+    // every client asks at once, possibly before the server is listening, so the question is asked
+    // again every few seconds until the answer is in.
+    [QGVAR(requestSync), [clientOwner]] call CBA_fnc_serverEvent;
+
+    [{
+        params ["_args", "_handle"];
+
+        if (GVAR(contentsSynced)) exitWith {
+            [_handle] call CBA_fnc_removePerFrameHandler;
+        };
+
+        _args set [0, (_args select 0) + 1];
+
+        if ((_args select 0) > EFAK_SYNC_ATTEMPTS) exitWith {
+            [_handle] call CBA_fnc_removePerFrameHandler;
+            WARNING("No kit contents from the server - kits on this machine may show the wrong contents.");
+        };
+
+        [QGVAR(requestSync), [clientOwner]] call CBA_fnc_serverEvent;
+    }, EFAK_SYNC_INTERVAL, [0]] call CBA_fnc_addPerFrameHandler;
 };
 
 if !(hasInterface) exitWith {};
@@ -62,41 +155,31 @@ if !(hasInterface) exitWith {};
 // Client side
 // ---------------------------------------------------------------------------
 
-[QGVAR(syncAll), {
-    params ["_pairs"];
-    GVAR(contents) = createHashMapFromArray _pairs;
-    TRACE_1("synced kit contents",count _pairs);
-}] call CBA_fnc_addEventHandler;
-
-[QGVAR(grantInstance), {
-    params ["_unit", "_carriedClass", "_instance"];
-
-    private _key = toLowerANSI _carriedClass;
-    GVAR(pendingConversions) set [_key, ((GVAR(pendingConversions) getOrDefault [_key, 0]) - 1) max 0];
-
-    // The kit may already be gone again (dropped, traded, respawned). Give the
-    // id straight back instead of leaking it.
-    if !([_unit, _carriedClass, _instance] call FUNC(replaceItem)) then {
-        [_instance] call FUNC(freeInstance);
-    };
-}] call CBA_fnc_addEventHandler;
-
 ["loadout", {
     params ["_unit"];
     [_unit] call FUNC(convertKits);
+    call FUNC(queueVirtualLoad);
+}, true] call CBA_fnc_addPlayerEventHandler;
+
+// Respawn, team switch and Zeus remote control hand the player a different unit, which carries
+// none of the kit weight that was applied to the old one. Its prototypes may not have been
+// converted either: AI does not convert, and a unit that got its loadout just before it was taken
+// over may still hold contents in its restore queue.
+["unit", {
+    params ["_unit"];
+    [_unit] call FUNC(convertKits);
+    call FUNC(queueVirtualLoad);
 }, true] call CBA_fnc_addPlayerEventHandler;
 
 ["ace_settingsInitialized", {
     call FUNC(settingsChanged);
     [ACE_player] call FUNC(convertKits);
+    call FUNC(queueVirtualLoad);
 }] call CBA_fnc_addEventHandler;
-
-if !(isServer) then {
-    [QGVAR(requestSync), [clientOwner]] call CBA_fnc_serverEvent;
-};
 
 call FUNC(settingsChanged);
 call FUNC(addActions);
+call FUNC(initInventoryHooks);
 
 ["EFAK", "Enhanced First Aid Kits"] call CBA_fnc_registerKeybindModPrettyName;
 
@@ -104,6 +187,6 @@ call FUNC(addActions);
     private _kits = [ACE_player] call FUNC(getCarriedKits);
     if (_kits isEqualTo []) exitWith {false};
 
-    [ACE_player, _kits select 0] call EFUNC(gui,openPouch);
+    [ACE_player, _kits select 0] call FUNC(openKit);
     true
 }, {false}, []] call CBA_fnc_addKeybind;

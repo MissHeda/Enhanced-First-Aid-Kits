@@ -19,7 +19,7 @@
 GVAR(kits) = createHashMap;             // lowercase prototype class -> kit data
 GVAR(kitList) = [];                     // prototype classes, registry order
 GVAR(prototypeOf) = createHashMap;      // lowercase kit class (any) -> prototype class
-GVAR(needsConversion) = createHashMap;  // lowercase prototype/legacy class -> prototype class
+GVAR(needsConversion) = createHashMap;  // lowercase prototype -> prototype class
 
 private _cfgWeapons = configFile >> "CfgWeapons";
 
@@ -32,7 +32,17 @@ private _cfgWeapons = configFile >> "CfgWeapons";
         continue;
     };
 
+    // Config case, whatever the registry wrote. ACE Arsenal looks items up case sensitively, so
+    // a prototype put back into a loadout has to be spelled exactly like the class.
+    _item = configName (_cfgWeapons >> _item);
+
     private _instances = (getNumber (_x >> "instances")) max 1;
+
+    // A compat addon of a medical mod may have replaced this in the registry, see addons/compat_*.
+    private _defaults = getText (_x >> "defaultContents");
+    private _shortName = getText (_x >> "shortName");
+
+    if (_shortName isEqualTo "") then {_shortName = _kitId};
 
     GVAR(kits) set [toLowerANSI _item, [
         _kitId,
@@ -41,26 +51,20 @@ private _cfgWeapons = configFile >> "CfgWeapons";
         getText (_x >> "iconContents"),
         (getNumber (_x >> "capacity")) max 1,
         _instances,
-        getText (_x >> "defaultContents"),
-        getText (_cfgWeapons >> _item >> "displayName")
+        _defaults,
+        getText (_cfgWeapons >> _item >> "displayName"),
+        getText (_x >> "background"),
+        _shortName
     ]];
 
     GVAR(kitList) pushBack _item;
 
-    // The prototype itself and every legacy classname have to be converted into
-    // a real instance as soon as a player carries them.
+    // The prototype has to be converted into a real instance as soon as a player carries it.
     GVAR(prototypeOf) set [toLowerANSI _item, _item];
     GVAR(needsConversion) set [toLowerANSI _item, _item];
-
-    {
-        GVAR(prototypeOf) set [toLowerANSI _x, _item];
-        GVAR(needsConversion) set [toLowerANSI _x, _item];
-    } forEach (getArray (_x >> "legacyClasses"));
 
     // Instances are already unique - they only need to resolve back to their kit.
     for "_i" from 1 to _instances do {
         GVAR(prototypeOf) set [toLowerANSI format ["%1_%2", _item, _i], _item];
     };
 } forEach ("true" configClasses (configFile >> "EFAK_Kits"));
-
-TRACE_1("kits registered",GVAR(kitList));

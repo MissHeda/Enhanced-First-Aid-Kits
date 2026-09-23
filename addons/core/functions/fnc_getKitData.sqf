@@ -1,7 +1,7 @@
 #include "..\script_component.hpp"
 /*
  * Author: Miss Heda
- * Returns the cached kit data for any kit class (prototype, instance or legacy).
+ * Returns the cached kit data for any kit class (prototype or instance).
  *
  * Arguments:
  * 0: Kit class <STRING>

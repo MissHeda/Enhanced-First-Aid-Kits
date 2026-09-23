@@ -26,4 +26,4 @@ private _display = uiNamespace getVariable [QGVAR(display), displayNull];
 
 if (isNull _display) exitWith {};
 
-[_sourceIdc, lbCurSel (_display displayCtrl _sourceIdc), _amount] call FUNC(transfer);
+[_sourceIdc, lnbCurSelRow (_display displayCtrl _sourceIdc), _amount] call FUNC(transfer);

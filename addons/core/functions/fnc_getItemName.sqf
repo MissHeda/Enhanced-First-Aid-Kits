@@ -17,12 +17,13 @@
 
 params ["_class"];
 
-private _config = _class call CBA_fnc_getItemConfig;
+// Every list redraw asks for the name of every row, and the config lookup walks several classes.
+GVAR(nameCache) getOrDefaultCall [toLowerANSI _class, {
+    private _config = _class call CBA_fnc_getItemConfig;
 
-if (isNull _config) exitWith {_class};
+    if (isNull _config) exitWith {_class};
 
-private _name = getText (_config >> "displayName");
+    private _name = getText (_config >> "displayName");
 
-if (_name isEqualTo "") exitWith {_class};
-
-_name
+    [_name, _class] select (_name isEqualTo "")
+}, true]

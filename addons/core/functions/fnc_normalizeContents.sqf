@@ -29,7 +29,6 @@ private _counts = createHashMap;
     _count = floor _count;
     if (_class isEqualTo "" || {_count <= 0}) then {continue};
     if (isNull (_class call CBA_fnc_getItemConfig)) then {
-        TRACE_1("dropping unknown class",_class);
         continue;
     };
 

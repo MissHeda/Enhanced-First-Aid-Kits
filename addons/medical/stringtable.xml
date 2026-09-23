@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="efak">
+    <Package name="medical">
+        <Key ID="STR_efak_medical_ItemCount_InKit">
+            <English>in %1</English>
+            <German>im %1</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_UseFromKit">
+            <English>Treat out of this kit</English>
+            <German>Aus diesem Kit behandeln</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_UseFromKit_Desc">
+            <English>Lets ACE treatments use what is inside\nkits of this type, without taking it out\nfirst.\n\nOff: this kit has to be opened and its\ncontents taken out before they can be\nused, and the medical menu does not\ncount them.</English>
+            <German>ACE-Behandlungen dürfen nutzen, was in\nKits dieses Typs steckt, ohne es vorher\nherauszunehmen.\n\nAus: Dieses Kit muss erst geöffnet und\nausgepackt werden, und das Medizinmenü\nzählt seinen Inhalt nicht mit.</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_KitOwnerOrder">
+            <English>Whose kits are used first</English>
+            <German>Wessen Kits zuerst genutzt werden</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_KitOwnerOrder_Desc">
+            <English>Whose kits a treatment reaches into\nfirst, the medic's or the patient's.\n\nLike ACE: the same order as ACE's\nshared equipment setting.\n\nThe patient's kits are never used\nwhere that setting allows the medic's\nsupplies only.</English>
+            <German>In wessen Kits eine Behandlung zuerst\ngreift, die des Sanitäters oder die des\nPatienten.\n\nWie ACE: dieselbe Reihenfolge wie ACEs\nEinstellung für geteilte Ausrüstung.\n\nDie Kits des Patienten werden nie\ngenutzt, wenn diese Einstellung nur die\nVorräte des Sanitäters erlaubt.</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_KitOwnerOrder_Ace">
+            <English>Like ACE (shared equipment)</English>
+            <German>Wie ACE (geteilte Ausrüstung)</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_KitOwnerOrder_Medic">
+            <English>Medic's kits first</English>
+            <German>Kits des Sanitäters zuerst</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_KitOwnerOrder_Patient">
+            <English>Patient's kits first</English>
+            <German>Kits des Patienten zuerst</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_KitSizeOrder">
+            <English>Which kit is used first</English>
+            <German>Welches Kit zuerst genutzt wird</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_KitSizeOrder_Desc">
+            <English>With several kits, which one a\ntreatment reaches into first.\n\nSmallest first: the IFAK before the\nMFAK, so the big bag stays full the\nlongest.\nBiggest first: the other way round.</English>
+            <German>Bei mehreren Kits, in welches eine\nBehandlung zuerst greift.\n\nKleinstes zuerst: das IFAK vor dem\nMFAK, damit die große Tasche am längsten\nvoll bleibt.\nGrößtes zuerst: andersherum.</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_KitSizeOrder_Smallest">
+            <English>Smallest kit first</English>
+            <German>Kleinstes Kit zuerst</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_KitSizeOrder_Biggest">
+            <English>Biggest kit first</English>
+            <German>Größtes Kit zuerst</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_UseOrder">
+            <English>ACE medical: use kit supplies</English>
+            <German>ACE Medizin: Vorräte aus Kits benutzen</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_UseOrder_Desc">
+            <English>What a treatment uses up first: loose\nitems or items inside kits.\n\nLoose items come out of the uniform\nfirst, then the vest, then the backpack.\n\nWhich kit goes first is set with\n"Whose kits are used first" and\n"Which kit is used first".</English>
+            <German>Was eine Behandlung zuerst verbraucht:\nlose Gegenstände oder die aus Kits.\n\nLose Gegenstände kommen zuerst aus der\nUniform, dann aus der Weste, dann aus\ndem Rucksack.\n\nWelches Kit zuerst drankommt, legen\n"Wessen Kits zuerst genutzt werden" und\n"Welches Kit zuerst genutzt wird" fest.</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_UseOrder_Inventory">
+            <English>Loose items first, kits last</English>
+            <German>Lose Gegenstände zuerst, Kits zuletzt</German>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_UseOrder_Kits">
+            <English>Kits first, loose items last</English>
+            <German>Kits zuerst, lose Gegenstände zuletzt</German>
+        </Key>
+    </Package>
+</Project>

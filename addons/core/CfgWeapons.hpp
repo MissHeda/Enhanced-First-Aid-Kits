@@ -17,6 +17,9 @@ class CfgWeapons {
         };
     };
 
+    // Masses are the kit as sold, filled, from a real product of the same size
+    // (1 mass unit = 0.1 lb).
+
     class efak_IFAK: EFAK_KitBase {
         scope = 2;
         scopeArsenal = 2;
@@ -25,7 +28,7 @@ class CfgWeapons {
         picture = QPATHTOF(ui\IFAK.paa);
         editorPreview = QPATHTOF(ui\IFAK.paa);
         class ItemInfo: CBA_MiscItem_ItemInfo {
-            mass = 15;
+            mass = 11.25; // 1 lb 2 oz
         };
     };
 
@@ -37,7 +40,7 @@ class CfgWeapons {
         picture = QPATHTOF(ui\AFAK.paa);
         editorPreview = QPATHTOF(ui\AFAK.paa);
         class ItemInfo: CBA_MiscItem_ItemInfo {
-            mass = 25;
+            mass = 21.25; // 2 lb 2 oz
         };
     };
 
@@ -49,7 +52,20 @@ class CfgWeapons {
         picture = QPATHTOF(ui\MFAK.paa);
         editorPreview = QPATHTOF(ui\MFAK.paa);
         class ItemInfo: CBA_MiscItem_ItemInfo {
-            mass = 50;
+            mass = 68.75; // 6 lb 14 oz
+        };
+    };
+
+    // The MFAK's bag with more room, so it weighs the same empty.
+    class efak_MFAKPlus: EFAK_KitBase {
+        scope = 2;
+        scopeArsenal = 2;
+        displayName = CSTRING(MFAKPlus_Display);
+        descriptionShort = CSTRING(MFAKPlus_DESC);
+        picture = QPATHTOF(ui\MFAKPlus.paa);
+        editorPreview = QPATHTOF(ui\MFAKPlus.paa);
+        class ItemInfo: CBA_MiscItem_ItemInfo {
+            mass = 68.75; // 6 lb 14 oz
         };
     };
 

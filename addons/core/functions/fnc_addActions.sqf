@@ -26,7 +26,7 @@ private _selfAction = [
     LLSTRING(Action_Root),
     QPATHTOF(ui\IFAK.paa),
     {},
-    {([_player] call FUNC(getCarriedKits)) isNotEqualTo []},
+    {[_player] call FUNC(hasKits)},
     {[_player, _player] call FUNC(getKitActions)}
 ] call ACEFUNC(interact_menu,createAction);
 
@@ -42,7 +42,11 @@ private _targetAction = [
     {
         GVAR(interactWithOthers)
         && {GVAR(interactWithAwake) || {!([_target] call ACEFUNC(common,isAwake))}}
-        && {([_target] call FUNC(getCarriedKits)) isNotEqualTo []}
+        && {
+            // An AI's kits may still be prototypes; they show up here once they are real kits.
+            [_target] call FUNC(requestUnitKits);
+            [_target] call FUNC(hasKits)
+        }
     },
     {[_target, _player] call FUNC(getKitActions)}
 ] call ACEFUNC(interact_menu,createAction);
