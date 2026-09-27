@@ -1,24 +1,23 @@
 #include "..\script_component.hpp"
 /*
  * Author: Miss Heda
- * The player picked where items taken out of this kit go first. Remembered for this type of kit;
- * everything taken out from now on goes there first.
+ * The player picked where items taken out of this kit go first (fnc_onDropdownClick): kept per kit
+ * type in the profile.
  *
  * Arguments:
- * 0: The box <CONTROL>
- * 1: Selected row, which is the mode <NUMBER>
+ * 0: Picked row, CONTAINER_AUTO to CONTAINER_BACKPACK <NUMBER>
+ * 1: The kit the menu was opened for <STRING>
  *
  * Return Value:
  * None
  *
  * Example:
- * [_ctrl, 2] call efak_gui_fnc_onTakeIntoChanged;
+ * [1, "efak_IFAK_7"] call efak_gui_fnc_onTakeIntoChanged;
  *
  * Public: No
  */
 
-params ["", "_index"];
+params ["_index", "_kitClass"];
 
-if (GVAR(fillingTakeInto) || {_index < 0}) exitWith {};
-
-[GVAR(kitClass), _index] call EFUNC(core,setTakeInto);
+[_kitClass, _index] call EFUNC(core,setTakeInto);
+[uiNamespace getVariable [QGVAR(display), displayNull]] call FUNC(fillTakeInto);

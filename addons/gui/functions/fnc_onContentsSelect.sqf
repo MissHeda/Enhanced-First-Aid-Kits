@@ -25,4 +25,4 @@ if (isNull _display) exitWith {};
 private _list = _display displayCtrl IDC_CONTENTS_LIST;
 private _row = lbCurSel _list;
 
-(_display displayCtrl IDC_CONTENTS_TAKE) ctrlEnable (_row >= 0 && {(_list lbData _row) isNotEqualTo ""});
+[_display, "BtnTake", _row >= 0 && {(_list lbData _row) isNotEqualTo ""}] call FUNC(setButton);

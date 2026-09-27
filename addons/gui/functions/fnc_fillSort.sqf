@@ -2,10 +2,7 @@
 #include "..\defines.hpp"
 /*
  * Author: Miss Heda
- * Fills the two sort boxes and selects what was used last.
- *
- * Selecting an entry from script raises the same change event a click does, so a flag keeps the
- * change handler from refreshing the lists halfway through filling the boxes.
+ * Shows the sort order in use on the sort field. Its menu is fnc_onDropdownClick.
  *
  * Arguments:
  * 0: Pouch display <DISPLAY>
@@ -23,21 +20,6 @@ disableSerialization;
 
 params ["_display"];
 
-private _sort = _display displayCtrl IDC_SORT;
-private _direction = _display displayCtrl IDC_SORT_DIR;
+if (isNull _display) exitWith {};
 
-GVAR(fillingSort) = true;
-
-lbClear _sort;
-{
-    _sort lbAdd _x;
-} forEach [LLSTRING(Sort_Name), LLSTRING(Sort_Mass), LLSTRING(Sort_Amount)];
-_sort lbSetCurSel GVAR(sortMode);
-
-lbClear _direction;
-_direction lbAdd LLSTRING(Sort_Ascending);
-_direction lbAdd LLSTRING(Sort_Descending);
-// Ascending is the first entry, descending the second.
-_direction lbSetCurSel parseNumber !GVAR(sortAscending);
-
-GVAR(fillingSort) = false;
+(_display displayCtrl IDC_SORT) ctrlSetText ([LLSTRING(Sort_Name), LLSTRING(Sort_Mass), LLSTRING(Sort_Amount)] param [GVAR(sortMode), ""]);

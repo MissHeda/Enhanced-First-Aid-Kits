@@ -33,6 +33,8 @@ if (isNull _holder) then {_holder = ACE_player};
         ERROR("Could not create the contents window.");
     };
 
+    [uiNamespace getVariable [QGVAR(contentsDisplay), displayNull]] call FUNC(initButtons);
+
     GVAR(contentsKit) = _kitClass;
     GVAR(contentsHolder) = _holder;
 

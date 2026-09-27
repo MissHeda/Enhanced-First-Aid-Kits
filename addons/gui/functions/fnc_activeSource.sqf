@@ -8,7 +8,7 @@
  * None
  *
  * Return Value:
- * "inventory" or "crate" <STRING>
+ * "inventory", "crate" or "ground" <STRING>
  *
  * Example:
  * call efak_gui_fnc_activeSource;
@@ -16,4 +16,7 @@
  * Public: No
  */
 
-["inventory", "crate"] select (GVAR(leftSource) isEqualTo SOURCE_CRATE)
+// The second tab is the crate or vehicle when there is one, the ground otherwise.
+if (GVAR(leftSource) isNotEqualTo SOURCE_CRATE) exitWith {"inventory"};
+
+["ground", "crate"] select !isNull GVAR(crate)

@@ -24,4 +24,7 @@ if (_button != 1) exitWith {};
 _ctrl ctrlSetText "";
 GVAR(searchText) = "";
 
+// Setting the text from script raises no change event, so "Search" is put back here.
+((ctrlParent _ctrl) displayCtrl IDC_SEARCH_PLACEHOLDER) ctrlShow true;
+
 call FUNC(refreshPouch);

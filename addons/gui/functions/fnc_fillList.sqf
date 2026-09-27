@@ -6,10 +6,11 @@
  * keeping the selection and the scroll position.
  *
  * Each row is the item name on the left, and on the right how much it changed since the window
- * was opened in front of the count - "(+3)  8x". The count keeps the accent colour; only the change
- * is coloured, green for a gain and red for a loss, so what is there and what happened read apart. A
- * row whose items all left this list stays as "(-3)  0x", greyed, so the player sees where things
- * went. The masses are in the tooltip.
+ * was opened right in front of the count - "(+3) 8x" (LIST_COLUMNS). A name too long for its room is
+ * cut short with "...", so it never runs into the numbers. The count keeps the accent colour; only
+ * the change is coloured, green for a gain and red for a loss, so what is there and what happened
+ * read apart. A row whose items all left this list stays as "(-3) 0x", greyed, so the player sees
+ * where things went. The masses are in the tooltip.
  *
  * Sorting happens on the data, not on the control: list values only hold whole numbers, and a
  * bandage weighs 0.6.
@@ -176,6 +177,23 @@ private _labels = [LELSTRING(core,Tooltip_Amount), LELSTRING(core,Tooltip_Mass),
 
 lnbClear _ctrl;
 
+// Picked again below if its item is still there - otherwise nothing is selected, rather than
+// whatever row now stands where it was.
+_ctrl lnbSetCurSelRow -1;
+
+// Where the change and the count end, and how much room a name has: the width of the list - less what a
+// scroll bar may take - less the picture in front of the name and a gap before the numbers.
+(ctrlPosition _ctrl) params ["", "", "_listW"];
+
+_listW = _listW - SQUARE(LIST_SCROLL_W);
+
+private _textSize = [LIST_TEXT, LIST_TEXT * 0.9] select _compact;
+private _changeEnd = _listW * ([LIST_CHANGE_END, PREVIEW_CHANGE_END] select _compact);
+private _countEnd = _listW;
+private _rowH = [LIST_ROW, LIST_ROW * 0.9] select _compact;
+private _nameStart = SQUARE(_rowH) + 0.008;
+private _gap = SQUARE(ROW * 0.35);
+
 {
     _x params ["", "", "_class", "_count", "_name", "_each", "_stack", "_movable", "_reason", "_change", "_data"];
 
@@ -185,16 +203,27 @@ lnbClear _ctrl;
         default {""};
     };
 
-    private _row = _ctrl lnbAddRow [_name, _changeText];
+    private _countText = format ["%1x", _count];
 
-    // The count right-aligned at the edge of the second column, the change in front of it.
-    _ctrl lnbSetTextRight [[_row, 1], format ["%1x", _count]];
+    // The name up to the change, or where there is none up to the count.
+    private _nameEnd = if (_changeText isEqualTo "") then {
+        _countEnd - (_countText getTextWidth ["RobotoCondensed", _textSize])
+    } else {
+        _changeEnd - (_changeText getTextWidth ["RobotoCondensed", _textSize])
+    };
+    private _shownName = [LIST_NAME_GAP + _name, _nameEnd - _nameStart - _gap, "RobotoCondensed", _textSize] call FUNC(fitText);
+
+    private _row = _ctrl lnbAddRow [_shownName, "", ""];
+
+    // The change right-aligned against the count, the count right-aligned in its own column.
+    _ctrl lnbSetTextRight [[_row, 1], _changeText];
+    _ctrl lnbSetTextRight [[_row, 2], _countText];
 
     private _color = [COLOR_GREYED, COLOR_NAME] select _movable;
 
     _ctrl lnbSetColor [[_row, 0], _color];
-    _ctrl lnbSetColor [[_row, 1], [COLOR_LOSS, COLOR_GAIN] select (_change > 0)];
-    _ctrl lnbSetColorRight [[_row, 1], [COLOR_GREYED, COLOR_COUNT] select _movable];
+    _ctrl lnbSetColorRight [[_row, 1], [COLOR_LOSS, COLOR_GAIN] select (_change > 0)];
+    _ctrl lnbSetColorRight [[_row, 2], [COLOR_GREYED, COLOR_COUNT] select _movable];
 
     // The same table as in the arsenal: what each number is on one line, the numbers centred under
     // it on the next.
@@ -208,7 +237,7 @@ lnbClear _ctrl;
         case (_mode isEqualTo ROWS_CONTAINER && {_movable}): {_tooltip = format ["%1\n\n%2", _tooltip, LLSTRING(Preview_Movable)]};
     };
 
-    // On both columns: the tooltip wherever the mouse is, and the class and the movable amount
+    // On every column: the tooltip wherever the mouse is, and the class and the movable amount
     // wherever the engine reads a dragged row from. How many may move is all of it, only what
     // arrived on a container, or none; a drag picks up no more than that.
     private _value = [0, [_count, _change] select (_mode isEqualTo ROWS_CONTAINER)] select _movable;
@@ -217,20 +246,22 @@ lnbClear _ctrl;
         _ctrl lnbSetData [[_row, _x], _data];
         _ctrl lnbSetValue [[_row, _x], _value];
         _ctrl lnbSetTooltip [[_row, _x], _tooltip];
-    } forEach [0, 1];
+    } forEach [0, 1, 2];
 
     private _picture = [_class] call EFUNC(core,getItemPicture);
 
     if (_picture isNotEqualTo "") then {
         _ctrl lnbSetPicture [[_row, 0], _picture];
 
-        // A row with nothing left is greyed as a whole.
+        // A row with nothing left is greyed as a whole - the same when it is pressed.
         if (_count <= 0) then {
             _ctrl lnbSetPictureColor [[_row, 0], COLOR_GREYED];
+            _ctrl lnbSetPictureColorSelected [[_row, 0], COLOR_GREYED];
         };
     };
 
-    if (_data isEqualTo _selected) then {
+    // Only while something is left of it: an emptied row stays as "(-3) 0x", but not selected.
+    if (_data isEqualTo _selected && {_count > 0}) then {
         _ctrl lnbSetCurSelRow _row;
     };
 } forEach _rows;

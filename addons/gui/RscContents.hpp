@@ -1,6 +1,6 @@
-// A small window on the right edge that shows what a kit holds - the "Show contents" action. Pick a
-// row and Take (or double click it) to take the whole stack out; Escape or Close shuts it.
-class RscListBox;
+// A small window on the right edge that shows what a kit holds - the "Quick access" action. Pick a
+// row and Take (or double click it) to take the whole stack out; Escape or the cross shuts it. Built
+// from the pieces in RscBase.hpp, laid out in defines.hpp.
 
 class EFAK_ContentsPopup {
     idd = IDD_CONTENTS;
@@ -10,133 +10,103 @@ class EFAK_ContentsPopup {
     onUnload = QUOTE(call FUNC(onContentsClosed));
 
     class ControlsBackground {
-        class Background: RscText {
-            idc = -1;
-            x = QUOTE(POPUP_X);
-            y = QUOTE(POPUP_Y);
-            w = QUOTE(POPUP_W);
-            h = QUOTE(POPUP_H);
-            colorBackground[] = {0, 0, 0, 0.8};
+        EFAK_PANEL(PopupWindow,POPUP_X,POPUP_Y,POPUP_W,POPUP_H,POPUP_ROW * 0.6,C_WINDOW);
+        class PopupGloss: EFAK_Gloss {
+            text = UI_TEX(gloss_contents_ca);
+            x = QUOTE(SNAP_X(POPUP_X));
+            y = QUOTE(SNAP_Y(POPUP_Y));
+            w = QUOTE(SNAP_X(POPUP_X + POPUP_W) - SNAP_X(POPUP_X));
+            h = QUOTE(SNAP_Y(POPUP_Y + POPUP_H) - SNAP_Y(POPUP_Y));
         };
-
-        class Border: RscFrame {
-            idc = -1;
-            x = QUOTE(POPUP_X);
-            y = QUOTE(POPUP_Y);
-            w = QUOTE(POPUP_W);
-            h = QUOTE(POPUP_H);
-            colorText[] = {1, 1, 1, 0.25};
-        };
-
-        class ListBox: RscText {
-            idc = -1;
-            x = QUOTE(POPUP_X + POPUP_PAD);
-            y = QUOTE(POPUP_LIST_Y);
-            w = QUOTE(POPUP_W - POPUP_PAD * 2);
-            h = QUOTE(POPUP_LIST_H);
-            colorBackground[] = {0, 0, 0, 0.4};
-        };
+        EFAK_PANEL(PopupTrack,POPUP_X + POPUP_IN_X,POPUP_BAR_Y,POPUP_W - POPUP_IN_X * 2,POPUP_BAR_H,POPUP_BAR_H / 2,C_FIELD);
+        EFAK_PANEL(PopupFill,POPUP_X + POPUP_IN_X,POPUP_BAR_Y,POPUP_W - POPUP_IN_X * 2,POPUP_BAR_H,POPUP_BAR_H / 2,C_GAIN);
+        EFAK_PANEL(PopupCard,POPUP_X + POPUP_IN_X,POPUP_LIST_Y,POPUP_W - POPUP_IN_X * 2,POPUP_LIST_H,POPUP_ROW * 0.45,C_CARD);
     };
 
     class Controls {
         // The kit's own picture, square whatever the screen.
         class Picture: RscPicture {
             idc = IDC_CONTENTS_PICTURE;
-            x = QUOTE(POPUP_X + POPUP_PAD);
-            y = QUOTE(POPUP_Y + POPUP_PAD);
-            w = QUOTE(POPUP_ROW * 2.6 * pixelW / pixelH);
-            h = QUOTE(POPUP_ROW * 2.6);
+            style = 2096;
+            x = QUOTE(POPUP_X + POPUP_IN_X);
+            y = QUOTE(POPUP_Y + POPUP_ROW * 0.6);
+            w = QUOTE(SQUARE(POPUP_HEAD_H));
+            h = QUOTE(POPUP_HEAD_H);
             text = "";
         };
 
-        // Name, and under it how full the kit is.
-        class Title: RscStructuredText {
+        // The kit's short name, and under it how full it is - the two together in the middle of the
+        // picture's height.
+        class Title: EFAK_Label {
             idc = IDC_CONTENTS_TITLE;
-            x = QUOTE(POPUP_X + POPUP_PAD + POPUP_ROW * 2.9 * pixelW / pixelH);
-            y = QUOTE(POPUP_Y + POPUP_PAD);
-            w = QUOTE(POPUP_W - POPUP_PAD * 2 - POPUP_ROW * 2.9 * pixelW / pixelH);
-            h = QUOTE(POPUP_ROW * 2.6);
-            size = QUOTE(POPUP_ROW * 0.85);
-            colorBackground[] = {0, 0, 0, 0};
-            class Attributes {
-                font = "RobotoCondensed";
-                color = "#FFFFFF";
-                align = "left";
-                valign = "middle";
-                shadow = 0;
-            };
+            x = QUOTE(POPUP_X + POPUP_IN_X + SQUARE(POPUP_HEAD_H + POPUP_ROW * 0.35));
+            y = QUOTE(POPUP_NAME_Y);
+            w = QUOTE(POPUP_W - POPUP_IN_X * 2 - SQUARE(POPUP_HEAD_H + POPUP_ROW * 0.35 + POPUP_CLOSE_H + POPUP_ROW * 0.2));
+            h = QUOTE(POPUP_NAME_H);
+            sizeEx = QUOTE(POPUP_ROW * 1.05);
+            font = "RobotoCondensedBold";
+        };
+        class Capacity: Title {
+            idc = IDC_CONTENTS_CAPACITY;
+            y = QUOTE(POPUP_NAME_Y + POPUP_NAME_H);
+            h = QUOTE(POPUP_INFO_H);
+            sizeEx = QUOTE(POPUP_ROW * 0.7);
+            font = "RobotoCondensed";
+            colorText[] = C_TEXT2;
         };
 
-        class CapacityTrack: RscText {
-            idc = -1;
-            x = QUOTE(POPUP_X + POPUP_PAD);
-            y = QUOTE(POPUP_BAR_Y);
-            w = QUOTE(POPUP_W - POPUP_PAD * 2);
-            h = QUOTE(POPUP_ROW * 0.4);
-            colorBackground[] = {1, 1, 1, 0.08};
+        EFAK_PANEL(PopupClose,POPUP_X + POPUP_W - POPUP_IN_X - SQUARE(POPUP_CLOSE_H),POPUP_Y + POPUP_ROW * 0.6,SQUARE(POPUP_CLOSE_H),POPUP_CLOSE_H,POPUP_ROW * 0.42,C_CLEAR);
+        class PopupClose_Icon: EFAK_Icon {
+            text = UI_TEX(icon_close_ca);
+            x = QUOTE(POPUP_X + POPUP_W - POPUP_IN_X - SQUARE(POPUP_CLOSE_H * 0.78));
+            y = QUOTE(POPUP_Y + POPUP_ROW * 0.6 + POPUP_CLOSE_H * 0.22);
+            w = QUOTE(SQUARE(POPUP_CLOSE_H * 0.56));
+            h = QUOTE(POPUP_CLOSE_H * 0.56);
         };
-
-        class CapacityBar: RscProgress {
-            idc = IDC_CONTENTS_BAR;
-            x = QUOTE(POPUP_X + POPUP_PAD);
-            y = QUOTE(POPUP_BAR_Y);
-            w = QUOTE(POPUP_W - POPUP_PAD * 2);
-            h = QUOTE(POPUP_ROW * 0.4);
-            colorBar[] = {0.35, 0.75, 0.4, 1};
-            colorFrame[] = {1, 1, 1, 0.35};
+        class PopupClose_Hit: EFAK_Hitbox {
+            idc = IDC_CONTENTS_CLOSE;
+            x = QUOTE(POPUP_X + POPUP_W - POPUP_IN_X - SQUARE(POPUP_CLOSE_H));
+            y = QUOTE(POPUP_Y + POPUP_ROW * 0.6);
+            w = QUOTE(SQUARE(POPUP_CLOSE_H));
+            h = QUOTE(POPUP_CLOSE_H);
+            tooltip = CSTRING(Close);
+            onButtonClick = "closeDialog 0";
         };
 
         // Name on the left, the count on the right in the accent colour, as in the kit window.
-        class List: RscListBox {
+        class List: EFAK_ListBox {
             idc = IDC_CONTENTS_LIST;
-            x = QUOTE(POPUP_X + POPUP_PAD);
-            y = QUOTE(POPUP_LIST_Y);
-            w = QUOTE(POPUP_W - POPUP_PAD * 2);
-            h = QUOTE(POPUP_LIST_H);
-            rowHeight = QUOTE(POPUP_ROW * 0.95);
-            sizeEx = QUOTE(POPUP_ROW * 0.72);
-            colorBackground[] = {0, 0, 0, 0};
-            colorSelectBackground[] = {1, 1, 1, 0.15};
-            colorSelectBackground2[] = {1, 1, 1, 0.15};
+            x = QUOTE(POPUP_X + POPUP_IN_X + SQUARE(POPUP_ROW * 0.18));
+            y = QUOTE(POPUP_LIST_Y + POPUP_ROW * 0.3);
+            w = QUOTE(POPUP_W - POPUP_IN_X * 2 - SQUARE(POPUP_ROW * 0.5));
+            h = QUOTE(POPUP_LIST_H - POPUP_ROW * 0.6);
+            rowHeight = QUOTE(POPUP_ROW * 1.05);
+            sizeEx = QUOTE(POPUP_ROW * 0.74);
             onLBSelChanged = QUOTE(call FUNC(onContentsSelect));
             onLBDblClick = QUOTE(call FUNC(onContentsTake));
-            colorSelect[] = {1, 1, 1, 1};
-            colorSelect2[] = {1, 1, 1, 1};
-            colorTextRight[] = {1, 0.78, 0.3, 1};
-            colorSelectRight[] = {1, 0.78, 0.3, 1};
-            colorSelect2Right[] = {1, 0.78, 0.3, 1};
         };
 
-        class ButtonTake: RscButtonMenu {
-            idc = IDC_CONTENTS_TAKE;
+        // The one thing to do here.
+        EFAK_PANEL(BtnTake,POPUP_X + POPUP_IN_X,POPUP_BUTTON_Y,POPUP_W - POPUP_IN_X * 2,POPUP_BUTTON_H,POPUP_ROW * 0.42,C_ACCENT);
+        class BtnTake_Label: EFAK_Label {
+            style = 2;
             text = CSTRING(Contents_Take);
+            x = QUOTE(POPUP_X + POPUP_IN_X);
+            y = QUOTE(POPUP_BUTTON_Y);
+            w = QUOTE(POPUP_W - POPUP_IN_X * 2);
+            h = QUOTE(POPUP_BUTTON_H);
+            sizeEx = QUOTE(POPUP_ROW * 0.82);
+            font = "RobotoCondensedBold";
+            colorText[] = C_ON_ACCENT;
+        };
+        class BtnTake_Hit: EFAK_Hitbox {
+            idc = IDC_CONTENTS_TAKE;
+            x = QUOTE(POPUP_X + POPUP_IN_X);
+            y = QUOTE(POPUP_BUTTON_Y);
+            w = QUOTE(POPUP_W - POPUP_IN_X * 2);
+            h = QUOTE(POPUP_BUTTON_H);
             tooltip = CSTRING(Contents_Take_Tooltip);
             onButtonClick = QUOTE(call FUNC(onContentsTake));
-            x = QUOTE(POPUP_X + POPUP_PAD);
-            y = QUOTE(POPUP_BUTTON_Y);
-            w = QUOTE((POPUP_W - POPUP_PAD * 3) / 2);
-            h = QUOTE(POPUP_ROW * 1.3);
-            sizeEx = QUOTE(POPUP_ROW * 0.75);
-            class TextPos {
-                left = 0;
-                top = QUOTE((POPUP_ROW * 1.3 - POPUP_ROW * 0.75) / 2);
-                right = 0;
-                bottom = 0;
-            };
-            class Attributes {
-                font = "PuristaLight";
-                color = "#E5E5E5";
-                align = "center";
-                shadow = "false";
-            };
-        };
-
-        class ButtonClose: ButtonTake {
-            idc = IDC_CONTENTS_CLOSE;
-            text = CSTRING(Close);
-            tooltip = "";
-            onButtonClick = "closeDialog 0";
-            x = QUOTE(POPUP_X + POPUP_PAD * 2 + (POPUP_W - POPUP_PAD * 3) / 2);
         };
     };
 };

@@ -40,5 +40,10 @@ GVAR(kitStart) = createHashMap;
 GVAR(kitStartCharges) = createHashMap;
 
 call FUNC(onDragEnd);
+
+if (GVAR(listsPFH) >= 0) then {
+    [GVAR(listsPFH)] call CBA_fnc_removePerFrameHandler;
+    GVAR(listsPFH) = -1;
+};
 GVAR(message) = "";
 GVAR(applying) = false;

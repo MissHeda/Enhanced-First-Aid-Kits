@@ -58,9 +58,23 @@ if ((toLowerANSI _kitClass) in EGVAR(core,needsConversion)) exitWith {
     // the crate as a second source - the one the kit lies in, or else the one the player is at.
     // Both stay the same for as long as the window is open, whichever kit it switches to.
     GVAR(patient) = [objNull, _unit] select (_isUnit && {_unit isNotEqualTo ACE_player});
-    GVAR(crate) = [call EFUNC(core,getNearbyContainer), _unit] select !_isUnit;
     GVAR(leftSource) = SOURCE_INVENTORY;
-    GVAR(groundHolder) = objNull;
+
+    // What the player looks into - the container open in the inventory, the vehicle they sit in, the
+    // crate they stand at. A pile on the ground is no crate: then the second tab is the ground, as
+    // in the inventory, and what the window puts down goes onto that same pile.
+    private _container = [call EFUNC(core,getNearbyContainer), _unit] select !_isUnit;
+    private _onGround = !isNull _container && {
+        _container isKindOf "GroundWeaponHolder" || {_container isKindOf "WeaponHolder"} || {_container isKindOf "WeaponHolderSimulated"}
+    };
+
+    GVAR(crate) = [_container, objNull] select _onGround;
+    GVAR(groundHolder) = [objNull, _container] select _onGround;
+
+    // Nothing opened on the ground: whatever lies at the player's feet already.
+    if (isNull GVAR(groundHolder)) then {
+        GVAR(groundHolder) = (nearestObjects [ACE_player, ["GroundWeaponHolder"], GROUND_RANGE]) param [0, objNull];
+    };
     GVAR(removedKits) = createHashMap;
     GVAR(kitStart) = createHashMap;
     GVAR(kitStartCharges) = createHashMap;
@@ -70,8 +84,8 @@ if ((toLowerANSI _kitClass) in EGVAR(core,needsConversion)) exitWith {
     GVAR(shiftHeld) = false;
     GVAR(lastModifierMove) = -1;
     GVAR(searchText) = "";
+    [_display] call FUNC(initButtons);
     [_display] call FUNC(fillSort);
-    (_display displayCtrl IDC_SHOW_ALL) cbSetChecked GVAR(showAll);
     (_display displayCtrl IDC_HINT) ctrlSetTooltip LLSTRING(Hint_Controls_Tooltip);
 
     // While a row is being dragged, the mouse wheel changes how many it carries and the middle
@@ -96,10 +110,28 @@ if ((toLowerANSI _kitClass) in EGVAR(core,needsConversion)) exitWith {
         _button == 2 && {GVAR(dragging)}
     }];
 
+    // Rows along the bottom are dragged or double clicked, never picked: a click leaves no selection
+    // behind once the button is up. A frame later, so a Ctrl or Shift click on the same release still
+    // finds its row.
     _display displayAddEventHandler ["MouseButtonUp", {
-        params ["", "_button"];
+        params ["_display", "_button"];
 
-        if (_button == 0) then {call FUNC(onDragEnd)};
+        if (_button != 0) exitWith {};
+
+        call FUNC(onDragEnd);
+
+        [{
+            if (isNull _this) exitWith {};
+
+            // Selecting nothing would scroll the list back to its top.
+            {
+                private _list = _this displayCtrl _x;
+                private _scroll = ctrlScrollValues _list;
+
+                _list lnbSetCurSelRow -1;
+                _list ctrlSetScrollValues _scroll;
+            } forEach [IDC_LIST_GROUND, PREVIEW_LIST_IDCS];
+        }, _display] call CBA_fnc_execNextFrame;
     }];
 
     {
@@ -215,4 +247,26 @@ if ((toLowerANSI _kitClass) in EGVAR(core,needsConversion)) exitWith {
     }] call CBA_fnc_addEventHandler;
 
     [_unit, _kitClass] call FUNC(selectKit);
+
+    // The engine would focus the first control, the kit switcher; the kit list is where the work is.
+    ctrlSetFocus (_display displayCtrl IDC_LIST_KIT);
+
+    // The lists' scroll bars and selection bars follow the lists every frame, for as long as the
+    // window is open.
+    if (GVAR(listsPFH) >= 0) then {
+        [GVAR(listsPFH)] call CBA_fnc_removePerFrameHandler;
+    };
+
+    GVAR(listsPFH) = [{
+        private _display = uiNamespace getVariable [QGVAR(display), displayNull];
+
+        if (isNull _display) exitWith {
+            [_this select 1] call CBA_fnc_removePerFrameHandler;
+            GVAR(listsPFH) = -1;
+        };
+
+        [_display] call FUNC(updateLists);
+    }, 0] call CBA_fnc_addPerFrameHandler;
+
+    [_display] call FUNC(updateLists);
 }, [_unit, _kitClass]] call CBA_fnc_execNextFrame;

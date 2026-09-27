@@ -2,30 +2,23 @@
 #include "..\defines.hpp"
 /*
  * Author: Miss Heda
- * A sort box changed: remember the choice and redraw. The choice outlives the dialog, so the next
- * kit opens sorted the same way.
+ * The player picked another sort order (fnc_onDropdownClick): every list is sorted by it from now on.
  *
  * Arguments:
- * 0: Sort box <CONTROL>
- * 1: Selected index <NUMBER>
+ * 0: Picked row, SORT_NAME, SORT_MASS or SORT_AMOUNT <NUMBER>
  *
  * Return Value:
  * None
  *
  * Example:
- * [_ctrl, 1] call efak_gui_fnc_onSortChanged;
+ * [SORT_MASS] call efak_gui_fnc_onSortChanged;
  *
  * Public: No
  */
 
-params ["_ctrl", "_index"];
+params ["_index"];
 
-if (GVAR(fillingSort) || {_index < 0}) exitWith {};
+GVAR(sortMode) = _index;
 
-if (ctrlIDC _ctrl == IDC_SORT) then {
-    GVAR(sortMode) = _index;
-} else {
-    GVAR(sortAscending) = _index == 0;
-};
-
+[uiNamespace getVariable [QGVAR(display), displayNull]] call FUNC(fillSort);
 call FUNC(refreshPouch);

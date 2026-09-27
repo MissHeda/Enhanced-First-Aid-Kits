@@ -26,40 +26,46 @@ disableSerialization;
 
 params ["_display"];
 
-// A column header: the picture, if there is one, and the words, centred together.
+// A card's header: the picture - the worn item's own, or an icon in the colour of the words - the
+// name on the left and the amount on the right.
 private _fnc_header = {
-    params ["_ctrl", "_picture", "_text", "_color"];
+    params ["_pictureIdc", "_headerIdc", "_valueIdc", "_picture", "_isIcon", "_text", "_color", ["_amount", ""]];
 
-    private _image = ["", format ["<img image='%1' size='1.3'/> ", _picture]] select (_picture isNotEqualTo "");
+    private _image = _display displayCtrl _pictureIdc;
 
-    _ctrl ctrlSetStructuredText parseText format [
-        "<t align='center' valign='middle' color='%1'>%2%3</t>", _color, _image, _text
-    ];
+    _image ctrlSetText _picture;
+    _image ctrlSetTextColor ([[1, 1, 1, 1], _color] select _isIcon);
+
+    private _header = _display displayCtrl _headerIdc;
+
+    _header ctrlSetText _text;
+    _header ctrlSetTextColor _color;
+
+    (_display displayCtrl _valueIdc) ctrlSetText _amount;
 };
 
 // ----- Uniform, vest, backpack -----
 
 {
-    _x params ["_key", "_listIdc", "_headerIdc", "_barIdc", "_label", "_container", "_worn", "_cfg"];
-
-    private _header = _display displayCtrl _headerIdc;
-    private _bar = _display displayCtrl _barIdc;
+    _x params ["_key", "_listIdc", "_pictureIdc", "_headerIdc", "_valueIdc", "_fill", "_label", "_container", "_worn", "_cfg"];
 
     if (isNull _container) then {
-        [_header, "", format ["%1 - %2", _label, LLSTRING(Preview_None)], "#8C8C8C"] call _fnc_header;
-        _bar progressSetPosition 0;
+        [_pictureIdc, _headerIdc, _valueIdc, UI_TEX(icon_inventory_ca), true, format ["%1 - %2", _label, LLSTRING(Preview_None)], S_MUTED] call _fnc_header;
+        [_display, _fill, 0, S_INFO] call FUNC(setBar);
     } else {
         private _max = maxLoad _container;
         private _load = (load _container) * _max;
 
         [
-            _header,
+            _pictureIdc, _headerIdc, _valueIdc,
             getText (configFile >> _cfg >> _worn >> "picture"),
-            format ["%1   %2 / %3", _label, round _load, round _max],
-            "#CCCCCC"
+            false,
+            _label,
+            S_TEXT,
+            format ["%1 / %2", round _load, round _max]
         ] call _fnc_header;
 
-        _bar progressSetPosition (if (_max > 0) then {(_load / _max) min 1} else {0});
+        [_display, _fill, if (_max > 0) then {_load / _max} else {0}, S_INFO] call FUNC(setBar);
     };
 
     [
@@ -70,9 +76,9 @@ private _fnc_header = {
         _key
     ] call FUNC(fillList);
 } forEach [
-    ["uniform", IDC_PREVIEW_LIST_UNIFORM, IDC_PREVIEW_HEADER_UNIFORM, IDC_PREVIEW_BAR_UNIFORM, LELSTRING(core,Container_Uniform), uniformContainer ACE_player, uniform ACE_player, "CfgWeapons"],
-    ["vest", IDC_PREVIEW_LIST_VEST, IDC_PREVIEW_HEADER_VEST, IDC_PREVIEW_BAR_VEST, LELSTRING(core,Container_Vest), vestContainer ACE_player, vest ACE_player, "CfgWeapons"],
-    ["backpack", IDC_PREVIEW_LIST_BACKPACK, IDC_PREVIEW_HEADER_BACKPACK, IDC_PREVIEW_BAR_BACKPACK, LELSTRING(core,Container_Backpack), backpackContainer ACE_player, backpack ACE_player, "CfgVehicles"]
+    ["uniform", IDC_PREVIEW_LIST_UNIFORM, IDC_PREVIEW_PICTURE_UNIFORM, IDC_PREVIEW_HEADER_UNIFORM, IDC_PREVIEW_VALUE_UNIFORM, "UniformFill", LELSTRING(core,Container_Uniform), uniformContainer ACE_player, uniform ACE_player, "CfgWeapons"],
+    ["vest", IDC_PREVIEW_LIST_VEST, IDC_PREVIEW_PICTURE_VEST, IDC_PREVIEW_HEADER_VEST, IDC_PREVIEW_VALUE_VEST, "VestFill", LELSTRING(core,Container_Vest), vestContainer ACE_player, vest ACE_player, "CfgWeapons"],
+    ["backpack", IDC_PREVIEW_LIST_BACKPACK, IDC_PREVIEW_PICTURE_BACKPACK, IDC_PREVIEW_HEADER_BACKPACK, IDC_PREVIEW_VALUE_BACKPACK, "BackpackFill", LELSTRING(core,Container_Backpack), backpackContainer ACE_player, backpack ACE_player, "CfgVehicles"]
 ];
 
 // ----- The ground -----
@@ -92,12 +98,11 @@ private _count = 0;
     "ground"
 ] call FUNC(fillList);
 
-private _header = _display displayCtrl IDC_HEADER_GROUND;
-
-(_display displayCtrl IDC_PREVIEW_BAR_GROUND) progressSetPosition parseNumber (_count > 0);
+// No limit on the ground: its bar is full in the accent colour while anything lies there.
+[_display, "GroundFill", parseNumber (_count > 0), S_ACCENT, false] call FUNC(setBar);
 
 if (_count > 0) then {
-    [_header, "", format ["%1   %2", LLSTRING(Preview_Ground), _count], "#FFB84D"] call _fnc_header;
+    [IDC_PREVIEW_PICTURE_GROUND, IDC_HEADER_GROUND, IDC_PREVIEW_VALUE_GROUND, UI_TEX(icon_ground_ca), true, LLSTRING(Preview_Ground), S_ACCENT, str _count] call _fnc_header;
 } else {
-    [_header, "", LLSTRING(Preview_Ground), "#8C8C8C"] call _fnc_header;
+    [IDC_PREVIEW_PICTURE_GROUND, IDC_HEADER_GROUND, IDC_PREVIEW_VALUE_GROUND, UI_TEX(icon_ground_ca), true, LLSTRING(Preview_Ground), S_MUTED] call _fnc_header;
 };

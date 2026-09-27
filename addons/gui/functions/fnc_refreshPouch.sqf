@@ -30,13 +30,9 @@ private _display = uiNamespace getVariable [QGVAR(display), displayNull];
 
 if (isNull _display) exitWith {};
 
-// A crate that was destroyed is no source any more.
+// A crate that was destroyed is no source any more - the second tab is the ground from then on.
 if (!isNull GVAR(crate) && {!alive GVAR(crate)}) then {
     GVAR(crate) = objNull;
-};
-
-if (isNull GVAR(crate)) then {
-    GVAR(leftSource) = SOURCE_INVENTORY;
 };
 
 private _kits = call FUNC(getReachableKits);
@@ -63,14 +59,17 @@ private _contents = [_kitClass] call EFUNC(core,getContents);
 private _capacity = [_kitClass] call EFUNC(core,getCapacity);
 private _used = [_contents] call EFUNC(core,getUsedCapacity);
 
-// The kit's own picture in front of its list, like the containers along the bottom.
+// Over the kit list: the kit's own picture and what the list is, and how many things are in it.
 private _kitPicture = [_kitClass] call EFUNC(core,getItemPicture);
+private _items = 0;
 
-(_display displayCtrl IDC_HEADER_KIT) ctrlSetStructuredText parseText format [
-    "<t align='center' valign='middle' color='#CCCCCC'>%1%2</t>",
-    ["", format ["<img image='%1' size='1.3'/> ", _kitPicture]] select (_kitPicture isNotEqualTo ""),
-    LLSTRING(Header_Kit)
-];
+{
+    _items = _items + (_x select 1);
+} forEach _contents;
+
+(_display displayCtrl IDC_HEADER_KIT_PICTURE) ctrlSetText _kitPicture;
+(_display displayCtrl IDC_HEADER_KIT) ctrlSetText toUpper LLSTRING(Header_Kit);
+(_display displayCtrl IDC_HEADER_KIT_COUNT) ctrlSetText format [LLSTRING(Items_Count), _items];
 
 // Artwork behind the lists, when the mission has any. The kit picture comes from the registry so
 // every kit type can look like itself; the left one is one setting for all of them.
@@ -91,44 +90,60 @@ private _kitPicture = [_kitClass] call EFUNC(core,getItemPicture);
     [IDC_BG_KIT, ([_kitClass] call EFUNC(core,getKitData)) param [KIT_BACKGROUND, ""]]
 ];
 
-// Tabs. The one you are on is switched off rather than recoloured: a shortcut button draws its
-// label through a subcontrol, so dimming it is the one highlight that reliably shows.
+// Tabs: a segmented switch, the side you are on raised. The second is what the player looks into -
+// a crate, a vehicle, or the ground - with its icon and how many things are in it.
 private _crate = GVAR(crate);
 private _onCrate = GVAR(leftSource) isEqualTo SOURCE_CRATE;
-private _tabInventory = _display displayCtrl IDC_TAB_INVENTORY;
-private _tabCrate = _display displayCtrl IDC_TAB_CRATE;
+private _second = ["ground", "crate"] select !isNull _crate;
+private _secondName = switch (true) do {
+    case (isNull _crate): {LLSTRING(Preview_Ground)};
+    case (_crate isKindOf "AllVehicles"): {LLSTRING(Header_Vehicle)};
+    default {LLSTRING(Header_Crate)};
+};
+private _secondCount = 0;
 
-_tabInventory ctrlSetText LLSTRING(Header_Inventory);
-_tabInventory ctrlEnable _onCrate;
+{
+    _secondCount = _secondCount + (_x select 1);
+} forEach ([_second] call FUNC(getEntries));
 
-_tabCrate ctrlSetText (
-    if (isNull _crate) then {
-        LLSTRING(Header_Crate_None)
-    } else {
-        format ["%1 (%2)", LLSTRING(Header_Crate), count (["crate"] call FUNC(getEntries))]
-    }
-);
-_tabCrate ctrlEnable (!isNull _crate && {!_onCrate});
+(_display displayCtrl IDC_TAB_CRATE_LABEL) ctrlSetText format ["%1 (%2)", _secondName, _secondCount];
 
-(_display displayCtrl IDC_CAPACITY_TEXT) ctrlSetText format [
-    "%1 %2 / %3 %4", LLSTRING(Capacity), round _used, round _capacity, LLSTRING(MassUnit)
-];
-(_display displayCtrl IDC_CAPACITY_BAR) progressSetPosition (
-    if (_capacity > 0) then {(_used / _capacity) min 1} else {0}
-);
+{
+    _x ctrlSetText ([UI_TEX(icon_ground_ca), UI_TEX(icon_crate_ca)] select !isNull _crate);
+} forEach ((((_display getVariable [QGVAR(buttons), createHashMap]) getOrDefault ["TabCrate", []]) param [2, []]));
+
+[_display, "TabInventory", true, !_onCrate] call FUNC(setButton);
+[_display, "TabCrate", true, _onCrate] call FUNC(setButton);
+
+// The meters under the lists: what it is on the left, how much on the right, and a bar that turns
+// amber when nearly full and red when full (fnc_setBar).
+private _fnc_meter = {
+    params ["_textIdc", "_valueIdc", "_fill", "_label", "_value", "_max", "_color"];
+
+    (_display displayCtrl _textIdc) ctrlSetText _label;
+    (_display displayCtrl _valueIdc) ctrlSetText format ["%1 / %2 %3", round _value, round _max, LLSTRING(MassUnit)];
+
+    [_display, _fill, if (_max > 0) then {_value / _max} else {0}, _color] call FUNC(setBar);
+};
+
+[IDC_CAPACITY_TEXT, IDC_CAPACITY_VALUE, "CapacityFill", LLSTRING(Capacity), _used, _capacity, S_GAIN] call _fnc_meter;
 
 // What the player can still carry, so the two bars answer the two questions somebody has open
-// in front of them: will it fit in the kit, and will it fit on me.
-([GVAR(leftSource)] call FUNC(getSourceLoad)) params ["_load", "_maxLoad"];
+// in front of them: will it fit in the kit, and will it fit on me. The ground has no limit: how many
+// things lie there, and no bar.
+if (_onCrate && {isNull _crate}) then {
+    (_display displayCtrl IDC_LOAD_TEXT) ctrlSetText _secondName;
+    (_display displayCtrl IDC_LOAD_VALUE) ctrlSetText format [LLSTRING(Items_Count), _secondCount];
+    [_display, "LoadFill", 0, S_INFO] call FUNC(setBar);
+} else {
+    ([GVAR(leftSource)] call FUNC(getSourceLoad)) params ["_load", "_maxLoad"];
 
-(_display displayCtrl IDC_LOAD_TEXT) ctrlSetText format [
-    "%1 %2 / %3 %4",
-    [LLSTRING(Load), LLSTRING(Header_Crate)] select _onCrate,
-    round _load, round _maxLoad, LLSTRING(MassUnit)
-];
-(_display displayCtrl IDC_LOAD_BAR) progressSetPosition (
-    if (_maxLoad > 0) then {(_load / _maxLoad) min 1} else {0}
-);
+    [IDC_LOAD_TEXT, IDC_LOAD_VALUE, "LoadFill", [LLSTRING(Load), _secondName] select _onCrate, _load, _maxLoad, S_INFO] call _fnc_meter;
+};
+
+// The switch for the left list, and the way the lists are sorted.
+(_display displayCtrl IDC_SHOW_ALL_ICON) ctrlSetText ([UI_TEX(toggle_off_ca), UI_TEX(toggle_on_ca)] select GVAR(showAll));
+(_display displayCtrl IDC_SORT_DIR_ICON) ctrlSetText ([UI_TEX(icon_sort_desc_ca), UI_TEX(icon_sort_asc_ca)] select GVAR(sortAscending));
 
 private _left = call FUNC(activeSource);
 
@@ -142,14 +157,35 @@ private _left = call FUNC(activeSource);
 ] call FUNC(fillList);
 [_display] call FUNC(fillPreview);
 
-// One line, used for the controls until something has to be said about a move.
+// The selection bars and scroll bars at once, not a frame late.
+[_display] call FUNC(updateLists);
+
+// Two lines on the controls until something has to be said about a move, in the middle of the strip
+// under the window. Structured text starts at the top of its control, so the control is moved down by
+// half of what the words leave free - measured from where the config put it.
 private _hint = _display displayCtrl IDC_HINT;
+private _box = _hint getVariable [QGVAR(box), []];
+
+if (_box isEqualTo []) then {
+    _box = ctrlPosition _hint;
+    _hint setVariable [QGVAR(box), _box];
+};
+
+_box params ["_hintX", "_hintY", "_hintW", "_hintH"];
+
+_hint ctrlSetPosition _box;
+_hint ctrlCommit 0;
 
 if (GVAR(message) isEqualTo "") then {
     _hint ctrlSetStructuredText parseText LLSTRING(Hint_Controls);
 } else {
-    _hint ctrlSetStructuredText parseText format ["<t color='#FFB84D'>%1</t>", GVAR(message)];
+    _hint ctrlSetStructuredText parseText format ["<t color='%1'>%2</t>", HEX_ACCENT, GVAR(message)];
 };
+
+private _free = ((_hintH - ctrlTextHeight _hint) / 2) max 0;
+
+_hint ctrlSetPosition [_hintX, _hintY + _free, _hintW, _hintH - _free];
+_hint ctrlCommit 0;
 
 // Packing is switched on or off per type of kit. Even off, what came out of the kit while the window
 // is open may go back, so the buttons stay usable; the rows say what may go in and why not.

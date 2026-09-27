@@ -32,6 +32,9 @@ private _display = uiNamespace getVariable [QGVAR(display), displayNull];
 
 if (isNull _display) exitWith {};
 
+// A menu still open belongs to the kit shown until now.
+[_display] call FUNC(closeMenu);
+
 GVAR(owner) = _owner;
 GVAR(kitClass) = _kitClass;
 GVAR(message) = _message;
@@ -42,7 +45,8 @@ if !((toLowerANSI _kitClass) in GVAR(kitStart)) then {
     GVAR(kitStartCharges) set [toLowerANSI _kitClass, [_kitClass] call EFUNC(core,getCharges)];
 };
 
-if (!(_owner isKindOf "CAManBase") && {!isNull GVAR(crate)}) then {
+// A kit in a crate or on the ground opens with that as the left list - the second tab is either.
+if !(_owner isKindOf "CAManBase") then {
     GVAR(leftSource) = SOURCE_CRATE;
 };
 

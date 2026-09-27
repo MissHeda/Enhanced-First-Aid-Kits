@@ -2,29 +2,26 @@
 #include "..\defines.hpp"
 /*
  * Author: Miss Heda
- * The player picked another kit in the switcher at the top: the window shows that one from now on,
- * without closing.
+ * The player picked another kit in the switcher at the top (fnc_onDropdownClick): the window shows
+ * that one from now on, without closing.
  *
  * Arguments:
- * 0: The switcher <CONTROL>
- * 1: Selected row <NUMBER>
+ * 0: Picked row <NUMBER>
+ * 1: The kits the menu listed, see fnc_fillKitSwitch <ARRAY>
  *
  * Return Value:
  * None
  *
  * Example:
- * [_ctrl, 1] call efak_gui_fnc_onKitSwitchChanged;
+ * [1, efak_gui_kitChoices] call efak_gui_fnc_onKitSwitchChanged;
  *
  * Public: No
  */
 
-params ["", "_index"];
+params ["_index", "_kits"];
 
-if (GVAR(fillingKitSwitch) || {_index < 0}) exitWith {};
-
-(GVAR(kitChoices) param [_index, []]) params [["_holder", objNull], ["_kitClass", ""]];
+(_kits param [_index, []]) params [["_holder", objNull], ["_kitClass", ""]];
 
 if (_kitClass isEqualTo "" || {(toLowerANSI _kitClass) isEqualTo (toLowerANSI GVAR(kitClass))}) exitWith {};
 
-// Switching fills this box again, which is better not done from inside its own change event.
-[FUNC(selectKit), [_holder, _kitClass]] call CBA_fnc_execNextFrame;
+[_holder, _kitClass] call FUNC(selectKit);

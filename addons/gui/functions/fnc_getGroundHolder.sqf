@@ -24,7 +24,7 @@ params [["_create", false]];
 
 private _holder = GVAR(groundHolder);
 
-if (!isNull _holder && {_holder distance ACE_player > GROUND_RANGE}) then {
+if (!isNull _holder && {_holder distance ACE_player > GROUND_KEEP_RANGE}) then {
     _holder = objNull;
 };
 

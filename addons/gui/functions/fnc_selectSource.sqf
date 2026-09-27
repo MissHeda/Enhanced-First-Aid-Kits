@@ -5,7 +5,7 @@
  * Switches the left panel between the player's own gear and the crate in front of them.
  *
  * Arguments:
- * 0: Source <NUMBER> - SOURCE_INVENTORY or SOURCE_CRATE
+ * 0: Source <NUMBER> - SOURCE_INVENTORY, or SOURCE_CRATE for the second tab (the crate, or the ground)
  *
  * Return Value:
  * None
@@ -18,7 +18,8 @@
 
 params ["_source"];
 
-if (_source isEqualTo SOURCE_CRATE && {isNull GVAR(crate)}) exitWith {};
+// The tab already showing: nothing changes, and a message still standing is not wiped away.
+if (_source isEqualTo GVAR(leftSource)) exitWith {};
 
 GVAR(leftSource) = _source;
 GVAR(message) = "";

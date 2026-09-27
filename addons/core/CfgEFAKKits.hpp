@@ -5,7 +5,7 @@
 //   shortName        short name for settings sections and the medical menu, e.g. "IFAK"
 //                    (defaults to the class name)
 //   icon             icon used for the ACE actions
-//   iconContents     icon used for the "show contents" action
+//   iconContents     icon used for the "Quick access" action
 //   capacity         default carry capacity in mass units (overridable via CBA)
 //   instances        size of the generated instance class pool
 //   defaultContents  contents a freshly spawned kit starts with (overridable via CBA)

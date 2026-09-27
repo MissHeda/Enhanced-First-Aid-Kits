@@ -28,7 +28,6 @@ GVAR(groundHolder) = objNull;
 // removing a kit carried by somebody else takes a moment to arrive.
 GVAR(kitChoices) = [];
 GVAR(removedKits) = createHashMap;
-GVAR(fillingKitSwitch) = false;
 
 // Modifier state, tracked by the dialog itself because no command reports a held key. See
 // fnc_openPouch for how clicks, double clicks and drops use it.
@@ -41,6 +40,10 @@ GVAR(dragging) = false;
 GVAR(dragAmount) = 1;
 GVAR(dragMax) = 1;
 GVAR(dragPFH) = -1;
+GVAR(dragScroll) = [];
+
+// Keeps the lists' own scroll bars and selection bars in step, every frame, see fnc_updateLists.
+GVAR(listsPFH) = -1;
 GVAR(middleHeld) = false;
 
 // Each kit as this window first showed it: lowercase kit class -> contents. What came out of a kit
@@ -52,17 +55,65 @@ GVAR(kitStartCharges) = createHashMap;
 GVAR(searchText) = "";
 GVAR(sortMode) = SORT_NAME;
 GVAR(sortAscending) = true;
-GVAR(fillingSort) = false;
 
 // Whether the left list also shows items that cannot go into the kit. Kept between openings.
 GVAR(showAll) = false;
 GVAR(message) = "";
-GVAR(fillingTakeInto) = false;
 GVAR(applying) = false;
 
 // The contents window: the kit it shows, who holds it, and its listener for changes to that kit.
 GVAR(contentsKit) = "";
 GVAR(contentsHolder) = objNull;
 GVAR(contentsHandler) = -1;
+
+// The look of every button of the two windows, see fnc_paintButton: its surface, its icon and its
+// label, each as [normal, hover, chosen, switched off]. Surfaces are films over the glass, so a button
+// that only shows on hover is clear, and a tab lies on its track without a film of its own.
+private _quiet = [S_TEXT2, S_TEXT, S_TEXT, S_MUTED];
+private _ghost = [[S_CLEAR, S_FIELD_HOVER, S_FIELD_HOVER, S_CLEAR], _quiet, _quiet];
+private _field = [[S_FIELD, S_FIELD_HOVER, S_FIELD_HOVER, S_FIELD], _quiet, _quiet];
+private _tab = [[S_CLEAR, S_FIELD, S_RAISED, S_CLEAR], _quiet, _quiet];
+private _switch = [[S_CLEAR, S_FIELD, S_FIELD, S_CLEAR], [[1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 1], [1, 1, 1, 0.4]], _quiet];
+private _onAccent = [S_ON_ACCENT, S_ON_ACCENT, S_ON_ACCENT, S_MUTED];
+private _primary = [[S_ACCENT, S_ACCENT_HOVER, S_ACCENT_HOVER, S_FIELD], _onAccent, _onAccent];
+private _value = [S_TEXT, S_TEXT, S_TEXT, S_MUTED];
+private _dropdown = [[S_FIELD, S_FIELD_HOVER, S_FIELD_HOVER, S_FIELD], _quiet, _value];
+
+GVAR(buttonStyles) = createHashMapFromArray [
+    ["KitSwitch", _dropdown],
+    ["Sort", _dropdown],
+    ["TakeInto", _dropdown],
+    ["BtnClose", _field],
+    ["BtnSortDir", _field],
+    ["TabInventory", _tab],
+    ["TabCrate", _tab],
+    ["BtnShowAll", _switch],
+    ["BtnPackAll", _field],
+    ["BtnToKit", _field],
+    ["BtnToInventory", _field],
+    ["BtnUnpackAll", _field],
+    ["PopupClose", _ghost],
+    ["BtnTake", _primary]
+];
+
+// Panels placed at run time, see fnc_setPanelRect: the fills of the bars, and the selection bars and
+// scroll bar thumbs of the lists (fnc_updateLists).
+GVAR(stretchPanels) = [
+    "SelectInventory",
+    "SelectKit",
+    "ThumbInventory",
+    "ThumbKit",
+    "ThumbGround",
+    "ThumbUniform",
+    "ThumbVest",
+    "ThumbBackpack",
+    "LoadFill",
+    "CapacityFill",
+    "GroundFill",
+    "UniformFill",
+    "VestFill",
+    "BackpackFill",
+    "PopupFill"
+];
 
 ADDON = true;

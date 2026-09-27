@@ -2,14 +2,12 @@
 #include "..\defines.hpp"
 /*
  * Author: Miss Heda
- * Fills the kit switcher at the top of the kit window and selects the kit being shown.
+ * Shows the kit on the switcher at the top of the kit window - its picture and name - and lists every
+ * kit in reach for its menu (fnc_onDropdownClick).
  *
- * Rows read like the kits tab of the ACE Arsenal: "IFAK #2 - Vest". Kits of one type are numbered
- * in list order, so two IFAKs read as #1 and #2. Filled again on every refresh, so a kit that moved
- * or disappeared is shown as it is now.
- *
- * Selecting a row from script raises the same change event a click does, so a flag keeps the change
- * handler from switching kits halfway through filling the box.
+ * Names read like the kits tab of the ACE Arsenal: "IFAK #2 - Vest", with the kit's short name. Kits
+ * of one type are numbered in list order, so two IFAKs read as #1 and #2. Filled again on every
+ * refresh, so a kit that moved or disappeared is shown as it is now.
  *
  * Arguments:
  * 0: Kit window <DISPLAY>
@@ -28,17 +26,13 @@ disableSerialization;
 
 params ["_display", "_kits"];
 
-private _ctrl = _display displayCtrl IDC_KIT_SWITCH;
 private _current = toLowerANSI GVAR(kitClass);
 private _numbers = createHashMap;
-private _selected = -1;
+private _shown = [];
 
-GVAR(fillingKitSwitch) = true;
-
-lbClear _ctrl;
-
-{
-    _x params ["", "_kitClass", "_where"];
+// Row by row, so a pick can be traced back to who holds the kit: [holder, kit, where, name, picture].
+GVAR(kitChoices) = _kits apply {
+    _x params ["_holder", "_kitClass", "_where"];
 
     private _prototype = [_kitClass] call EFUNC(core,getPrototype);
     private _typeKey = toLowerANSI _prototype;
@@ -46,16 +40,34 @@ lbClear _ctrl;
 
     _numbers set [_typeKey, _number];
 
-    private _index = _ctrl lbAdd format ["%1 #%2 - %3", [_kitClass] call EFUNC(core,getKitName), _number, _where];
+    private _choice = [
+        _holder,
+        _kitClass,
+        _where,
+        format ["%1 #%2 - %3", [_kitClass] call EFUNC(core,getKitShortName), _number, _where],
+        [_prototype] call EFUNC(core,getItemPicture)
+    ];
 
-    _ctrl lbSetData [_index, _kitClass];
-    _ctrl lbSetPicture [_index, [_prototype] call EFUNC(core,getItemPicture)];
+    if ((toLowerANSI _kitClass) isEqualTo _current) then {_shown = _choice};
 
-    if ((toLowerANSI _kitClass) isEqualTo _current) then {_selected = _index};
-} forEach _kits;
+    _choice
+};
 
-_ctrl lbSetCurSel _selected;
+_shown params ["", ["_kitClass", ""], "", ["_name", ""], ["_picture", ""]];
 
-// Row by row, so a pick can be traced back to who holds the kit.
-GVAR(kitChoices) = _kits;
-GVAR(fillingKitSwitch) = false;
+private _label = _display displayCtrl IDC_KIT_SWITCH;
+
+_label ctrlSetText _name;
+(_display displayCtrl IDC_KIT_SWITCH_PICTURE) ctrlSetText _picture;
+
+// The full name in the tooltip - but not while the menu is open, where it would pop up over it; the
+// menu puts it back when it closes (fnc_closeMenu).
+private _hit = ((_display getVariable [QGVAR(buttons), createHashMap]) getOrDefault ["KitSwitch", []]) param [4, controlNull];
+private _tooltip = format ["%1\n\n%2", [_kitClass] call EFUNC(core,getKitName), LLSTRING(KitSwitch_Tooltip)];
+private _menu = _display getVariable [QGVAR(menu), []];
+
+if ((_menu param [0, ""]) isEqualTo "KitSwitch") then {
+    _menu set [4, _tooltip];
+} else {
+    _hit ctrlSetTooltip _tooltip;
+};

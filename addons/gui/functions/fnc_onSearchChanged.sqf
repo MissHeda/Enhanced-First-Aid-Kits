@@ -21,4 +21,8 @@ params ["", "_text"];
 
 GVAR(searchText) = trim _text;
 
+// "Search" in the field only while nothing is typed.
+private _display = uiNamespace getVariable [QGVAR(display), displayNull];
+(_display displayCtrl IDC_SEARCH_PLACEHOLDER) ctrlShow (_text isEqualTo "");
+
 call FUNC(refreshPouch);

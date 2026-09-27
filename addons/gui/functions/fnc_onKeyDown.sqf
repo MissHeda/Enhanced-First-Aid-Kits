@@ -36,6 +36,12 @@ switch (true) do {
     };
 };
 
+// Escape closes an open drop down menu first, the window only after that.
+if (_key == DIK_ESCAPE && {(_display getVariable [QGVAR(menu), []]) isNotEqualTo []}) exitWith {
+    [_display] call FUNC(closeMenu);
+    true
+};
+
 if !(_key in [DIK_RETURN, DIK_NUMPADENTER]) exitWith {false};
 
 // Done typing: hand focus back to the kit list.

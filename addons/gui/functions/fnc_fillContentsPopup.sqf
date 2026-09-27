@@ -36,16 +36,20 @@ private _capacity = [_kitClass] call EFUNC(core,getCapacity);
 
 (_display displayCtrl IDC_CONTENTS_PICTURE) ctrlSetText ([_kitClass] call EFUNC(core,getItemPicture));
 
-(_display displayCtrl IDC_CONTENTS_TITLE) ctrlSetStructuredText parseText format [
-    "<t size='1.15' color='#FFC84D'>%1</t><br/><t size='0.8' color='#B3B3B3'>%2 %3 / %4 %5</t>",
-    [_kitClass] call EFUNC(core,getKitName),
+// The short name keeps the title on one line; the full one is its tooltip.
+private _title = _display displayCtrl IDC_CONTENTS_TITLE;
+
+_title ctrlSetText ([_kitClass] call EFUNC(core,getKitShortName));
+_title ctrlSetTooltip ([_kitClass] call EFUNC(core,getKitName));
+(_display displayCtrl IDC_CONTENTS_CAPACITY) ctrlSetText format [
+    "%1 %2 / %3 %4",
     LELSTRING(core,Capacity),
     round _used,
     round _capacity,
     LLSTRING(MassUnit)
 ];
 
-(_display displayCtrl IDC_CONTENTS_BAR) progressSetPosition ((_used / (_capacity max 1)) min 1);
+[_display, "PopupFill", _used / (_capacity max 1), S_GAIN] call FUNC(setBar);
 
 private _list = _display displayCtrl IDC_CONTENTS_LIST;
 private _scroll = ctrlScrollValues _list;
@@ -58,6 +62,8 @@ private _fnc_mass = {
 
 lbClear _list;
 
+(ctrlPosition _list) params ["", "", "_listW"];
+
 if (_contents isEqualTo []) then {
     private _index = _list lbAdd LELSTRING(core,Empty);
     _list lbSetColor [_index, [1, 1, 1, 0.5]];
@@ -68,10 +74,12 @@ if (_contents isEqualTo []) then {
     _x params ["_class", "_count", "_which", "_name"];
 
     private _each = [_class] call EFUNC(core,getItemMass);
-    private _index = _list lbAdd _name;
+    private _countText = format ["%1x", _count];
+    private _room = _listW - SQUARE(POPUP_ROW * 1.05) - (_countText getTextWidth ["RobotoCondensed", POPUP_ROW * 0.74]) - SQUARE(POPUP_ROW * 1.6);
+    private _index = _list lbAdd ([LIST_NAME_GAP + _name, _room, "RobotoCondensed", POPUP_ROW * 0.74] call FUNC(fitText));
 
     _list lbSetData [_index, format ["%1|%2", _class, _which]];
-    _list lbSetTextRight [_index, format ["%1x", _count]];
+    _list lbSetTextRight [_index, _countText + LIST_COUNT_PAD];
     _list lbSetColorRight [_index, COLOR_COUNT];
     _list lbSetSelectColorRight [_index, COLOR_COUNT];
     _list lbSetPicture [_index, [_class] call EFUNC(core,getItemPicture)];

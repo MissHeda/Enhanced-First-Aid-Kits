@@ -3,263 +3,204 @@
     <Package name="gui">
         <Key ID="STR_efak_gui_ToKit">
             <English>-&gt;</English>
-            <German>-&gt;</German>
         </Key>
         <Key ID="STR_efak_gui_ToInventory">
             <English>&amp;lt;-</English>
-            <German>&amp;lt;-</German>
         </Key>
         <Key ID="STR_efak_gui_Load">
             <English>Carrying</English>
-            <German>Getragen</German>
         </Key>
         <Key ID="STR_efak_gui_Close">
             <English>Close</English>
-            <German>Schließen</German>
         </Key>
         <Key ID="STR_efak_gui_Contents_Take">
             <English>Take</English>
-            <German>Nehmen</German>
         </Key>
         <Key ID="STR_efak_gui_Contents_Take_Tooltip">
             <English>Takes the whole stack of the selected item out of the kit. A double click on a row does the same.</English>
-            <German>Nimmt den ganzen Stapel des ausgewählten Items aus dem Kit. Ein Doppelklick auf eine Zeile macht dasselbe.</German>
         </Key>
         <Key ID="STR_efak_gui_KitSwitch_Tooltip">
             <English>Every kit you can reach from here:\nyour own, the casualty's and those\nin the crate. Pick one to switch to it.</English>
-            <German>Jedes Kit, das du von hier erreichst:\ndeine eigenen, die des Verwundeten\nund die in der Kiste. Auswählen\nwechselt dorthin.</German>
         </Key>
         <Key ID="STR_efak_gui_KitGone">
             <English>That kit is gone - showing the next one</English>
-            <German>Dieses Kit ist weg - das nächste wird angezeigt</German>
         </Key>
         <Key ID="STR_efak_gui_Partial_Kit">
             <English>Only %1x %2 still fits in the kit</English>
-            <German>Nur %1x %2 passt noch in das Kit</German>
         </Key>
         <Key ID="STR_efak_gui_Partial_Defaults">
             <English>Only %1x %2 - then the kit holds as many as its default contents</English>
-            <German>Nur %1x %2 - dann hat das Kit so viele wie im Standardinhalt</German>
         </Key>
         <Key ID="STR_efak_gui_Partial_Inventory">
             <English>Only %1x %2 still fits on you - move the rest again to put it on the ground</English>
-            <German>Nur %1x %2 passt noch an dich - den Rest nochmal ziehen, um ihn auf den Boden zu legen</German>
         </Key>
         <Key ID="STR_efak_gui_Partial_Simple">
             <English>Only %1x %2 still fits on you</English>
-            <German>Nur %1x %2 passt noch an dich</German>
         </Key>
         <Key ID="STR_efak_gui_Partial_Crate">
             <English>Only %1x %2 still fits in the crate</English>
-            <German>Nur %1x %2 passt noch in die Kiste</German>
         </Key>
         <Key ID="STR_efak_gui_Partial_CrateKit">
             <English>Only %1x %2 still fits in the crate - move the rest again to put it on the ground</English>
-            <German>Nur %1x %2 passt noch in die Kiste - den Rest nochmal ziehen, um ihn auf den Boden zu legen</German>
         </Key>
         <Key ID="STR_efak_gui_Moved_Ground">
             <English>%1x %2 put on the ground</English>
-            <German>%1x %2 auf den Boden gelegt</German>
         </Key>
         <Key ID="STR_efak_gui_NoRoom">
             <English>No room for %1</English>
-            <German>Kein Platz für %1</German>
         </Key>
         <Key ID="STR_efak_gui_Error_PackingOff">
             <English>Packing into this kit is switched off</English>
-            <German>Einpacken in dieses Kit ist abgeschaltet</German>
         </Key>
         <Key ID="STR_efak_gui_DroppedUnexpected">
             <English>%1 item(s) did not fit after all and are on the ground</English>
-            <German>%1 Gegenstand/Gegenstände haben doch nicht gepasst und liegen auf dem Boden</German>
         </Key>
         <Key ID="STR_efak_gui_Header_Inventory">
             <English>Your inventory</English>
-            <German>Dein Inventar</German>
         </Key>
         <Key ID="STR_efak_gui_Header_Kit">
             <English>Kit contents</English>
-            <German>Kit-Inhalt</German>
         </Key>
         <Key ID="STR_efak_gui_Capacity">
             <English>Capacity</English>
-            <German>Kapazität</German>
         </Key>
         <Key ID="STR_efak_gui_MassUnit">
             <English>mass</English>
-            <German>Masse</German>
         </Key>
         <Key ID="STR_efak_gui_UnpackAll">
             <English>|&amp;lt;</English>
-            <German>|&amp;lt;</German>
         </Key>
         <Key ID="STR_efak_gui_UnpackAll_Done">
             <English>%1 items taken out of the kit</English>
-            <German>%1 Gegenstände aus dem Kit genommen</German>
         </Key>
         <Key ID="STR_efak_gui_UnpackAll_Ground">
             <English>%1 items taken out of the kit, %2 of them are on the ground - no room left</English>
-            <German>%1 Gegenstände aus dem Kit genommen, %2 davon liegen mangels Platz auf dem Boden</German>
         </Key>
         <Key ID="STR_efak_gui_UnpackAll_None">
             <English>Nothing to take out</English>
-            <German>Nichts zum Herausnehmen</German>
         </Key>
         <Key ID="STR_efak_gui_Hint_Controls_Tooltip">
             <English>Double click or drag an item to move one.\nHold Ctrl to move the whole stack, or\nShift to move half of it.\n\nWhile dragging, scroll up or down to\nincrease or decrease the count shown next\nto the mouse, or middle click to take the\nwhole stack.\n\nDrop onto Ground, Uniform, Vest or\nBackpack to put it exactly there.\nEvery move happens at once.</English>
-            <German>Doppelklick oder Ziehen bewegt ein Stück.\nStrg halten bewegt den ganzen Stapel,\nShift die Hälfte.\n\nBeim Ziehen erhöht oder verringert das\nMausrad die Anzahl neben der Maus, ein\nMittelklick nimmt den ganzen Stapel.\n\nAuf Boden, Uniform, Weste oder Rucksack\nziehen legt es genau dort ab.\nJede Bewegung passiert sofort.</German>
         </Key>
         <Key ID="STR_efak_gui_Error_NotOpenedYet">
             <English>Nobody has carried this kit yet - pick it up first</English>
-            <German>Dieses Kit hat noch niemand getragen - erst aufnehmen</German>
         </Key>
         <Key ID="STR_efak_gui_Hint_Controls">
-            <English>&lt;t color='#FFC84D'&gt;Double click&lt;/t&gt; or &lt;t color='#FFC84D'&gt;drag&lt;/t&gt; moves one item&#160;&#160;&lt;t color='#8C8C8C'&gt;·&lt;/t&gt;&#160;&#160;&lt;t color='#FFC84D'&gt;One click&lt;/t&gt; + &lt;t color='#FFC84D'&gt;Ctrl&lt;/t&gt; for the whole stack, + &lt;t color='#FFC84D'&gt;Shift&lt;/t&gt; for half&lt;br/&gt;While dragging, &lt;t color='#FFC84D'&gt;scroll up / down&lt;/t&gt; to increase / decrease the count, &lt;t color='#FFC84D'&gt;middle click&lt;/t&gt; for the whole stack</English>
-            <German>&lt;t color='#FFC84D'&gt;Doppelklick&lt;/t&gt; oder &lt;t color='#FFC84D'&gt;Ziehen&lt;/t&gt; bewegt ein Stück&#160;&#160;&lt;t color='#8C8C8C'&gt;·&lt;/t&gt;&#160;&#160;&lt;t color='#FFC84D'&gt;ein Klick&lt;/t&gt; + &lt;t color='#FFC84D'&gt;Strg&lt;/t&gt; für den ganzen Stapel, + &lt;t color='#FFC84D'&gt;Shift&lt;/t&gt; für die Hälfte&lt;br/&gt;Beim Ziehen &lt;t color='#FFC84D'&gt;Mausrad hoch / runter&lt;/t&gt; erhöht / verringert die Anzahl, &lt;t color='#FFC84D'&gt;Mittelklick&lt;/t&gt; für den ganzen Stapel</German>
+            <English>&lt;t color='#F5A524'&gt;Double click&lt;/t&gt; or &lt;t color='#F5A524'&gt;drag&lt;/t&gt; moves one item&#160;&#160;&lt;t color='#69717E'&gt;·&lt;/t&gt;&#160;&#160;&lt;t color='#F5A524'&gt;One click&lt;/t&gt; + &lt;t color='#F5A524'&gt;Ctrl&lt;/t&gt; for the whole stack, + &lt;t color='#F5A524'&gt;Shift&lt;/t&gt; for half&lt;br/&gt;While dragging, &lt;t color='#F5A524'&gt;scroll up / down&lt;/t&gt; to increase / decrease the count, &lt;t color='#F5A524'&gt;middle click&lt;/t&gt; for the whole stack</English>
         </Key>
         <Key ID="STR_efak_gui_TakeInto">
             <English>Unload container</English>
-            <German>Entladebehälter</German>
         </Key>
         <Key ID="STR_efak_gui_TakeInto_Tooltip">
             <English>Where items you take out of this kit go first.\nWhatever does not fit there goes into your other\nclothing - it only ends up on the ground when none\nof it has room.\n\nAutomatic: uniform, then vest, then backpack.\n\nThe row at the bottom shows where everything is.</English>
-            <German>Wohin Items, die du aus diesem Kit nimmst, zuerst kommen.\nWas dort nicht reinpasst, kommt in deine anderen\nKleidungsstücke - auf den Boden nur, wenn nirgends\nmehr Platz ist.\n\nAutomatisch: Uniform, dann Weste, dann Rucksack.\n\nDie Reihe unten zeigt, wo alles ist.</German>
         </Key>
         <Key ID="STR_efak_gui_TakeInto_Forced">
             <English>Set by the mission for this kit.\nWhatever does not fit there goes into your other\nclothing - it only ends up on the ground when none\nof it has room.</English>
-            <German>Von der Mission für dieses Kit festgelegt.\nWas dort nicht reinpasst, kommt in deine anderen\nKleidungsstücke - auf den Boden nur, wenn nirgends\nmehr Platz ist.</German>
         </Key>
         <Key ID="STR_efak_gui_Preview_Ground">
             <English>Ground</English>
-            <German>Boden</German>
         </Key>
         <Key ID="STR_efak_gui_Preview_None">
             <English>none</English>
-            <German>keine</German>
         </Key>
         <Key ID="STR_efak_gui_Preview_Movable">
             <English>From the kit or the ground: drag it onto another container, the ground or back into the kit.</English>
-            <German>Aus dem Kit oder vom Boden: auf einen anderen Behälter, den Boden oder zurück ins Kit ziehen.</German>
         </Key>
         <Key ID="STR_efak_gui_Preview_OnlyKitItems">
             <English>Only what comes out of the kit or off the ground can be placed and moved here.</English>
-            <German>Hier lässt sich nur ablegen und verschieben, was aus dem Kit oder vom Boden kommt.</German>
         </Key>
         <Key ID="STR_efak_gui_Preview_NoRoomIn">
             <English>%1: no room left</English>
-            <German>%1: kein Platz mehr</German>
         </Key>
         <Key ID="STR_efak_gui_Header_Crate">
             <English>Crate</English>
-            <German>Kiste</German>
         </Key>
-        <Key ID="STR_efak_gui_Header_Crate_None">
-            <English>No crate nearby</English>
-            <German>Keine Kiste in der Nähe</German>
+        <Key ID="STR_efak_gui_Header_Vehicle">
+            <English>Vehicle</English>
         </Key>
         <Key ID="STR_efak_gui_PackAll">
             <English>&gt;|</English>
-            <German>&gt;|</German>
         </Key>
         <Key ID="STR_efak_gui_PackAll_Done">
             <English>%1 items packed into the kit</English>
-            <German>%1 Gegenstände ins Kit gepackt</German>
         </Key>
         <Key ID="STR_efak_gui_PackAll_Partial">
             <English>%1 items packed into the kit, the rest does not fit or is not allowed</English>
-            <German>%1 Gegenstände ins Kit gepackt, der Rest passt nicht oder ist nicht erlaubt</German>
         </Key>
         <Key ID="STR_efak_gui_PackAll_None">
             <English>Nothing here fits in the kit</English>
-            <German>Hiervon passt nichts ins Kit</German>
         </Key>
         <Key ID="STR_efak_gui_PackAll_DefaultsFull">
             <English>The kit already holds its full default contents</English>
-            <German>Das Kit hat seinen Standardinhalt schon komplett</German>
         </Key>
         <Key ID="STR_efak_gui_PackAll_DefaultsDone">
             <English>%1 items packed - the kit holds its full default contents again</English>
-            <German>%1 Gegenstände gepackt - das Kit hat seinen Standardinhalt wieder komplett</German>
         </Key>
         <Key ID="STR_efak_gui_PackAll_DefaultsMissing">
             <English>%1 items packed - %2 items of the default contents are still missing</English>
-            <German>%1 Gegenstände gepackt - vom Standardinhalt fehlen noch %2 Gegenstände</German>
         </Key>
         <Key ID="STR_efak_gui_PackAll_DefaultsNone">
             <English>Nothing here fits - %1 items of the default contents are missing</English>
-            <German>Hiervon passt nichts - vom Standardinhalt fehlen %1 Gegenstände</German>
         </Key>
         <Key ID="STR_efak_gui_ToKit_Tooltip">
             <English>Move the selected stack into the kit</English>
-            <German>Ausgew&#228;hlten Stapel ins Kit legen</German>
         </Key>
         <Key ID="STR_efak_gui_ToInventory_Tooltip">
             <English>Take the selected stack out of the kit</English>
-            <German>Ausgew&#228;hlten Stapel aus dem Kit nehmen</German>
         </Key>
         <Key ID="STR_efak_gui_PackAll_Tooltip">
             <English>Move everything on the left into the kit, as far as it fits</English>
-            <German>Alles von links ins Kit legen, so weit es passt</German>
         </Key>
         <Key ID="STR_efak_gui_PackAll_Tooltip_Defaults">
             <English>Fill the kit up to its default contents from the left, as far as it fits</English>
-            <German>Kit von links bis zum Standardinhalt auffüllen, so weit es passt</German>
         </Key>
         <Key ID="STR_efak_gui_UnpackAll_Tooltip">
             <English>Empty the kit into the left list</English>
-            <German>Kit in die linke Liste leeren</German>
+        </Key>
+        <Key ID="STR_efak_gui_Search_Placeholder">
+            <English>Search</English>
+        </Key>
+        <Key ID="STR_efak_gui_Items_Count">
+            <English>%1 items</English>
         </Key>
         <Key ID="STR_efak_gui_Search_Tooltip">
             <English>Search by name or classname. Right click to clear. Pack all and Take all only move what the search shows.</English>
-            <German>Nach Name oder Klassenname suchen. Rechtsklick leert das Feld. Alles einpacken und Alles nehmen verschieben nur, was die Suche anzeigt.</German>
         </Key>
         <Key ID="STR_efak_gui_Sort_Tooltip">
             <English>Sort all lists by</English>
-            <German>Alle Listen sortieren nach</German>
         </Key>
         <Key ID="STR_efak_gui_SortDirection_Tooltip">
             <English>Sort direction</English>
-            <German>Sortierrichtung</German>
         </Key>
         <Key ID="STR_efak_gui_Sort_Name">
             <English>Name</English>
-            <German>Name</German>
         </Key>
         <Key ID="STR_efak_gui_Sort_Mass">
             <English>Stack mass</English>
-            <German>Stapelmasse</German>
         </Key>
         <Key ID="STR_efak_gui_Sort_Amount">
             <English>Amount</English>
-            <German>Anzahl</German>
         </Key>
         <Key ID="STR_efak_gui_Sort_Ascending">
             <English>Ascending</English>
-            <German>Aufsteigend</German>
         </Key>
         <Key ID="STR_efak_gui_Sort_Descending">
             <English>Descending</English>
-            <German>Absteigend</German>
         </Key>
         <Key ID="STR_efak_gui_Amount_Tooltip">
             <English>How many Pack and Take move. Empty moves the whole stack.</English>
-            <German>Wie viele Einpacken und Nehmen verschieben. Leer verschiebt den ganzen Stapel.</German>
         </Key>
         <Key ID="STR_efak_gui_ShowAll">
             <English>Show all</English>
-            <German>Alle zeigen</German>
         </Key>
         <Key ID="STR_efak_gui_ShowAll_Tooltip">
             <English>Also list what cannot go into this kit, greyed out.</English>
-            <German>Auch zeigen, was nicht in dieses Kit darf, ausgegraut.</German>
         </Key>
         <Key ID="STR_efak_gui_Row_NotAllowed">
             <English>Cannot go into this kit</English>
-            <German>Darf nicht in dieses Kit</German>
         </Key>
         <Key ID="STR_efak_gui_Row_Gone">
             <English>None left here - all of it moved since the window was opened</English>
-            <German>Nichts mehr hier - alles wurde verschoben, seit das Fenster offen ist</German>
         </Key>
     </Package>
 </Project>

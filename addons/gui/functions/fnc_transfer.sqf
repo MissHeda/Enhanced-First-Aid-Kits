@@ -67,7 +67,8 @@ private _places = createHashMapFromArray [
 private _from = _places getOrDefault [_sourceIdc, ""];
 private _to = _places getOrDefault [_destIdc, ""];
 
-if (_from isEqualTo "" || {_to isEqualTo ""}) exitWith {};
+// The left list on the ground tab and the ground card are the same pile.
+if (_from isEqualTo "" || {_to isEqualTo ""} || {_from isEqualTo _to}) exitWith {};
 
 // The kit may have left since the lists were drawn - taken out of a crate by somebody else, emptied
 // and removed on another machine. Nothing moves into or out of a kit that is not there any more.

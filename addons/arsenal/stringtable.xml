@@ -3,143 +3,108 @@
     <Package name="arsenal">
         <Key ID="STR_efak_arsenal_Tab_Tooltip">
             <English>First aid kits in this unit's inventory</English>
-            <German>Erste-Hilfe-Kits im Inventar dieser Einheit</German>
         </Key>
         <Key ID="STR_efak_arsenal_Tab_Disabled_Unit">
             <English>First aid kits can only be packed for your own unit</English>
-            <German>Erste-Hilfe-Kits lassen sich nur für die eigene Einheit packen</German>
         </Key>
         <Key ID="STR_efak_arsenal_Header_Kits">
             <English>First aid kits in this unit's inventory</English>
-            <German>Erste-Hilfe-Kits im Inventar dieser Einheit</German>
         </Key>
         <Key ID="STR_efak_arsenal_Hint_Kits">
             <English>The kits in this unit's inventory, each set up on its own</English>
-            <German>Die Kits im Inventar dieser Einheit, jedes einzeln einstellbar</German>
         </Key>
         <Key ID="STR_efak_arsenal_Row_Kits_Tooltip">
             <English>%1 - carried in: %2. %3.</English>
-            <German>%1 - getragen in: %2. %3.</German>
         </Key>
         <Key ID="STR_efak_arsenal_Row_Kits_Changes">
             <English>Changes apply to this kit only</English>
-            <German>Änderungen gelten nur für dieses Kit</German>
         </Key>
         <Key ID="STR_efak_arsenal_Row_Preparing">
             <English>%1x %2 (being prepared)</English>
-            <German>%1x %2 (wird vorbereitet)</German>
         </Key>
         <Key ID="STR_efak_arsenal_Row_NoKits">
             <English>This unit carries no first aid kits</English>
-            <German>Diese Einheit trägt keine Erste-Hilfe-Kits</German>
         </Key>
         <Key ID="STR_efak_arsenal_Row_Loading">
             <English>Kit contents are still loading...</English>
-            <German>Kit-Inhalte werden noch geladen...</German>
         </Key>
         <Key ID="STR_efak_arsenal_Header_Contents">
             <English>Contents: %1</English>
-            <German>Inhalt: %1</German>
         </Key>
         <Key ID="STR_efak_arsenal_Hint_Preparing">
             <English>Being prepared - these kits show up here in a moment</English>
-            <German>Wird vorbereitet - diese Kits erscheinen hier gleich</German>
         </Key>
         <Key ID="STR_efak_arsenal_Hint_NoKits">
             <English>Put a first aid kit into the uniform, vest or backpack first</English>
-            <German>Lege zuerst ein Erste-Hilfe-Kit in Uniform, Weste oder Rucksack</German>
         </Key>
         <Key ID="STR_efak_arsenal_Load">
             <English>Load</English>
-            <German>Beladung</German>
         </Key>
         <Key ID="STR_efak_arsenal_Reason_NotInArsenal">
             <English>Not available in this arsenal</English>
-            <German>In diesem Arsenal nicht verfügbar</German>
         </Key>
         <Key ID="STR_efak_arsenal_Reason_NotAllowed">
             <English>That does not belong in this kit</English>
-            <German>Das gehört nicht in dieses Kit</German>
         </Key>
         <Key ID="STR_efak_arsenal_Clear_Tooltip">
             <English>Empty every kit of this type</English>
-            <German>Alle Kits dieser Art leeren</German>
         </Key>
         <Key ID="STR_efak_arsenal_UseDefaults">
             <English>Use CBA default</English>
-            <German>CBA-Standard verwenden</German>
         </Key>
         <Key ID="STR_efak_arsenal_UseDefaults_Tooltip">
             <English>On: this kit holds the default contents\nfrom the mission's CBA settings and\nalways comes back with them - when you\nload a saved loadout or respawn with\nyour gear. The list is locked.\n\nOff: this kit keeps what is in it.\nSaving a loadout saves exactly these\nitems, and they are what you get back\nafter loading it or respawning.</English>
-            <German>An: Das Kit enthält den Standardinhalt\naus den CBA-Einstellungen der Mission\nund kommt immer damit zurück - wenn du\nein gespeichertes Loadout lädst oder\nmit deiner Ausrüstung respawnst. Die\nListe ist dann gesperrt.\n\nAus: Das Kit behält, was drin ist.\nEin gespeichertes Loadout merkt sich\ngenau diese Items - die bekommst du\nbeim Laden oder Respawn zurück.</German>
         </Key>
         <Key ID="STR_efak_arsenal_UseDefaults_Tooltip_Forced">
             <English>In this mission, every kit of this type\ncomes out of a loadout with the default\ncontents, whichever way this box is set.</English>
-            <German>In dieser Mission kommt jedes Kit\ndieses Typs mit dem Standardinhalt aus\neinem Loadout, egal wie dieser Haken\ngesetzt ist.</German>
         </Key>
         <Key ID="STR_efak_arsenal_Hint_Locked">
             <English>Locked: untick "Use CBA default" to change this kit</English>
-            <German>Gesperrt: "CBA-Standard verwenden" abhaken, um das Kit zu ändern</German>
         </Key>
         <Key ID="STR_efak_arsenal_Hint_EditNothing">
             <English>The mission does not allow changing this kit in the arsenal</English>
-            <German>Die Mission erlaubt nicht, dieses Kit im Arsenal zu ändern</German>
         </Key>
         <Key ID="STR_efak_arsenal_Hint_EditRemove">
             <English>Items can only be taken out of this kit in the arsenal</English>
-            <German>Im Arsenal darf aus diesem Kit nur herausgenommen werden</German>
         </Key>
         <Key ID="STR_efak_arsenal_Hint_Forced">
             <English>Loadouts always bring the default contents for this kit type</English>
-            <German>Loadouts bringen für diesen Kit-Typ immer den Standardinhalt</German>
         </Key>
         <Key ID="STR_efak_arsenal_Button_Kits">
             <English>First aid kits</English>
-            <German>Erste-Hilfe-Kits</German>
         </Key>
         <Key ID="STR_efak_arsenal_Button_Contents">
             <English>First aid kit contents</English>
-            <German>Inhalt des Erste-Hilfe-Kits</German>
         </Key>
         <Key ID="STR_efak_arsenal_Setting_OwnCategory">
             <English>Own arsenal category for kits</English>
-            <German>Eigene Arsenal-Kategorie für Kits</German>
         </Key>
         <Key ID="STR_efak_arsenal_Setting_OwnCategory_Desc">
             <English>On: kits get a category of their own\ndown the right edge of the arsenal,\nwith the mod's icon, and are listed\nthere and nowhere else.\n\nOff: kits stay with the medical items,\nwhere ACE files them. The category\nthen only shows up inside the kits tab,\nfor sorting what a kit holds.</English>
-            <German>An: Kits bekommen am rechten Rand des\nArsenals eine eigene Kategorie mit dem\nMod-Icon und stehen nur noch dort.\n\nAus: Kits bleiben bei den medizinischen\nItems, wo ACE sie einsortiert. Die\nKategorie gibt es dann nur im Kit-Reiter,\nzum Sortieren des Kit-Inhalts.</German>
         </Key>
         <Key ID="STR_efak_arsenal_Container_Uniform">
             <English>Uniform</English>
-            <German>Uniform</German>
         </Key>
         <Key ID="STR_efak_arsenal_Container_Vest">
             <English>Vest</English>
-            <German>Weste</German>
         </Key>
         <Key ID="STR_efak_arsenal_Container_Backpack">
             <English>Backpack</English>
-            <German>Rucksack</German>
         </Key>
         <Key ID="STR_efak_arsenal_Sort_Name">
             <English>Sort alphabetically</English>
-            <German>Alphabetisch sortieren</German>
         </Key>
         <Key ID="STR_efak_arsenal_Sort_Mass">
             <English>Sort by weight</English>
-            <German>Nach Gewicht sortieren</German>
         </Key>
         <Key ID="STR_efak_arsenal_Sort_Amount">
             <English>Sort by amount</English>
-            <German>Nach Anzahl sortieren</German>
         </Key>
         <Key ID="STR_efak_arsenal_Sort_Ascending">
             <English>Ascending</English>
-            <German>Aufsteigend</German>
         </Key>
         <Key ID="STR_efak_arsenal_Sort_Descending">
             <English>Descending</English>
-            <German>Absteigend</German>
         </Key>
     </Package>
 </Project>

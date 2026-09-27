@@ -72,6 +72,6 @@ switch (_key) do {
     case "vest": {[[vestContainer ACE_player]] call _fnc_cargo};
     case "backpack": {[[backpackContainer ACE_player]] call _fnc_cargo};
     case "crate": {[[GVAR(crate)], _kitKey] call _fnc_cargo};
-    case "ground": {[[[false] call FUNC(getGroundHolder)]] call _fnc_cargo};
+    case "ground": {[[[false] call FUNC(getGroundHolder)], _kitKey] call _fnc_cargo};
     default {[]};
 }

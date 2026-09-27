@@ -8,3 +8,5 @@ keys/*
 .hemtt/local
 .hemttout
 hemtt.exe
+## Python
+__pycache__/

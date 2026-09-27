@@ -3,383 +3,288 @@
     <Package name="core">
         <Key ID="STR_efak_core_IFAK_Display">
             <English>Individual First Aid Kit (IFAK)</English>
-            <German>Individuelles Erste-Hilfe-Kit (IFAK)</German>
         </Key>
         <Key ID="STR_efak_core_IFAK_DESC">
             <English>Individual First Aid Kit, carried by every soldier. Open it to see and change what is inside.</English>
-            <German>Individuelles Erste-Hilfe-Kit, das jeder Soldat trägt. Öffnen, um den Inhalt anzusehen und zu ändern.</German>
         </Key>
         <Key ID="STR_efak_core_AFAK_Display">
             <English>Advanced First Aid Kit (AFAK)</English>
-            <German>Erweitertes Erste-Hilfe-Kit (AFAK)</German>
         </Key>
         <Key ID="STR_efak_core_AFAK_DESC">
             <English>Advanced First Aid Kit, with enough for more than one casualty. Open it to see and change what is inside.</English>
-            <German>Erweitertes Erste-Hilfe-Kit mit genug Material für mehr als einen Verwundeten. Öffnen, um den Inhalt anzusehen und zu ändern.</German>
         </Key>
         <Key ID="STR_efak_core_MFAK_Display">
             <English>Multiple First Aid Kit (MFAK)</English>
-            <German>Mehrfach-Erste-Hilfe-Kit (MFAK)</German>
         </Key>
         <Key ID="STR_efak_core_MFAK_DESC">
             <English>Multiple First Aid Kit, supplies for several casualties. Fits into a backpack. Open it to see and change what is inside.</English>
-            <German>Erste-Hilfe-Kit für mehrere Verwundete. Passt in einen Rucksack. Öffnen, um den Inhalt anzusehen und zu ändern.</German>
         </Key>
         <Key ID="STR_efak_core_MFAKPlus_Display">
             <English>Multiple First Aid Kit Plus (MFAK+)</English>
-            <German>Mehrfach-Erste-Hilfe-Kit Plus (MFAK+)</German>
         </Key>
         <Key ID="STR_efak_core_MFAKPlus_DESC">
             <English>Multiple First Aid Kit with more room, supplies for a whole squad. Fits into a backpack. Open it to see and change what is inside.</English>
-            <German>Erste-Hilfe-Kit für mehrere Verwundete mit mehr Platz, Material für einen ganzen Trupp. Passt in einen Rucksack. Öffnen, um den Inhalt anzusehen und zu ändern.</German>
         </Key>
         <Key ID="STR_efak_core_SubCategory_Top">
             <English>0) Quick setup &amp; debug</English>
-            <German>0) Schnelleinstellung &amp; Debug</German>
         </Key>
         <Key ID="STR_efak_core_SubCategory_General">
             <English>1) General</English>
-            <German>1) Allgemein</German>
         </Key>
         <Key ID="STR_efak_core_Setting_EnablePacking">
             <English>Allow packing in the kit window</English>
-            <German>Einpacken im Kit-Fenster erlauben</German>
         </Key>
         <Key ID="STR_efak_core_Setting_EnablePacking_Desc">
             <English>Lets players put items into this kit by\nhand, in the window that opens a kit.\n\nTaking items out always works.</English>
-            <German>Erlaubt Spielern, im Fenster eines Kits\nGegenstände von Hand in dieses Kit\neinzupacken.\n\nHerausnehmen geht immer.</German>
         </Key>
         <Key ID="STR_efak_core_DroppedOnGround">
             <English>No room for %1x %2 - dropped on the ground</English>
-            <German>Kein Platz für %1x %2 - auf den Boden gelegt</German>
         </Key>
         <Key ID="STR_efak_core_Setting_Preset">
             <English>Fast edit | Choose realism mode</English>
-            <German>Schnellauswahl | Realismus-Modus wählen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_Preset_Desc">
             <English>Changes the rules of all kits at once.\n\nPick a mode and press OK. Packing, arsenal\nediting, forced contents, kit weight and\nwhich kits treatments may use are all set\nto match it. Then this box jumps back to\n&quot;Choose to apply...&quot; - it only applies a\nmode, it does not stay on. Every setting\ncan still be changed by hand afterwards.\n\nNever changed: capacities, default\ncontents, whitelists and blacklists.\n\n\nPLAYERS CAN DO EVERYTHING\nAny item fits, kits go into kits, the\narsenal can add and remove, what is in a\nkit weighs nothing.\n\nNORMAL\nThe mod's own defaults.\n\nHARDCORE\nThe arsenal can only take items out.\nKits are refilled only up to their\ndefault contents. What is in a kit\nweighs fully. MFAK and MFAK+ are unloaded\ninto the backpack, and a treatment cannot\nuse them until they are unpacked.\n\nHARDCORE+\nHardcore, and also: every loadout brings\ncomplete kits, the arsenal cannot change\nkits at all, an empty kit is thrown away.\n\nFORCE EVERYTHING\nFixed kits, for groups that hand out\nloadouts: every loadout brings complete\nkits, the arsenal cannot change them, and\nnothing can be packed by hand.</English>
-            <German>Ändert die Regeln aller Kits auf einmal.\n\nModus wählen und OK drücken. Packen,\nBearbeiten im Arsenal, erzwungener Inhalt,\nKit-Gewicht und aus welchen Kits behandelt\nwerden darf, werden passend eingestellt.\nDanach springt die Auswahl zurück auf\n&quot;Zum Anwenden auswählen...&quot; - sie wendet\nnur einen Modus an und bleibt nicht an.\nJede Einstellung lässt sich danach weiter\nvon Hand ändern.\n\nNie geändert: Kapazitäten, Standardinhalte,\nWhitelists und Blacklists.\n\n\nSPIELER DÜRFEN ALLES\nJeder Gegenstand passt, Kits in Kits, das\nArsenal kann hinzufügen und herausnehmen,\nder Kit-Inhalt wiegt nichts.\n\nNORMAL\nDie Standardwerte der Mod.\n\nHARDCORE\nIm Arsenal nur herausnehmen. Kits werden\nnur bis zum Standardinhalt aufgefüllt. Der\nKit-Inhalt wiegt voll. MFAK und MFAK+\nwerden in den Rucksack entladen, und eine\nBehandlung kann sie erst nutzen, wenn sie\nausgepackt sind.\n\nHARDCORE+\nWie Hardcore, dazu: Jedes Loadout bringt\nvollständige Kits, das Arsenal kann Kits gar\nnicht ändern, ein leeres Kit wird weggeworfen.\n\nALLES ERZWINGEN\nFeste Kits für Gruppen, die Loadouts\nausgeben: Jedes Loadout bringt vollständige\nKits, das Arsenal kann sie nicht ändern, und\nvon Hand wird nichts eingepackt.</German>
         </Key>
         <Key ID="STR_efak_core_Preset_None">
             <English>Choose to apply...</English>
-            <German>Zum Anwenden auswählen...</German>
         </Key>
         <Key ID="STR_efak_core_Preset_Sandbox">
             <English>Players can do everything</English>
-            <German>Spieler dürfen alles</German>
         </Key>
         <Key ID="STR_efak_core_Preset_Normal">
             <English>Normal</English>
-            <German>Normal</German>
         </Key>
         <Key ID="STR_efak_core_Preset_Hardcore">
             <English>Hardcore</English>
-            <German>Hardcore</German>
         </Key>
         <Key ID="STR_efak_core_Preset_HardcorePlus">
             <English>Hardcore+</English>
-            <German>Hardcore+</German>
         </Key>
         <Key ID="STR_efak_core_Preset_Fixed">
             <English>Force everything (fixed kits)</English>
-            <German>Alles erzwingen (feste Kits)</German>
         </Key>
         <Key ID="STR_efak_core_Setting_AllowNesting">
             <English>Allow kits inside kits</English>
-            <German>Kits in Kits erlauben</German>
         </Key>
         <Key ID="STR_efak_core_Setting_AllowNesting_Desc">
             <English>Lets a kit go inside another kit.\n\nOff by default: nesting folds any amount\nof gear into a single item.</English>
-            <German>Erlaubt, ein Kit in ein anderes Kit zu\npacken.\n\nStandardmäßig aus: verschachtelte Kits\npacken beliebig viel Ausrüstung in\neinen einzigen Gegenstand.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ItemFilter">
             <English>Allowed items</English>
-            <German>Erlaubte Gegenstände</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ItemFilter_Desc">
             <English>Which items may go into this kit.\n\nMedical items only: everything ACE\ntreatments use, plus the whitelist.\nWhitelist only: the whitelist, nothing else.\nAnything: every item and magazine.\n\nWorn gear never goes in - uniforms,\nvests, helmets, glasses, night vision.\n\nAlso applies to loadouts and the default\ncontents: what is not allowed here is\nremoved from them.</English>
-            <German>Welche Gegenstände in dieses Kit dürfen.\n\nNur Medizin: alles, was ACE-Behandlungen\nbenutzen, plus die Whitelist.\nNur Whitelist: nur die Whitelist.\nAlles: jeder Gegenstand und jedes Magazin.\n\nGetragene Ausrüstung nie - Uniform,\nWeste, Helm, Brille, Nachtsicht.\n\nGilt auch für Loadouts und den\nStandardinhalt: Was hier nicht erlaubt\nist, wird daraus entfernt.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ItemFilter_All">
             <English>Anything</English>
-            <German>Alles</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ItemFilter_Medical">
             <English>Medical items only</English>
-            <German>Nur medizinische Gegenstände</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ItemFilter_List">
             <English>Whitelist only</English>
-            <German>Nur Whitelist</German>
         </Key>
         <Key ID="STR_efak_core_Setting_Whitelist">
             <English>Whitelist</English>
-            <German>Whitelist</German>
         </Key>
         <Key ID="STR_efak_core_Setting_Whitelist_Desc">
             <English>Classnames, separated by commas.\n\nWhitelist only: the only items allowed.\nMedical items only: allowed on top of\nevery medical item.</English>
-            <German>Klassennamen, durch Kommas getrennt.\n\nNur Whitelist: die einzigen erlaubten\nGegenstände.\nNur Medizin: zusätzlich zu allen\nmedizinischen erlaubt.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_Blacklist">
             <English>Blacklist</English>
-            <German>Blacklist</German>
         </Key>
         <Key ID="STR_efak_core_Setting_Blacklist_Desc">
             <English>Classnames, separated by commas.\n\nThese never go into this kit, whatever\nthe filter says - not by hand, not from\na loadout and not from the default\ncontents.</English>
-            <German>Klassennamen, durch Kommas getrennt.\n\nDiese kommen nie in dieses Kit, egal was\nder Filter sagt - weder von Hand noch\naus einem Loadout noch aus dem\nStandardinhalt.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ItemActions">
             <English>Show single item interactions</English>
-            <German>Einzelne Items in der Interaktion zeigen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ItemActions_Desc">
-            <English>Lists every item of this kit in the ACE\ninteraction menu, so a single stack can\nbe taken out from there.\n\nOff: the kit only offers Open, Unpack\nall and Show contents - a full kit\nwould otherwise fill the screen.</English>
-            <German>Listet jedes Item dieses Kits im\nACE-Interaktionsmenü auf, damit sich ein\neinzelner Stapel von dort herausnehmen\nlässt.\n\nAus: Das Kit bietet nur Öffnen, Alles\nauspacken und Inhalt zeigen - ein volles\nKit füllt sonst den ganzen Bildschirm.</German>
+            <English>Lists every item of this kit in the ACE\ninteraction menu, so a single stack can\nbe taken out from there.\n\nOff: the kit only offers Open, Unpack\nall and Quick access - a full kit\nwould otherwise fill the screen.</English>
         </Key>
         <Key ID="STR_efak_core_Setting_InteractWithOthers">
             <English>Open other units' kits</English>
-            <German>Kits anderer Einheiten öffnen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_InteractWithOthers_Desc">
             <English>Shows the kits a unit carries in that\nunit's ACE interaction menu, so another\nplayer can open them and take items out.\n\nOnly the interaction menu. Whose supplies\nACE treatments use is decided by ACE's\nshared equipment setting.</English>
-            <German>Zeigt die Kits einer Einheit in deren\nACE-Interaktionsmenü, damit ein anderer\nSpieler sie öffnen und Gegenstände\nherausnehmen kann.\n\nNur das Interaktionsmenü. Wessen Vorräte\nACE-Behandlungen benutzen, regelt ACEs\nEinstellung für geteilte Ausrüstung.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_InteractWithAwake">
             <English>Open kits of conscious units</English>
-            <German>Kits von Einheiten bei Bewusstsein öffnen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_InteractWithAwake_Desc">
             <English>Needs "Open other units kits".\n\nOff: another unit's kits only show while\nit is unconscious, the way you would\nsearch a casualty.\nOn: they always show.</English>
-            <German>Braucht "Kits anderer Einheiten öffnen".\n\nAus: Die Kits einer anderen Einheit\nerscheinen nur, solange sie bewusstlos\nist - wie beim Durchsuchen eines\nVerwundeten.\nAn: Sie erscheinen immer.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_Capacity">
             <English>Capacity</English>
-            <German>Kapazität</German>
         </Key>
         <Key ID="STR_efak_core_Setting_Capacity_Desc">
             <English>How much this kit holds, in the same\nmass units as the inventory.\n\nOnly limits packing: lowering it never\nthrows anything out of a kit.</English>
-            <German>Wie viel dieses Kit fasst, in denselben\nMasse-Einheiten wie das Inventar.\n\nBegrenzt nur das Einpacken: ein kleinerer\nWert wirft nichts aus einem Kit.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_DefaultContents">
             <English>Default contents</English>
-            <German>Standardinhalt</German>
         </Key>
         <Key ID="STR_efak_core_Setting_DefaultContents_Desc">
             <English>What a new kit starts with.\n\nFormat:\n[['ACE_morphine',2],['ACE_tourniquet',1]]\n\nThe DEBUG setting copies a backpack in\nthis format for you.</English>
-            <German>Womit ein neues Kit startet.\n\nFormat:\n[['ACE_morphine',2],['ACE_tourniquet',1]]\n\nDas DEBUG-Setting kopiert dir einen\nRucksack in genau diesem Format.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ForceContents">
             <English>Force default contents</English>
-            <German>Standardinhalt erzwingen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ForceContents_Desc">
             <English>Every kit of this type always starts\nwith the default contents - also when\nsomebody loads a loadout whose kit was\nchanged: arsenal, respawn, Zeus, editor.\n\nSo a loadout you hand out always comes\nwith complete kits. Add Arsenal editing:\nNothing to keep players from changing\nthem in the arsenal as well.</English>
-            <German>Jedes Kit dieses Typs startet immer mit\ndem Standardinhalt - auch wenn jemand\nein Loadout lädt, dessen Kit verändert\nwurde: Arsenal, Respawn, Zeus, Editor.\n\nSo kommt ein ausgegebenes Loadout immer\nmit vollständigen Kits. Zusammen mit\nBearbeiten im Arsenal: Nichts können\nSpieler sie auch im Arsenal nicht ändern.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_LimitToDefaults">
             <English>Pack up to the default contents only</English>
-            <German>Nur bis zum Standardinhalt packen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_LimitToDefaults_Desc">
             <English>Items can only be packed up to the\namount the default contents hold, and\nnothing that is not in them.\n\nPack all at a medical crate fills the\nkit back up to its default contents.\n\nApplies to the kit window, the arsenal\nand loadouts.</English>
-            <German>Gegenstände lassen sich nur bis zur\nMenge im Standardinhalt einpacken, und\nnichts, was nicht darin vorkommt.\n\nAlles einpacken an einer Sanitätskiste\nfüllt das Kit wieder bis zum\nStandardinhalt auf.\n\nGilt im Kit-Fenster, im Arsenal und für\nLoadouts.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ArsenalEditing">
             <English>Arsenal editing</English>
-            <German>Bearbeiten im Arsenal</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ArsenalEditing_Desc">
             <English>What players may change about this kit\nin the kits tab of the ACE Arsenal.\n\nRemove and add: everything.\nRemove only: take items out, or reset\nthe kit to its default contents.\nNothing: the kit is greyed out in the\ntab and stays as it is.\n\nLoading a loadout in the arsenal follows\nthe same rule. The Eden editor may always\nchange everything.</English>
-            <German>Was Spieler an diesem Kit im Kit-Reiter\ndes ACE-Arsenals ändern dürfen.\n\nHerausnehmen und hinzufügen: alles.\nNur herausnehmen: Gegenstände entfernen\noder das Kit auf den Standardinhalt\nzurücksetzen.\nNichts: Das Kit ist im Reiter ausgegraut\nund bleibt, wie es ist.\n\nEin Loadout im Arsenal zu laden folgt der\ngleichen Regel. Im Eden-Editor lässt sich\nimmer alles ändern.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ArsenalEditing_All">
             <English>Remove and add</English>
-            <German>Herausnehmen und hinzufügen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ArsenalEditing_Remove">
             <English>Remove only</English>
-            <German>Nur herausnehmen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_ArsenalEditing_Nothing">
             <English>Nothing</English>
-            <German>Nichts</German>
         </Key>
         <Key ID="STR_efak_core_Setting_RemoveWhenEmpty">
             <English>Remove when empty</English>
-            <German>Bei Leerung entfernen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_RemoveWhenEmpty_Desc">
             <English>The kit disappears once the last item\nis taken out.</English>
-            <German>Das Kit verschwindet, sobald der letzte\nGegenstand herausgenommen ist.</German>
         </Key>
         <Key ID="STR_efak_core_Container_Auto">
             <English>Automatic</English>
-            <German>Automatisch</German>
         </Key>
         <Key ID="STR_efak_core_Container_Player">
             <English>Player's choice</English>
-            <German>Wahl des Spielers</German>
         </Key>
         <Key ID="STR_efak_core_Setting_UnloadContainer">
             <English>Unload container</English>
-            <German>Entladebehälter</German>
         </Key>
         <Key ID="STR_efak_core_Setting_UnloadContainer_Desc">
             <English>Where items taken out of this kit go.\n\nPlayer's choice: each player picks it\nin the kit window.\n\nAnything else is decided for everyone,\nand the box in the kit window is locked -\nfor example a medic bag that is only\never unloaded into the backpack.\n\nWhat does not fit there still goes into\nthe other clothing before the ground.</English>
-            <German>Wohin Items kommen, die aus diesem Kit\ngenommen werden.\n\nWahl des Spielers: Jeder wählt selbst\nim Kit-Fenster.\n\nAlles andere gilt für alle, und die Auswahl\nim Kit-Fenster ist gesperrt - zum Beispiel\neine Sanitätstasche, die immer nur in den\nRucksack entladen wird.\n\nWas dort nicht passt, kommt trotzdem erst\nin die anderen Kleidungsstücke, dann\nauf den Boden.</German>
         </Key>
         <Key ID="STR_efak_core_Container_Uniform">
             <English>Uniform</English>
-            <German>Uniform</German>
         </Key>
         <Key ID="STR_efak_core_Container_Vest">
             <English>Vest</English>
-            <German>Weste</German>
         </Key>
         <Key ID="STR_efak_core_Container_Backpack">
             <English>Backpack</English>
-            <German>Rucksack</German>
         </Key>
         <Key ID="STR_efak_core_Action_Root">
             <English>First Aid Kits</English>
-            <German>Erste-Hilfe-Kits</German>
         </Key>
         <Key ID="STR_efak_core_Action_RootOther">
             <English>First Aid Kits</English>
-            <German>Erste-Hilfe-Kits</German>
         </Key>
         <Key ID="STR_efak_core_Action_UnpackAll">
             <English>Unpack everything</English>
-            <German>Alles auspacken</German>
         </Key>
         <Key ID="STR_efak_core_Action_ShowContents">
-            <English>Show contents</English>
-            <German>Inhalt anzeigen</German>
+            <English>Quick access</English>
         </Key>
         <Key ID="STR_efak_core_Capacity">
             <English>Capacity</English>
-            <German>Kapazität</German>
         </Key>
         <Key ID="STR_efak_core_Empty">
             <English>Empty</English>
-            <German>Leer</German>
         </Key>
         <Key ID="STR_efak_core_Error_PackingDisabled">
             <English>Packing into kits is switched off</English>
-            <German>Einpacken in Kits ist abgeschaltet</German>
         </Key>
         <Key ID="STR_efak_core_Error_NoNesting">
             <English>A kit does not fit into another kit</English>
-            <German>Ein Kit passt nicht in ein anderes Kit</German>
         </Key>
         <Key ID="STR_efak_core_Error_ItemNotAllowed">
             <English>That does not belong in this kit</English>
-            <German>Das gehört nicht in dieses Kit</German>
         </Key>
         <Key ID="STR_efak_core_Error_MedicalOnly">
             <English>Only medical items fit in this kit</English>
-            <German>In dieses Kit passen nur medizinische Gegenstände</German>
         </Key>
         <Key ID="STR_efak_core_Error_Blacklisted">
             <English>This kit's blacklist keeps that out</English>
-            <German>Die Blacklist dieses Kits lässt das nicht zu</German>
         </Key>
         <Key ID="STR_efak_core_Error_NotWhitelisted">
             <English>Only whitelisted items fit in this kit</English>
-            <German>In dieses Kit passen nur Gegenstände der Whitelist</German>
         </Key>
         <Key ID="STR_efak_core_Error_NotInDefaults">
             <English>Not part of this kit's default contents</English>
-            <German>Nicht Teil des Standardinhalts dieses Kits</German>
         </Key>
         <Key ID="STR_efak_core_Error_DefaultsReached">
             <English>The kit already holds as many as its default contents</English>
-            <German>Das Kit hat davon schon so viele wie im Standardinhalt</German>
         </Key>
         <Key ID="STR_efak_core_Tooltip_Amount">
             <English>Amount</English>
-            <German>Anzahl</German>
         </Key>
         <Key ID="STR_efak_core_Tooltip_Mass">
             <English>Mass</English>
-            <German>Masse</German>
         </Key>
         <Key ID="STR_efak_core_Tooltip_TotalMass">
             <English>Total mass</English>
-            <German>Gesamtmasse</German>
         </Key>
         <Key ID="STR_efak_core_Error_NotEnoughSpace">
             <English>Not enough space left in the kit</English>
-            <German>Nicht genug Platz im Kit</German>
         </Key>
         <Key ID="STR_efak_core_Keybind_OpenPouch">
             <English>Open first kit</English>
-            <German>Erstes Kit öffnen</German>
         </Key>
         <Key ID="STR_efak_core_Keybind_OpenPouch_Desc">
             <English>Opens the pouch UI for the first kit you are carrying.</English>
-            <German>Öffnet die Taschen-UI für das erste Kit, das du dabei hast.</German>
         </Key>
         <Key ID="STR_efak_core_Action_OpenKit">
             <English>Open</English>
-            <German>Öffnen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_DoubleClickOpen">
             <English>Open on double click</English>
-            <German>Per Doppelklick öffnen</German>
         </Key>
         <Key ID="STR_efak_core_Setting_DoubleClickOpen_Desc">
             <English>Double clicking a kit in the inventory\nopens it.\n\nThe Open entry in the right click menu\nworks either way.</English>
-            <German>Ein Doppelklick auf ein Kit im Inventar\nöffnet es.\n\nDer Eintrag Öffnen im Rechtsklick-Menü\ngeht unabhängig davon.</German>
         </Key>
         <Key ID="STR_efak_core_Setting_Capacity_Reference">
             <English>For comparison:</English>
-            <German>Zum Vergleich:</German>
         </Key>
         <Key ID="STR_efak_core_Setting_DebugContents">
             <English>DEBUG: Copy backpack contents to the clipboard</English>
-            <German>DEBUG: Rucksackinhalt in die Zwischenablage kopieren</German>
         </Key>
         <Key ID="STR_efak_core_Setting_DebugContents_Desc">
             <English>Writes kit contents for you.\n\n1. Switch on\n2. Fill a backpack with what a kit\n   should hold\n3. Paste into a kit's default contents\n\nEvery 10 seconds the backpack contents\nare copied to your clipboard in exactly\nthat format, and shown as a hint.</English>
-            <German>Schreibt Kit-Inhalte für dich.\n\n1. Einschalten\n2. Einen Rucksack mit dem füllen, was\n   ins Kit soll\n3. In den Standardinhalt eines Kits einfügen\n\nAlle 10 Sekunden landet der Rucksack-\ninhalt genau in diesem Format in der\nZwischenablage und wird als Hint gezeigt.</German>
         </Key>
         <Key ID="STR_efak_core_Debug_Title">
             <English>Kit contents debug</English>
-            <German>Kit-Inhalt Debug</German>
         </Key>
         <Key ID="STR_efak_core_Debug_NoBackpack">
             <English>No backpack. Put one on and fill it with what the kit should hold.</English>
-            <German>Kein Rucksack. Zieh einen an und f&#252;ll ihn mit dem, was ins Kit soll.</German>
         </Key>
         <Key ID="STR_efak_core_Debug_Empty">
             <English>Backpack is empty.</English>
-            <German>Rucksack ist leer.</German>
         </Key>
         <Key ID="STR_efak_core_Debug_Copied">
             <English>%1 entries, %2 mass - copied to the clipboard</English>
-            <German>%1 Eintr&#228;ge, %2 Masse - in die Zwischenablage kopiert</German>
         </Key>
         <Key ID="STR_efak_core_Setting_KitWeight">
             <English>Kit contents weight</English>
-            <German>Gewicht des Kit-Inhalts</German>
         </Key>
         <Key ID="STR_efak_core_Setting_KitWeight_Desc">
             <English>How much of what a kit holds you feel.\n\n0%: kits weigh what the item weighs,\nfull or empty.\n\n100%: everything inside weighs what it\nweighs, packed by hand or set up as\ndefault contents.\n\nBelow 100% takes the edge off, above it\nmakes a stuffed kit hurt.\n\nNeeds ACE movement. Counts towards ACE\nweight and fatigue.</English>
-            <German>Wie stark du spürst, was in einem Kit\nsteckt.\n\n0%: Kits wiegen das, was das Item wiegt,\nvoll wie leer.\n\n100%: Alles darin wiegt das, was es\nwiegt - selbst eingepackt oder als\nStandardinhalt gesetzt.\n\nUnter 100% nimmt die Spitze raus,\ndarüber tut ein volles Kit weh.\n\nBraucht ACE Movement. Zählt für ACE-\nGewicht und Ausdauer.</German>
         </Key>
         <Key ID="STR_efak_core_3DEN_Category">
             <English>Enhanced First Aid Kits</English>
-            <German>Enhanced First Aid Kits</German>
         </Key>
         <Key ID="STR_efak_core_3DEN_KitContents">
             <English>Kit contents</English>
-            <German>Kit-Inhalte</German>
         </Key>
         <Key ID="STR_efak_core_3DEN_KitContents_Tooltip">
             <English>What this unit's first aid kits hold when the mission starts.\nSet by the kits tab of the ACE Arsenal - edit the loadout there rather than here.\nEmpty: every kit starts with the default contents.</English>
-            <German>Was die Erste-Hilfe-Kits dieser Einheit beim Missionsstart enthalten.\nWird vom Kit-Reiter des ACE-Arsenals gesetzt - das Loadout besser dort bearbeiten.\nLeer: Jedes Kit startet mit dem Standardinhalt.</German>
         </Key>
     </Package>
 </Project>

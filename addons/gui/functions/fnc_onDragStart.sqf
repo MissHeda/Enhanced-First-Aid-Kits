@@ -40,6 +40,14 @@ if (_max <= 0) exitWith {
 
 GVAR(dragging) = true;
 GVAR(dragMax) = _max;
+
+// Where every list stands: while the drag lasts the wheel counts items, the lists do not scroll
+// (fnc_updateLists puts them back).
+private _display = ctrlParent _ctrl;
+
+GVAR(dragScroll) = [IDC_LIST_INVENTORY, IDC_LIST_KIT, IDC_LIST_GROUND, PREVIEW_LIST_IDCS] apply {
+    [_x, ctrlScrollValues (_display displayCtrl _x)]
+};
 GVAR(middleHeld) = inputMouse 2 > 0;
 GVAR(dragAmount) = switch (true) do {
     case (GVAR(ctrlHeld)): {_max};
