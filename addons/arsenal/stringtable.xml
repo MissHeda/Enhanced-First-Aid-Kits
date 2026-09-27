@@ -1,0 +1,110 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="efak">
+    <Package name="arsenal">
+        <Key ID="STR_efak_arsenal_Tab_Tooltip">
+            <English>First aid kits in this unit's inventory</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Tab_Disabled_Unit">
+            <English>First aid kits can only be packed for your own unit</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Header_Kits">
+            <English>First aid kits in this unit's inventory</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Hint_Kits">
+            <English>The kits in this unit's inventory, each set up on its own</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Row_Kits_Tooltip">
+            <English>%1 - carried in: %2. %3.</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Row_Kits_Changes">
+            <English>Changes apply to this kit only</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Row_Preparing">
+            <English>%1x %2 (being prepared)</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Row_NoKits">
+            <English>This unit carries no first aid kits</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Row_Loading">
+            <English>Kit contents are still loading...</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Header_Contents">
+            <English>Contents: %1</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Hint_Preparing">
+            <English>Being prepared - these kits show up here in a moment</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Hint_NoKits">
+            <English>Put a first aid kit into the uniform, vest or backpack first</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Load">
+            <English>Load</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Reason_NotInArsenal">
+            <English>Not available in this arsenal</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Reason_NotAllowed">
+            <English>That does not belong in this kit</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Clear_Tooltip">
+            <English>Empty every kit of this type</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_UseDefaults">
+            <English>Use CBA default</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_UseDefaults_Tooltip">
+            <English>On: this kit holds the default contents\nfrom the mission's CBA settings and\nalways comes back with them - when you\nload a saved loadout or respawn with\nyour gear. The list is locked.\n\nOff: this kit keeps what is in it.\nSaving a loadout saves exactly these\nitems, and they are what you get back\nafter loading it or respawning.</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_UseDefaults_Tooltip_Forced">
+            <English>In this mission, every kit of this type\ncomes out of a loadout with the default\ncontents, whichever way this box is set.</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Hint_Locked">
+            <English>Locked: untick "Use CBA default" to change this kit</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Hint_EditNothing">
+            <English>The mission does not allow changing this kit in the arsenal</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Hint_EditRemove">
+            <English>Items can only be taken out of this kit in the arsenal</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Hint_Forced">
+            <English>Loadouts always bring the default contents for this kit type</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Button_Kits">
+            <English>First aid kits</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Button_Contents">
+            <English>First aid kit contents</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Setting_OwnCategory">
+            <English>Own arsenal category for kits</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Setting_OwnCategory_Desc">
+            <English>On: kits get a category of their own\ndown the right edge of the arsenal,\nwith the mod's icon, and are listed\nthere and nowhere else.\n\nOff: kits stay with the medical items,\nwhere ACE files them. The category\nthen only shows up inside the kits tab,\nfor sorting what a kit holds.</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Container_Uniform">
+            <English>Uniform</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Container_Vest">
+            <English>Vest</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Container_Backpack">
+            <English>Backpack</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Sort_Name">
+            <English>Sort alphabetically</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Sort_Mass">
+            <English>Sort by weight</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Sort_Amount">
+            <English>Sort by amount</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Sort_Ascending">
+            <English>Ascending</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_Sort_Descending">
+            <English>Descending</English>
+        </Key>
+    </Package>
+</Project>

@@ -2,418 +2,451 @@
 
 ADDON = false;
 
-PREP_RECOMPILE_START;
 #include "XEH_PREP.hpp"
-PREP_RECOMPILE_END;
 
-#define CBA_SETTINGS_EFAK "Enhanced First Aid Kits"
+// Runtime state. All of these are rebuilt from scratch every mission.
+GVAR(contents) = createHashMap;             // lowercase instance class -> [[item, count], ...]
+GVAR(charges) = createHashMap;              // lowercase instance class -> [[item, rounds], ...] opened magazines, see fnc_setContents
+GVAR(followDefaults) = createHashMap;       // lowercase instance class -> true, see fnc_setFollowDefaults
+GVAR(usedInstances) = createHashMap;        // server only, lowercase instance class -> true
+GVAR(nextInstance) = createHashMap;         // server only, lowercase prototype -> next id
+GVAR(nextRequestId) = 0;                    // instance requests sent from this machine
+GVAR(massCache) = createHashMap;
+GVAR(nameCache) = createHashMap;              // lowercase class -> display name
+GVAR(pictureCache) = createHashMap;           // lowercase class -> picture path
+GVAR(contextMenuRegistered) = createHashMap;  // lowercase kit class -> true
 
-// Remove IFAK when empty
+// The container the player last opened. The engine tells us which one, which beats guessing from
+// distance when several are stacked together.
+GVAR(lastContainer) = objNull;
+
+// Handle of the clipboard loop the debug setting runs.
+GVAR(debugPFH) = -1;
+
+// Kit weight. Contents are only trustworthy on a client once the server's copy has arrived.
+GVAR(virtualLoadQueued) = false;
+// The editor has no server to wait for: whatever it holds is all there is.
+GVAR(contentsSynced) = isServer || {is3DEN};
+// Bumped on every contents change, so anything that caches per kit knows when to give up.
+GVAR(contentsStamp) = 0;
+GVAR(whitelistLookup) = createHashMap;      // kit id -> lowercase class -> true
+GVAR(blacklistLookup) = createHashMap;      // kit id -> lowercase class -> true
+GVAR(medicalLookup) = createHashMap;
+
+// Magazines no kit may hold, by the start of their lowercase class name. Compat addons list them in
+// EFAK_Excluded, e.g. ACM's filled syringes, which keep the drawn dose as their rounds.
+GVAR(excludedPrefixes) = [];
+{
+    GVAR(excludedPrefixes) append ((getArray (_x >> "magazinePrefixes")) apply {toLowerANSI _x});
+} forEach ("true" configClasses (configFile >> "EFAK_Excluded"));
+// Bumped whenever the packing rules change, see fnc_settingsChanged and fnc_getDefaultContents.
+GVAR(rulesStamp) = 0;
+GVAR(defaultsCache) = createHashMap;        // kit id -> [setting, rulesStamp, contents]
+
+call FUNC(initKits);
+
+// The events that change the contents table. Here rather than in postInit because the Eden editor
+// runs preInit only, and ACE Arsenal's kits tab works there too.
+[QGVAR(contentsChanged), {
+    params ["_class", "_contents", ["_charges", -1]];
+
+    private _key = toLowerANSI _class;
+
+    // Raised without them (a kit freed on the server): kept as far as the contents still hold them.
+    if (_charges isEqualTo -1) then {
+        _charges = [_contents, GVAR(charges) getOrDefault [_key, []]] call FUNC(reconcileCharges);
+    };
+
+    if (_contents isEqualTo []) then {
+        GVAR(contents) deleteAt _key;
+    } else {
+        GVAR(contents) set [_key, _contents];
+    };
+
+    if (_charges isEqualTo []) then {
+        GVAR(charges) deleteAt _key;
+    } else {
+        GVAR(charges) set [_key, _charges];
+    };
+
+    GVAR(contentsStamp) = GVAR(contentsStamp) + 1;
+
+    // Contents changes never touch getUnitLoadout, so nothing else would tell the kit weight that
+    // a medic just used a bandage out of this kit, or somebody packed into it from another machine.
+    if (hasInterface) then {call FUNC(queueVirtualLoad)};
+}] call CBA_fnc_addEventHandler;
+
+// The full table, for a machine that joins. The question is asked in postInit (see there); both
+// ends are registered here, as early as possible, so that neither can miss the other.
+// The tables travel as "toArray" gives them - [[keys], [values]], not pairs - and are put back
+// together with "keys createHashMapFromArray values".
+[QGVAR(syncAll), {
+    params [["_contents", [[], []]], ["_follow", []], ["_charges", [[], []]]];
+    GVAR(contents) = (_contents select 0) createHashMapFromArray (_contents select 1);
+    GVAR(followDefaults) = createHashMapFromArray (_follow apply {[_x, true]});
+    GVAR(charges) = (_charges select 0) createHashMapFromArray (_charges select 1);
+    GVAR(contentsSynced) = true;
+    GVAR(contentsStamp) = GVAR(contentsStamp) + 1;
+    call FUNC(queueVirtualLoad);
+}] call CBA_fnc_addEventHandler;
+
+if (isServer) then {
+    [QGVAR(requestSync), {
+        params ["_owner"];
+        [QGVAR(syncAll), [toArray GVAR(contents), keys GVAR(followDefaults), toArray GVAR(charges)], _owner] call CBA_fnc_ownerEvent;
+    }] call CBA_fnc_addEventHandler;
+};
+
+// Kits marked to come back with the default contents from a saved loadout.
+[QGVAR(followDefaultsChanged), {
+    params ["_class", "_follow"];
+
+    if (_follow) then {
+        GVAR(followDefaults) set [toLowerANSI _class, true];
+    } else {
+        GVAR(followDefaults) deleteAt (toLowerANSI _class);
+    };
+}] call CBA_fnc_addEventHandler;
+
+// ---------------------------------------------------------------------------
+// Kit contents in loadouts
+//
+// Registered here, on every machine, like ACE's own extended loadout handlers: loadouts are read
+// and set wherever a unit happens to be local, including the server and headless clients, and
+// possibly before postInit has run. Per unit state lives in object variables, never public:
+//   efak_core_loadoutGeneration   bumped by every loadout set, stale grants are handed back
+//   efak_core_pendingConversions  "slot:class" -> [[requestId, contents], ...] still on their way
+//   efak_core_restoreQueue        [expiresAt, "slot:prototype" -> [contents, ...]]
+// ---------------------------------------------------------------------------
+
+["CBA_loadoutGet", {_this call FUNC(onLoadoutGet)}] call CBA_fnc_addEventHandler;
+["CBA_preLoadoutSet", {_this call FUNC(onPreLoadoutSet)}] call CBA_fnc_addEventHandler;
+["CBA_loadoutSet", {_this call FUNC(onLoadoutSet)}] call CBA_fnc_addEventHandler;
+
+// A loadout set on a unit that is local somewhere else.
+[QGVAR(restoreLoadoutKits), {_this call FUNC(applyLoadoutRestore)}] call CBA_fnc_addEventHandler;
+
+if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
+    [QACEGVAR(arsenal,loadoutVerified), {_this call FUNC(onArsenalLoadoutVerified)}] call CBA_fnc_addEventHandler;
+};
+
+// ---------------------------------------------------------------------------
+// Settings
+//
+// Grouped by what they are about, and within that like with like - switches together, lists
+// together, text boxes together - so the menu reads as a form rather than a mix.
+// ---------------------------------------------------------------------------
+
+// ----- 0) Quick setup & debug -----
+
+// Sets many of the settings below at once, see fnc_applyPreset. It goes back to "Choose" once
+// applied, so its own value never means anything at mission start. In the first section of the
+// menu, with the debug setting, above everything it changes.
 [
-    QGVAR(IFAK_RemoveWhenEmpty),
-    "CHECKBOX",
-    LLSTRING(SETTING_FAK_RemoveWhenEmpty),
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    [true],
-    0
-] call CBA_fnc_addSetting;
-
-//IFAK Container
-[
-    QGVAR(IFAK_Container),
+    QGVAR(preset),
     "LIST",
-    [LLSTRING(SETTING_FAK_Container), LLSTRING(SETTING_FAK_Container_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    [[0, 1, 2, 3], [LLSTRING(SETTING_Container_Default), LLSTRING(SETTING_Container_Uniform), LLSTRING(SETTING_Container_Vest), LLSTRING(SETTING_Container_Backpack)], 0],
-    0
+    [LLSTRING(Setting_Preset), LLSTRING(Setting_Preset_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_Top)],
+    [
+        [PRESET_NONE, PRESET_SANDBOX, PRESET_NORMAL, PRESET_HARDCORE, PRESET_HARDCORE_PLUS, PRESET_FIXED],
+        [
+            LLSTRING(Preset_None), LLSTRING(Preset_Sandbox), LLSTRING(Preset_Normal),
+            LLSTRING(Preset_Hardcore), LLSTRING(Preset_HardcorePlus), LLSTRING(Preset_Fixed)
+        ],
+        0
+    ],
+    1,
+    {
+        params ["_value"];
+
+        if (_value == PRESET_NONE) exitWith {};
+
+        // Out of the settings menu's own saving first. The editor has no frame loop to wait for.
+        switch (true) do {
+            case (is3DEN): {
+                [_value] call FUNC(applyPreset);
+            };
+            case (isServer): {
+                [FUNC(applyPreset), [_value]] call CBA_fnc_execNextFrame;
+            };
+            // The admin who picked it, on a dedicated server: the menu opens again once the server
+            // has sent the new values, so they are what it shows.
+            case (hasInterface && {serverCommandAvailable "#kick"}): {
+                [1.5] call FUNC(reopenSettings);
+            };
+        };
+    }
 ] call CBA_fnc_addSetting;
 
-//IFAK Slot Color
 [
-    QGVAR(IFAK_Slot_Color),
-    "COLOR",
-    [LLSTRING(SETTING_FAK_SlotColor), LLSTRING(SETTING_FAK_SlotColor_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    [1, 0.30, 0.30],
-    0
-] call CBA_fnc_addSetting;
-
-//IFAK Item Color
-[
-    QGVAR(IFAK_Item_Color),
-    "COLOR",
-    [LLSTRING(SETTING_FAK_ItemColor), LLSTRING(SETTING_FAK_ItemColor_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    [0.67, 0.84, 0.90],
-    0
-] call CBA_fnc_addSetting;
-
-//IFAK First Slot Item
-[
-    QGVAR(IFAKFirstSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_FirstSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(IFAKFirstSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(IFAKFirstSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
-
-//IFAK Second Slot Item
-[
-    QGVAR(IFAKSecondSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_SecondSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(IFAKSecondSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(IFAKSecondSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
-
-//IFAK Third Slot Item
-[
-    QGVAR(IFAKThirdSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_ThirdSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(IFAKThirdSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(IFAKThirdSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
-
-//IFAK Fourth Item
-[
-    QGVAR(IFAKFourthSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_FourthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_IFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(IFAKFourthSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(IFAKFourthSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
-
-// Remove AFAK when empty
-[
-    QGVAR(AFAK_RemoveWhenEmpty),
+    QGVAR(debugContents),
     "CHECKBOX",
-    LLSTRING(SETTING_FAK_RemoveWhenEmpty),
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    [true],
-    0
+    [LLSTRING(Setting_DebugContents), LLSTRING(Setting_DebugContents_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_Top)],
+    false,
+    1,
+    {
+        if (GVAR(debugPFH) != -1) then {
+            [GVAR(debugPFH)] call CBA_fnc_removePerFrameHandler;
+            GVAR(debugPFH) = -1;
+        };
+
+        if (GVAR(debugContents) && {hasInterface}) then {
+            GVAR(debugPFH) = [{call FUNC(debugContents)}, EFAK_DEBUG_INTERVAL, []] call CBA_fnc_addPerFrameHandler;
+        };
+    }
 ] call CBA_fnc_addSetting;
 
-//AFAK Container
-[
-    QGVAR(AFAK_Container),
-    "LIST",
-    [LLSTRING(SETTING_FAK_Container), LLSTRING(SETTING_FAK_Container_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    [[0, 1, 2, 3], [LLSTRING(SETTING_Container_Default), LLSTRING(SETTING_Container_Uniform), LLSTRING(SETTING_Container_Vest), LLSTRING(SETTING_Container_Backpack)], 0],
-    0
-] call CBA_fnc_addSetting;
+// ----- 1) General -----
 
-//AFAK Slot Color
 [
-    QGVAR(AFAK_Slot_Color),
-    "COLOR",
-    [LLSTRING(SETTING_FAK_SlotColor), LLSTRING(SETTING_FAK_SlotColor_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    [1, 0.96, 0.32],
-    0
-] call CBA_fnc_addSetting;
-
-//AFAK Item Color
-[
-    QGVAR(AFAK_Item_Color),
-    "COLOR",
-    [LLSTRING(SETTING_FAK_ItemColor), LLSTRING(SETTING_FAK_ItemColor_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    [0.67, 0.84, 0.90],
-    0
-] call CBA_fnc_addSetting;
-
-//AFAK First Slot Item
-[
-    QGVAR(AFAKFirstSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_FirstSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(AFAKFirstSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(AFAKFirstSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
-
-//AFAK Second Slot Item
-[
-    QGVAR(AFAKSecondSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_SecondSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(AFAKSecondSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(AFAKSecondSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
-
-//AFAK Third Slot Item
-[
-    QGVAR(AFAKThirdSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_ThirdSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(AFAKThirdSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(AFAKThirdSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
-
-//AFAK Fourth Item
-[
-    QGVAR(AFAKFourthSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_FourthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(AFAKFourthSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(AFAKFourthSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
-
-//AFAK Fifth Item
-[
-    QGVAR(AFAKFifthSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_FifthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(AFAKFifthSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(AFAKFifthSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
-
-//AFAK Sixth Item
-[
-    QGVAR(AFAKSixthSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_SixthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_AFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(AFAKSixthSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(AFAKSixthSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
-
-// Remove MFAK when empty
-[
-    QGVAR(MFAK_RemoveWhenEmpty),
+    QGVAR(allowNesting),
     "CHECKBOX",
-    LLSTRING(SETTING_FAK_RemoveWhenEmpty),
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    [true],
+    [LLSTRING(Setting_AllowNesting), LLSTRING(Setting_AllowNesting_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    false,
+    1
+] call CBA_fnc_addSetting;
+
+[
+    QGVAR(interactWithOthers),
+    "CHECKBOX",
+    [LLSTRING(Setting_InteractWithOthers), LLSTRING(Setting_InteractWithOthers_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    true,
+    1
+] call CBA_fnc_addSetting;
+
+[
+    QGVAR(interactWithAwake),
+    "CHECKBOX",
+    [LLSTRING(Setting_InteractWithAwake), LLSTRING(Setting_InteractWithAwake_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    false,
+    1
+] call CBA_fnc_addSetting;
+
+[
+    QGVAR(doubleClickOpen),
+    "CHECKBOX",
+    [LLSTRING(Setting_DoubleClickOpen), LLSTRING(Setting_DoubleClickOpen_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    true,
     0
 ] call CBA_fnc_addSetting;
 
-//MFAK Container
+// The arsenal's and the medical addon's general settings are registered here with the rest, so the
+// menu keeps like with like. CBA runs a setting's script the moment it is added, before those addons
+// have compiled their functions; the arsenal applies its own value once it has (its preInit).
 [
-    QGVAR(MFAK_Container),
+    "efak_arsenal_ownCategory",
+    "CHECKBOX",
+    [LELSTRING(arsenal,Setting_OwnCategory), LELSTRING(arsenal,Setting_OwnCategory_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    true,
+    1,
+    {
+        if (!isNil "efak_arsenal_fnc_applyCategorySetting") then {
+            call efak_arsenal_fnc_applyCategorySetting;
+        };
+    }
+] call CBA_fnc_addSetting;
+
+[
+    "efak_medical_useOrder",
     "LIST",
-    [LLSTRING(SETTING_FAK_Container), LLSTRING(SETTING_FAK_Container_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    [[0, 1, 2, 3], [LLSTRING(SETTING_Container_Default), LLSTRING(SETTING_Container_Uniform), LLSTRING(SETTING_Container_Vest), LLSTRING(SETTING_Container_Backpack)], 0],
-    0
+    [LELSTRING(medical,Setting_UseOrder), LELSTRING(medical,Setting_UseOrder_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    [[0, 1], [LELSTRING(medical,Setting_UseOrder_Inventory), LELSTRING(medical,Setting_UseOrder_Kits)], 0],
+    1
 ] call CBA_fnc_addSetting;
 
-//MFAK Slot Color
 [
-    QGVAR(MFAK_Slot_Color),
-    "COLOR",
-    [LLSTRING(SETTING_FAK_SlotColor), LLSTRING(SETTING_FAK_SlotColor_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    [0.56, 0.93, 0.56],
-    0
+    "efak_medical_kitOwnerOrder",
+    "LIST",
+    [LELSTRING(medical,Setting_KitOwnerOrder), LELSTRING(medical,Setting_KitOwnerOrder_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    [
+        [0, 1, 2],
+        [LELSTRING(medical,Setting_KitOwnerOrder_Ace), LELSTRING(medical,Setting_KitOwnerOrder_Medic), LELSTRING(medical,Setting_KitOwnerOrder_Patient)],
+        0
+    ],
+    1
 ] call CBA_fnc_addSetting;
 
-//MFAK Item Color
 [
-    QGVAR(MFAK_Item_Color),
-    "COLOR",
-    [LLSTRING(SETTING_FAK_ItemColor), LLSTRING(SETTING_FAK_ItemColor_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    [0.67, 0.84, 0.90],
-    0
+    "efak_medical_kitSizeOrder",
+    "LIST",
+    [LELSTRING(medical,Setting_KitSizeOrder), LELSTRING(medical,Setting_KitSizeOrder_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    [[0, 1], [LELSTRING(medical,Setting_KitSizeOrder_Smallest), LELSTRING(medical,Setting_KitSizeOrder_Biggest)], 0],
+    1
 ] call CBA_fnc_addSetting;
 
-//MFAK First Slot Item
 [
-    QGVAR(MFAKFirstSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_FirstSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(MFAKFirstSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(MFAKFirstSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
+    QGVAR(kitWeight),
+    "SLIDER",
+    [LLSTRING(Setting_KitWeight), LLSTRING(Setting_KitWeight_Desc)],
+    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    [0, 2, 0.5, 0, true],
+    1,
+    {call FUNC(queueVirtualLoad)}
+] call CBA_fnc_addSetting;
 
-//MFAK Second Slot Item
-[
-    QGVAR(MFAKSecondSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_SecondSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(MFAKSecondSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(MFAKSecondSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
+// ---------------------------------------------------------------------------
+// Per kit settings, generated from the config registry
+// ---------------------------------------------------------------------------
 
-//MFAK Third Slot Item
-[
-    QGVAR(MFAKThirdSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_ThirdSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(MFAKThirdSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(MFAKThirdSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
+{
+    (GVAR(kits) get (toLowerANSI _x)) params ["_kitId", "", "", "", "_capacity", "", "_defaults", "_name"];
 
-//MFAK Fourth Item
-[
-    QGVAR(MFAKFourthSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_FourthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(MFAKFourthSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(MFAKFourthSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
+    // Numbered so the CBA menu, which sorts subcategories by name, keeps them in registry order
+    // right after "1) General".
+    private _category = [_x] call FUNC(getKitCategory);
 
-//MFAK Fifth Item
-[
-    QGVAR(MFAKFifthSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_FifthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(MFAKFifthSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(MFAKFifthSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
+    [
+        format [QGVAR(kit_%1_capacity), _kitId],
+        "SLIDER",
+        [LLSTRING(Setting_Capacity), format ["%1
 
-//MFAK Sixth Item
-[
-    QGVAR(MFAKSixthSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_SixthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(MFAKSixthSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(MFAKSixthSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
+%2", LLSTRING(Setting_Capacity_Desc), call FUNC(capacityHint)]],
+        _category,
+        [1, 2000, _capacity, 0],
+        1
+    ] call CBA_fnc_addSetting;
 
-//MFAK Seventh Item
-[
-    QGVAR(MFAKSeventhSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_SeventhSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(MFAKSeventhSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(MFAKSeventhSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
+    [
+        format [QGVAR(kit_%1_defaultContents), _kitId],
+        "EDITBOX",
+        [LLSTRING(Setting_DefaultContents), LLSTRING(Setting_DefaultContents_Desc)],
+        _category,
+        _defaults,
+        1
+    ] call CBA_fnc_addSetting;
 
-//MFAK Eighth Item
-[
-    QGVAR(MFAKEighthSlotItem),
-    "EDITBOX",
-    [LLSTRING(SETTING_EighthSlot_Item), LLSTRING(SETTING_ItemSlot_DESC)],
-    [CBA_SETTINGS_EFAK, LSTRING(SubCategory_MFAK)],
-    "[['ACE_Banana', 1]]",
-    0,
-    {
-        private _string = missionNamespace getVariable [QGVAR(MFAKEighthSlotItem), []];
-        private _array = parseSimpleArray _string;
-        missionNamespace setVariable [QGVAR(MFAKEighthSlotItem), _array, true];
-        call FUNC(FAK_updateContents);
-    }
-] call CBA_Settings_fnc_init;
+    // Every kit of this type comes with the defaults, whatever a loadout says it held.
+    [
+        format [QGVAR(kit_%1_forceContents), _kitId],
+        "CHECKBOX",
+        [LLSTRING(Setting_ForceContents), LLSTRING(Setting_ForceContents_Desc)],
+        _category,
+        false,
+        1
+    ] call CBA_fnc_addSetting;
+
+    [
+        format [QGVAR(kit_%1_limitToDefaults), _kitId],
+        "CHECKBOX",
+        [LLSTRING(Setting_LimitToDefaults), LLSTRING(Setting_LimitToDefaults_Desc)],
+        _category,
+        false,
+        1
+    ] call CBA_fnc_addSetting;
+
+    [
+        format [QGVAR(kit_%1_packing), _kitId],
+        "CHECKBOX",
+        [LLSTRING(Setting_EnablePacking), LLSTRING(Setting_EnablePacking_Desc)],
+        _category,
+        true,
+        1
+    ] call CBA_fnc_addSetting;
+
+    [
+        format [QGVAR(kit_%1_removeWhenEmpty), _kitId],
+        "CHECKBOX",
+        [LLSTRING(Setting_RemoveWhenEmpty), LLSTRING(Setting_RemoveWhenEmpty_Desc)],
+        _category,
+        false,
+        1
+    ] call CBA_fnc_addSetting;
+
+    // A player's own taste - but a mission may force it either way. Off: a full MFAK+ would fill the
+    // screen with one entry per item.
+    [
+        format [QGVAR(kit_%1_itemActions), _kitId],
+        "CHECKBOX",
+        [LLSTRING(Setting_ItemActions), LLSTRING(Setting_ItemActions_Desc)],
+        _category,
+        false,
+        0
+    ] call CBA_fnc_addSetting;
+
+    // Read by the medical addon, registered here to sit with the other switches of this kit.
+    [
+        format ["efak_medical_kit_%1_useFrom", _kitId],
+        "CHECKBOX",
+        [LELSTRING(medical,Setting_UseFromKit), LELSTRING(medical,Setting_UseFromKit_Desc)],
+        _category,
+        true,
+        1
+    ] call CBA_fnc_addSetting;
+
+    [
+        format [QGVAR(kit_%1_arsenalEditing), _kitId],
+        "LIST",
+        [LLSTRING(Setting_ArsenalEditing), LLSTRING(Setting_ArsenalEditing_Desc)],
+        _category,
+        [
+            [EDIT_ALL, EDIT_REMOVE, EDIT_NOTHING],
+            [LLSTRING(Setting_ArsenalEditing_All), LLSTRING(Setting_ArsenalEditing_Remove), LLSTRING(Setting_ArsenalEditing_Nothing)],
+            0
+        ],
+        1
+    ] call CBA_fnc_addSetting;
+
+    // Where items taken out of this kit go. Left to the player by default; a mission can decide it
+    // for them - a medic bag emptied into the backpack only.
+    [
+        format [QGVAR(kit_%1_unloadContainer), _kitId],
+        "LIST",
+        [LLSTRING(Setting_UnloadContainer), LLSTRING(Setting_UnloadContainer_Desc)],
+        _category,
+        [
+            [CONTAINER_PLAYER, CONTAINER_AUTO, CONTAINER_UNIFORM, CONTAINER_VEST, CONTAINER_BACKPACK],
+            [LLSTRING(Container_Player), LLSTRING(Container_Auto), LLSTRING(Container_Uniform), LLSTRING(Container_Vest), LLSTRING(Container_Backpack)],
+            0
+        ],
+        0
+    ] call CBA_fnc_addSetting;
+
+    [
+        format [QGVAR(kit_%1_itemFilter), _kitId],
+        "LIST",
+        [LLSTRING(Setting_ItemFilter), LLSTRING(Setting_ItemFilter_Desc)],
+        _category,
+        [
+            [FILTER_ALL, FILTER_MEDICAL, FILTER_LIST],
+            [LLSTRING(Setting_ItemFilter_All), LLSTRING(Setting_ItemFilter_Medical), LLSTRING(Setting_ItemFilter_List)],
+            FILTER_MEDICAL
+        ],
+        1,
+        {call FUNC(settingsChanged)}
+    ] call CBA_fnc_addSetting;
+
+    [
+        format [QGVAR(kit_%1_whitelist), _kitId],
+        "EDITBOX",
+        [LLSTRING(Setting_Whitelist), LLSTRING(Setting_Whitelist_Desc)],
+        _category,
+        "",
+        1,
+        {call FUNC(settingsChanged)}
+    ] call CBA_fnc_addSetting;
+
+    [
+        format [QGVAR(kit_%1_blacklist), _kitId],
+        "EDITBOX",
+        [LLSTRING(Setting_Blacklist), LLSTRING(Setting_Blacklist_Desc)],
+        _category,
+        "",
+        1,
+        {call FUNC(settingsChanged)}
+    ] call CBA_fnc_addSetting;
+} forEach GVAR(kitList);
+
+// The Eden editor never runs postInit, and the default contents are checked against the rules as
+// early as the kits tab of its arsenal.
+call FUNC(settingsChanged);
 
 ADDON = true;

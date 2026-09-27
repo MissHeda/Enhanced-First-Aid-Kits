@@ -3,14 +3,11 @@ prefix = "efak"
 author = "Miss Heda"
 mainprefix = "z"
 
-#modname = "{{prefix}}_mods"
-#key_name = "{{prefix}}_{{version}}"
-#authority = "{{prefix}}_{{version}}"
-
 [files]
 include = [
     "mod.cpp",
     "logo.paa",
+    "README.md",
 ]
 
 [version]
@@ -19,17 +16,32 @@ git_hash = 0
 [hemtt.config]
 preset = "Hemtt"
 
+# Mods loaded alongside for testing. hemtt launch already sets -skipIntro -noSplash
+# -showScriptErrors -debug and file patching by itself.
+#
+# Anything specific to your machine - an Arma profile, a custom mod folder - goes on the
+# command line rather than in here, so the repo stays the same for everyone:
+#
+#   hemtt launch -- -name="Your Profile"
 [hemtt.launch]
 workshop = [
-    "463939057", # ACE3's Workshop ID
+    "450814997",  # CBA_A3
+    "463939057",  # ACE3
     "1779063631", # Zeus Enhanced
-    "450814997", # CBA_A3's Workshop ID
-    "2369477168", # Advanced Dev Tools
-    "3316254084" # ACM
+    "2369477168", # Advanced Developer Tools
+    # "3316254084", # ACM - Advanced Combat Medical
+    "3749759934", # ACME
+    # "3800798331" # ACME DEV
 ]
-parameters = [
-    '"-profiles=C:\Users\Heda\OneDrive\Documents\Arma 3 - Other Profiles\Mia"'  
-]
-dlc = [
-    
+
+# The same without ACM Extended from the workshop, to test a local build of it instead - `hemtt build`
+# in the ACM-Extended repo first, then:
+#
+#   hemtt launch local-acme -- "-mod=<ACM-Extended repo>/.hemttout/build"
+[hemtt.launch.local-acme]
+workshop = [
+    "450814997",  # CBA_A3
+    "463939057",  # ACE3
+    "1779063631", # Zeus Enhanced
+    "2369477168", # Advanced Developer Tools
 ]

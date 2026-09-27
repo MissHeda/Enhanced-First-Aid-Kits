@@ -4,7 +4,7 @@ class CfgPatches {
     class ADDON {
         name = COMPONENT_NAME;
         units[] = {};
-        weapons[] = {};
+        weapons[] = {"efak_IFAK", "efak_AFAK", "efak_MFAK", "efak_MFAKPlus"};
         requiredVersion = REQUIRED_VERSION;
         requiredAddons[] = {
             "efak_main"
@@ -16,6 +16,6 @@ class CfgPatches {
 };
 
 #include "CfgEventHandlers.hpp"
-#include "CfgMagazines.hpp"
-#include "CfgVehicles.hpp"
+#include "CfgEFAKKits.hpp"
 #include "CfgWeapons.hpp"
+#include "Cfg3DEN.hpp"

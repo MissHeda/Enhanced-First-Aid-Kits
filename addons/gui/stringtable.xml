@@ -1,0 +1,188 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="efak">
+    <Package name="gui">
+        <Key ID="STR_efak_gui_Load">
+            <English>Carrying</English>
+        </Key>
+        <Key ID="STR_efak_gui_Close">
+            <English>Close</English>
+        </Key>
+        <Key ID="STR_efak_gui_Contents_Take">
+            <English>Take</English>
+        </Key>
+        <Key ID="STR_efak_gui_Contents_Take_Tooltip">
+            <English>Takes the whole stack of the selected item out of the kit. A double click on a row does the same.</English>
+        </Key>
+        <Key ID="STR_efak_gui_KitSwitch_Tooltip">
+            <English>Every kit you can reach from here:\nyour own, the casualty's and those\nin the crate. Pick one to switch to it.</English>
+        </Key>
+        <Key ID="STR_efak_gui_KitGone">
+            <English>That kit is gone - showing the next one</English>
+        </Key>
+        <Key ID="STR_efak_gui_Partial_Kit">
+            <English>Only %1x %2 still fits in the kit</English>
+        </Key>
+        <Key ID="STR_efak_gui_Partial_Defaults">
+            <English>Only %1x %2 - then the kit holds as many as its default contents</English>
+        </Key>
+        <Key ID="STR_efak_gui_Partial_Inventory">
+            <English>Only %1x %2 still fits on you - move the rest again to put it on the ground</English>
+        </Key>
+        <Key ID="STR_efak_gui_Partial_Simple">
+            <English>Only %1x %2 still fits on you</English>
+        </Key>
+        <Key ID="STR_efak_gui_Partial_Crate">
+            <English>Only %1x %2 still fits in the crate</English>
+        </Key>
+        <Key ID="STR_efak_gui_Partial_CrateKit">
+            <English>Only %1x %2 still fits in the crate - move the rest again to put it on the ground</English>
+        </Key>
+        <Key ID="STR_efak_gui_Moved_Ground">
+            <English>%1x %2 put on the ground</English>
+        </Key>
+        <Key ID="STR_efak_gui_NoRoom">
+            <English>No room for %1</English>
+        </Key>
+        <Key ID="STR_efak_gui_Error_PackingOff">
+            <English>Packing into this kit is switched off</English>
+        </Key>
+        <Key ID="STR_efak_gui_DroppedUnexpected">
+            <English>%1 item(s) did not fit after all and are on the ground</English>
+        </Key>
+        <Key ID="STR_efak_gui_Header_Inventory">
+            <English>Your inventory</English>
+        </Key>
+        <Key ID="STR_efak_gui_Header_Kit">
+            <English>Kit contents</English>
+        </Key>
+        <Key ID="STR_efak_gui_Capacity">
+            <English>Capacity</English>
+        </Key>
+        <Key ID="STR_efak_gui_MassUnit">
+            <English>mass</English>
+        </Key>
+        <Key ID="STR_efak_gui_UnpackAll_Done">
+            <English>%1 items taken out of the kit</English>
+        </Key>
+        <Key ID="STR_efak_gui_UnpackAll_Ground">
+            <English>%1 items taken out of the kit, %2 of them are on the ground - no room left</English>
+        </Key>
+        <Key ID="STR_efak_gui_UnpackAll_None">
+            <English>Nothing to take out</English>
+        </Key>
+        <Key ID="STR_efak_gui_Hint_Controls_Tooltip">
+            <English>Double click or drag an item to move one.\nHold Ctrl to move the whole stack, or\nShift to move half of it.\n\nWhile dragging, scroll up or down to\nincrease or decrease the count shown next\nto the mouse, or middle click to take the\nwhole stack.\n\nDrop onto Ground, Uniform, Vest or\nBackpack to put it exactly there.\nEvery move happens at once.</English>
+        </Key>
+        <Key ID="STR_efak_gui_Error_NotOpenedYet">
+            <English>Nobody has carried this kit yet - pick it up first</English>
+        </Key>
+        <Key ID="STR_efak_gui_Hint_Controls">
+            <English>&lt;t color='#F5A524'&gt;Double click&lt;/t&gt; or &lt;t color='#F5A524'&gt;drag&lt;/t&gt; moves one item&#160;&#160;&lt;t color='#69717E'&gt;·&lt;/t&gt;&#160;&#160;&lt;t color='#F5A524'&gt;One click&lt;/t&gt; + &lt;t color='#F5A524'&gt;Ctrl&lt;/t&gt; for the whole stack, + &lt;t color='#F5A524'&gt;Shift&lt;/t&gt; for half&lt;br/&gt;While dragging, &lt;t color='#F5A524'&gt;scroll up / down&lt;/t&gt; to increase / decrease the count, &lt;t color='#F5A524'&gt;middle click&lt;/t&gt; for the whole stack</English>
+        </Key>
+        <Key ID="STR_efak_gui_TakeInto">
+            <English>Unload container</English>
+        </Key>
+        <Key ID="STR_efak_gui_TakeInto_Tooltip">
+            <English>Where items you take out of this kit go first.\nWhatever does not fit there goes into your other\nclothing - it only ends up on the ground when none\nof it has room.\n\nAutomatic: uniform, then vest, then backpack.\n\nThe row at the bottom shows where everything is.</English>
+        </Key>
+        <Key ID="STR_efak_gui_TakeInto_Forced">
+            <English>Set by the mission for this kit.\nWhatever does not fit there goes into your other\nclothing - it only ends up on the ground when none\nof it has room.</English>
+        </Key>
+        <Key ID="STR_efak_gui_Preview_Ground">
+            <English>Ground</English>
+        </Key>
+        <Key ID="STR_efak_gui_Preview_None">
+            <English>none</English>
+        </Key>
+        <Key ID="STR_efak_gui_Preview_Movable">
+            <English>From the kit or the ground: drag it onto another container, the ground or back into the kit.</English>
+        </Key>
+        <Key ID="STR_efak_gui_Preview_OnlyKitItems">
+            <English>Only what comes out of the kit or off the ground can be placed and moved here.</English>
+        </Key>
+        <Key ID="STR_efak_gui_Preview_NoRoomIn">
+            <English>%1: no room left</English>
+        </Key>
+        <Key ID="STR_efak_gui_Header_Crate">
+            <English>Crate</English>
+        </Key>
+        <Key ID="STR_efak_gui_Header_Vehicle">
+            <English>Vehicle</English>
+        </Key>
+        <Key ID="STR_efak_gui_PackAll_Done">
+            <English>%1 items packed into the kit</English>
+        </Key>
+        <Key ID="STR_efak_gui_PackAll_Partial">
+            <English>%1 items packed into the kit, the rest does not fit or is not allowed</English>
+        </Key>
+        <Key ID="STR_efak_gui_PackAll_None">
+            <English>Nothing here fits in the kit</English>
+        </Key>
+        <Key ID="STR_efak_gui_PackAll_DefaultsFull">
+            <English>The kit already holds its full default contents</English>
+        </Key>
+        <Key ID="STR_efak_gui_PackAll_DefaultsDone">
+            <English>%1 items packed - the kit holds its full default contents again</English>
+        </Key>
+        <Key ID="STR_efak_gui_PackAll_DefaultsMissing">
+            <English>%1 items packed - %2 items of the default contents are still missing</English>
+        </Key>
+        <Key ID="STR_efak_gui_PackAll_DefaultsNone">
+            <English>Nothing here fits - %1 items of the default contents are missing</English>
+        </Key>
+        <Key ID="STR_efak_gui_ToKit_Tooltip">
+            <English>Move the selected stack into the kit</English>
+        </Key>
+        <Key ID="STR_efak_gui_ToInventory_Tooltip">
+            <English>Take the selected stack out of the kit</English>
+        </Key>
+        <Key ID="STR_efak_gui_PackAll_Tooltip">
+            <English>Move everything on the left into the kit, as far as it fits</English>
+        </Key>
+        <Key ID="STR_efak_gui_PackAll_Tooltip_Defaults">
+            <English>Fill the kit up to its default contents from the left, as far as it fits</English>
+        </Key>
+        <Key ID="STR_efak_gui_UnpackAll_Tooltip">
+            <English>Empty the kit into the left list</English>
+        </Key>
+        <Key ID="STR_efak_gui_Search_Placeholder">
+            <English>Search</English>
+        </Key>
+        <Key ID="STR_efak_gui_Items_Count">
+            <English>%1 items</English>
+        </Key>
+        <Key ID="STR_efak_gui_Search_Tooltip">
+            <English>Search by name or classname. Right click to clear. Pack all and Take all only move what the search shows.</English>
+        </Key>
+        <Key ID="STR_efak_gui_Sort_Tooltip">
+            <English>Sort all lists by</English>
+        </Key>
+        <Key ID="STR_efak_gui_SortDirection_Tooltip">
+            <English>Sort direction</English>
+        </Key>
+        <Key ID="STR_efak_gui_Sort_Name">
+            <English>Name</English>
+        </Key>
+        <Key ID="STR_efak_gui_Sort_Mass">
+            <English>Stack mass</English>
+        </Key>
+        <Key ID="STR_efak_gui_Sort_Amount">
+            <English>Amount</English>
+        </Key>
+        <Key ID="STR_efak_gui_Amount_Tooltip">
+            <English>How many Pack and Take move. Empty moves the whole stack.</English>
+        </Key>
+        <Key ID="STR_efak_gui_ShowAll">
+            <English>Show all</English>
+        </Key>
+        <Key ID="STR_efak_gui_ShowAll_Tooltip">
+            <English>Also list what cannot go into this kit, greyed out.</English>
+        </Key>
+        <Key ID="STR_efak_gui_Row_NotAllowed">
+            <English>Cannot go into this kit</English>
+        </Key>
+        <Key ID="STR_efak_gui_Row_Gone">
+            <English>None left here - all of it moved since the window was opened</English>
+        </Key>
+    </Package>
+</Project>
