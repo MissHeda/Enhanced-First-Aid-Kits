@@ -13,7 +13,7 @@
  * Example:
  * ["efak_IFAK_7"] call efak_medical_fnc_canUseKit;
  *
- * Public: No
+ * Public: Yes
  */
 
 params ["_class"];

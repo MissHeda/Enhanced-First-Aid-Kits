@@ -24,7 +24,7 @@ SS = 8  # supersampling
 
 WHITE = (255, 255, 255, 255)
 
-# The switch colours, the same as ACCENT / FIELD_HOVER / TEXT in addons/gui/defines.hpp.
+# The switch colours: ACCENT, ON_ACCENT and TEXT2 from addons/gui/defines.hpp, plus an opaque track.
 ACCENT = (245, 165, 36, 255)
 TRACK_OFF = (52, 58, 70, 255)
 KNOB_ON = (22, 24, 29, 255)
@@ -131,13 +131,6 @@ def icon_ground(d, s, w):
     line(d, [(s * 0.5, s * 0.2), (s * 0.5, s * 0.62)], w)
     line(d, [(s * 0.34, s * 0.47), (s * 0.5, s * 0.63), (s * 0.66, s * 0.47)], w)
     line(d, [(s * 0.24, s * 0.8), (s * 0.76, s * 0.8)], w)
-
-
-def icon_kit(d, s, w):
-    # A medical cross in a rounded square.
-    d.rounded_rectangle([s * 0.18, s * 0.18, s * 0.82, s * 0.82], radius=s * 0.14, outline=WHITE, width=int(w))
-    line(d, [(s * 0.5, s * 0.34), (s * 0.5, s * 0.66)], w)
-    line(d, [(s * 0.34, s * 0.5), (s * 0.66, s * 0.5)], w)
 
 
 def icon_check(d, s, w):
@@ -248,7 +241,6 @@ def main():
         "icon_inventory_ca": stroke_icon(icon_inventory),
         "icon_crate_ca": stroke_icon(icon_crate),
         "icon_ground_ca": stroke_icon(icon_ground),
-        "icon_kit_ca": stroke_icon(icon_kit),
         "icon_check_ca": stroke_icon(icon_check),
         "icon_auto_ca": stroke_icon(icon_auto),
         "toggle_on_ca": toggle(True),

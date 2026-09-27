@@ -5,9 +5,9 @@
  * inside a kit. ACE's own ace_common_fnc_uniqueItems, as it is without EFAK.
  *
  * EFAK's own treatment functions need exactly that: they decide between a loose item and one from
- * a kit themselves, and take a loose one with removeItem. With ACM Extended loaded,
- * ace_common_fnc_uniqueItems lists the kits' contents as well (efak_compat_acme), which would make
- * them try to take a packed item out of a pocket.
+ * a kit themselves, and take a loose one with removeItem. With an older ACM Extended loaded,
+ * ace_common_fnc_uniqueItems lists the kits' contents as well (efak_compat_acme legacy), which
+ * would make them try to take a packed item out of a pocket.
  *
  * Arguments:
  * 0: Unit <OBJECT>

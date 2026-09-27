@@ -23,8 +23,8 @@ on the server and every client.
 
 ## More
 
-- [Full guide](docs/guide.md) - settings, your own kit types, scripting, building
-- [ACM Extended](docs/ACME-integration.md) - how the kits work with ACME
+- [Full guide](https://github.com/MissHeda/Enhanced-First-Aid-Kits/blob/main/docs/guide.md) - settings, your own kit types, scripting, building
+- [ACM Extended](https://github.com/MissHeda/Enhanced-First-Aid-Kits/blob/main/docs/ACME-integration.md) - how the kits work with ACME
 
 ## Credit
 

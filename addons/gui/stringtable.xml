@@ -1,12 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project name="efak">
     <Package name="gui">
-        <Key ID="STR_efak_gui_ToKit">
-            <English>-&gt;</English>
-        </Key>
-        <Key ID="STR_efak_gui_ToInventory">
-            <English>&amp;lt;-</English>
-        </Key>
         <Key ID="STR_efak_gui_Load">
             <English>Carrying</English>
         </Key>
@@ -67,9 +61,6 @@
         <Key ID="STR_efak_gui_MassUnit">
             <English>mass</English>
         </Key>
-        <Key ID="STR_efak_gui_UnpackAll">
-            <English>|&amp;lt;</English>
-        </Key>
         <Key ID="STR_efak_gui_UnpackAll_Done">
             <English>%1 items taken out of the kit</English>
         </Key>
@@ -117,9 +108,6 @@
         </Key>
         <Key ID="STR_efak_gui_Header_Vehicle">
             <English>Vehicle</English>
-        </Key>
-        <Key ID="STR_efak_gui_PackAll">
-            <English>&gt;|</English>
         </Key>
         <Key ID="STR_efak_gui_PackAll_Done">
             <English>%1 items packed into the kit</English>
@@ -180,12 +168,6 @@
         </Key>
         <Key ID="STR_efak_gui_Sort_Amount">
             <English>Amount</English>
-        </Key>
-        <Key ID="STR_efak_gui_Sort_Ascending">
-            <English>Ascending</English>
-        </Key>
-        <Key ID="STR_efak_gui_Sort_Descending">
-            <English>Descending</English>
         </Key>
         <Key ID="STR_efak_gui_Amount_Tooltip">
             <English>How many Pack and Take move. Empty moves the whole stack.</English>

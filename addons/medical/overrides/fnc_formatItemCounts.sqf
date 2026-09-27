@@ -7,7 +7,7 @@
  * fnc_hasItem for why. Everything above the EFAK block is ACE's own code; keep it in step when
  * ACE changes.
  *
- * EFAK: one more line for what is in the kits, counted by the override of countTreatmentItems
+ * EFAK: one more line per kit type for what is in the kits, counted by the override of countTreatmentItems
  * that runs immediately before this.
  *
  * Arguments:

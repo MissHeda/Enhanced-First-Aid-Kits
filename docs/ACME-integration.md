@@ -27,7 +27,7 @@ nothing.
 
 An ACM Extended without `ACME_fnc_itemCount` reads the inventory directly and sees nothing in a kit.
 For those, `efak_compat_acme` still carries its legacy overrides (`addons/compat_acme/legacy/`): 22 of
-ACME's functions and two of ACE's redefined through `CfgFunctions`, copies generated from ACME's PBOs
+ACME's functions, its two oxygen tank functions (`ACM_breathing`) and two of ACE's redefined through `CfgFunctions`, copies generated from ACME's PBOs
 by `tools/build_acme_overrides.py`, plus the `UseSyringe` conditions.
 
 Which one applies is decided when the game starts: the addon's `config.cpp` is not binarized, and

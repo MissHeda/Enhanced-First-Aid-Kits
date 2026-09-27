@@ -101,7 +101,7 @@
             <English>Show single item interactions</English>
         </Key>
         <Key ID="STR_efak_core_Setting_ItemActions_Desc">
-            <English>Lists every item of this kit in the ACE\ninteraction menu, so a single stack can\nbe taken out from there.\n\nOff: the kit only offers Open, Unpack\nall and Quick access - a full kit\nwould otherwise fill the screen.</English>
+            <English>Lists every item of this kit in the ACE\ninteraction menu, so a single stack can\nbe taken out from there.\n\nOff: the kit only offers Open, Unpack\neverything and Quick access - a full kit\nwould otherwise fill the screen.</English>
         </Key>
         <Key ID="STR_efak_core_Setting_InteractWithOthers">
             <English>Open other units' kits</English>

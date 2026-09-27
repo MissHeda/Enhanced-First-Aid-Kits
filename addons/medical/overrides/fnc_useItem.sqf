@@ -4,10 +4,11 @@
  * Uses one of the treatment items. Respects the priority defined by the allowSharedEquipment setting.
  *
  * OVERRIDE of ace_medical_treatment_fnc_useItem, installed through CfgFunctions - see fnc_hasItem
- * for why. Everything above the EFAK block is ACE's own code; keep it in step when ACE changes.
+ * for why. Everything outside the lines marked EFAK is ACE's own code; keep it in step when ACE
+ * changes.
  *
- * EFAK: when nothing loose is left, the item is spent straight out of a kit instead. Carried
- * items always go first, so a kit is only touched once the pockets are empty.
+ * EFAK: the item can also be spent straight out of a kit. By default carried items go first, so
+ * a kit is only touched once the pockets are empty; efak_medical_useOrder can turn that around.
  *
  * Arguments:
  * 0: Medic <OBJECT>

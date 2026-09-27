@@ -35,7 +35,7 @@ SKIP = {"fn_coolerAutoStore.sqf", "fn_coolerBoxDeploy.sqf", "fn_coolerLoad.sqf"}
 # looks for itself with "in (items _medic)".
 CIRCULATION = ["fnc_Syringe_PrepareFinish.sqf", "fnc_TransfusionMenu_AddBag.sqf", "fnc_canConnectAED.sqf"]
 
-# What those two files use of ACM's macros, spelled out.
+# What those files use of ACM's macros, spelled out.
 MACROS = [
     (r"ACEFUNC\((\w+),(\w+)\)", r"ace_\1_fnc_\2"),
     (r"EFUNC\((\w+),(\w+)\)", r"ACM_\1_fnc_\2"),

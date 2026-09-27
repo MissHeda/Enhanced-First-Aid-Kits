@@ -7,9 +7,9 @@
  * fnc_hasItem for why. Everything above the EFAK block is ACE's own code; keep it in step when
  * ACE changes.
  *
- * EFAK: a fourth count for what is sitting in kits. It is handed to the formatter through a
- * variable rather than as a fourth array entry, because the array carries nil entries for the
- * patient and the vehicle when those do not apply.
+ * EFAK: one more count per kit type for what is sitting in kits. They are handed to the
+ * formatter through a variable rather than as extra array entries, because the array carries nil
+ * entries for the patient and the vehicle when those do not apply.
  *
  * Arguments:
  * 0: Items <ARRAY>

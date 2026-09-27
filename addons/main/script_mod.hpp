@@ -11,12 +11,12 @@
 
 #define VERSION_CONFIG version = MAJOR.MINOR; versionStr = QUOTE(MAJOR.MINOR.PATCH); versionAr[] = {MAJOR,MINOR,PATCH}
 
-// MINIMAL required version for the Mod. Components can specify others..
+// Minimal required game version.
 #define REQUIRED_VERSION 2.16
 #define REQUIRED_CBA_VERSION {3,17,0}
 
 #ifdef COMPONENT_BEAUTIFIED
-    #define COMPONENT_NAME QUOTE(Enhanced First Aid Kits - COMPONENT_BEAUTIFIED)
+    #define COMPONENT_NAME QUOTE(COMPONENT_BEAUTIFIED)
 #else
-    #define COMPONENT_NAME QUOTE(Enhanced First Aid Kits - COMPONENT)
+    #define COMPONENT_NAME QUOTE(EFAK - COMPONENT)
 #endif

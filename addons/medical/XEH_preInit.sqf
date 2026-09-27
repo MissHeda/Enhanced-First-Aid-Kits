@@ -4,8 +4,9 @@ ADDON = false;
 
 #include "XEH_PREP.hpp"
 
-// The settings of this addon (efak_medical_useOrder, efak_medical_kit_<id>_useFrom) are registered
-// in core, so the menu keeps like with like.
+// The settings of this addon (efak_medical_useOrder, efak_medical_kitOwnerOrder,
+// efak_medical_kitSizeOrder, efak_medical_kit_<id>_useFrom) are registered in core, so the menu
+// keeps like with like.
 
 GVAR(lastKitCounts) = [];
 
