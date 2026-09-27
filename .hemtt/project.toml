@@ -34,31 +34,6 @@ workshop = [
     # "3800798331" # ACME DEV
 ]
 
-# A development mission that opens the kit window straight away, in a window rather than full screen:
-#
-#   hemtt launch ui-test
-[hemtt.launch.ui-test]
-workshop = [
-    "450814997",  # CBA_A3
-    "463939057",  # ACE3
-    "2369477168", # Advanced Developer Tools
-]
-mission = "EFAK_UITest.VR"
-parameters = ["-window"]
-
-# Pictures for the workshop page: a medical scene on Altis and keys that open each window, see
-# .hemtt/missions/EFAK_Screenshots.Altis/initPlayerLocal.sqf. Take them with Windows HDR off.
-#
-#   hemtt launch screenshots
-[hemtt.launch.screenshots]
-workshop = [
-    "450814997",  # CBA_A3
-    "463939057",  # ACE3
-    "3749759934", # ACME
-]
-mission = "EFAK_Screenshots.Altis"
-parameters = ["-window"]
-
 # The same without ACM Extended from the workshop, to test a local build of it instead - `hemtt build`
 # in the ACM-Extended repo first, then:
 #

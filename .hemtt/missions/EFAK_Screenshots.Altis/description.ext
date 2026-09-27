@@ -1,5 +1,0 @@
-// Screenshot mission for the workshop page: a medical scene on Altis, a fixed camera, and keys that
-// open each window. See initPlayerLocal.sqf.
-enableDebugConsole = 2;
-author = "Miss Heda";
-onLoadName = "EFAK Screenshots";

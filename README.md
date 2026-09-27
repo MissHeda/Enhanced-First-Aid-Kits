@@ -9,8 +9,6 @@ the other, never both.
 Needs [CBA_A3](https://github.com/CBATeam/CBA_A3) and [ACE3](https://github.com/acemod/ACE3),
 on the server and every client.
 
-![The kit window](docs/images/kit_window.jpg)
-
 ## Features
 
 - **Kit window** - your gear on the left, the kit on the right.
@@ -22,13 +20,6 @@ on the server and every client.
 - **Four kits** - IFAK, AFAK, MFAK and MFAK+, each with its own size and default contents.
 - **Made for your medical mod** - stocked for ACE, KAT, ACM or ACM Extended, whichever you run.
 - **Mission settings** - what may go into which kit, default contents, capacity and weight.
-
-| | |
-|---|---|
-| ![Switch between kits](docs/images/kit_menu.jpg) | ![Fill from a crate](docs/images/crate_unload_menu.jpg) |
-| Switch between every kit in reach | Fill from a crate, choose where items go |
-| ![Quick access](docs/images/quick_access.jpg) | ![Search](docs/images/search.jpg) |
-| Quick access | One search for all lists |
 
 ## More
 
