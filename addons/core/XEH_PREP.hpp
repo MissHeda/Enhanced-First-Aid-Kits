@@ -51,6 +51,7 @@ PREP(freeInstance);
 PREP(convertKits);
 PREP(convertKitsNow);
 PREP(requestUnitKits);
+PREP(fillCrateKits);
 PREP(fillNewInstance);
 PREP(parseEditorKits);
 PREP(replaceItem);

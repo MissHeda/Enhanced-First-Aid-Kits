@@ -29,7 +29,8 @@ if (!isNull _holder && {_holder distance ACE_player > GROUND_KEEP_RANGE}) then {
 };
 
 if (isNull _holder && {_create}) then {
-    _holder = createVehicle ["GroundWeaponHolder", [0, 0, 0], [], 0, "CAN_COLLIDE"];
+    // created in place: a holder made at [0,0,0] and moved afterwards does not draw its items
+    _holder = createVehicle ["GroundWeaponHolder", getPosATL ACE_player, [], 0, "CAN_COLLIDE"];
     _holder setPosASL (getPosASL ACE_player);
 
     GVAR(groundHolder) = _holder;

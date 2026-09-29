@@ -183,10 +183,29 @@ call FUNC(initInventoryHooks);
 
 ["EFAK", "Enhanced First Aid Kits"] call CBA_fnc_registerKeybindModPrettyName;
 
+// Both unbound by default. They act on the first kit the player carries.
 ["EFAK", QGVAR(openPouch), [LLSTRING(Keybind_OpenPouch), LLSTRING(Keybind_OpenPouch_Desc)], {
     private _kits = [ACE_player] call FUNC(getCarriedKits);
     if (_kits isEqualTo []) exitWith {false};
 
+    // The open window cycles with its own key; the other window is closed first, never stacked.
+    if (!isNull (uiNamespace getVariable ["efak_gui_display", displayNull])) exitWith {true};
+    private _other = uiNamespace getVariable ["efak_gui_contentsDisplay", displayNull];
+    if (!isNull _other) then {_other closeDisplay 2};
+
     [ACE_player, _kits select 0] call FUNC(openKit);
+    true
+}, {false}, []] call CBA_fnc_addKeybind;
+
+["EFAK", QGVAR(quickAccess), [LLSTRING(Keybind_QuickAccess), LLSTRING(Keybind_QuickAccess_Desc)], {
+    private _kits = [ACE_player] call FUNC(getCarriedKits);
+    if (_kits isEqualTo []) exitWith {false};
+
+    // The open window cycles with its own key; the other window is closed first, never stacked.
+    if (!isNull (uiNamespace getVariable ["efak_gui_contentsDisplay", displayNull])) exitWith {true};
+    private _other = uiNamespace getVariable ["efak_gui_display", displayNull];
+    if (!isNull _other) then {_other closeDisplay 2};
+
+    [_kits select 0, ACE_player] call FUNC(showContents);
     true
 }, {false}, []] call CBA_fnc_addKeybind;

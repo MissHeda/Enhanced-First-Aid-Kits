@@ -241,6 +241,12 @@
         <Key ID="STR_efak_core_Keybind_OpenPouch_Desc">
             <English>Opens the pouch UI for the first kit you are carrying.</English>
         </Key>
+        <Key ID="STR_efak_core_Keybind_QuickAccess">
+            <English>Quick access to first kit</English>
+        </Key>
+        <Key ID="STR_efak_core_Keybind_QuickAccess_Desc">
+            <English>Opens the quick access window for the first kit you are carrying.</English>
+        </Key>
         <Key ID="STR_efak_core_Action_OpenKit">
             <English>Open</English>
         </Key>
@@ -285,6 +291,21 @@
         </Key>
         <Key ID="STR_efak_core_3DEN_KitContents_Tooltip">
             <English>What this unit's first aid kits hold when the mission starts.\nSet by the kits tab of the ACE Arsenal - edit the loadout there rather than here.\nEmpty: every kit starts with the default contents.</English>
+        </Key>
+        <Key ID="STR_efak_core_3DEN_CrateContents_IFAK">
+            <English>IFAK contents</English>
+        </Key>
+        <Key ID="STR_efak_core_3DEN_CrateContents_AFAK">
+            <English>AFAK contents</English>
+        </Key>
+        <Key ID="STR_efak_core_3DEN_CrateContents_MFAK">
+            <English>MFAK contents</English>
+        </Key>
+        <Key ID="STR_efak_core_3DEN_CrateContents_MFAKPlus">
+            <English>MFAK+ contents</English>
+        </Key>
+        <Key ID="STR_efak_core_3DEN_CrateContents_Tooltip">
+            <English>What every kit of this type in this container starts with,\nwritten like the default contents in the CBA settings:\n[['ACE_fieldDressing',6],['ACE_tourniquet',2]]\n\nEmpty: the kits get the default contents.</English>
         </Key>
     </Package>
 </Project>
