@@ -5,6 +5,7 @@ class CfgWeapons {
     // Common base for every kit. Never usable on its own.
     class EFAK_KitBase: ACE_ItemCore {
         author = "Miss Heda";
+        model = QPATHTOF(data\ifak.p3d);
         scope = 0;
         scopeArsenal = 0;
         ACE_isMedicalItem = 1;
@@ -21,6 +22,7 @@ class CfgWeapons {
     // (1 mass unit = 0.1 lb).
 
     class efak_IFAK: EFAK_KitBase {
+        model = QPATHTOF(data\ifak.p3d);
         scope = 2;
         scopeArsenal = 2;
         displayName = CSTRING(IFAK_Display);
@@ -33,6 +35,7 @@ class CfgWeapons {
     };
 
     class efak_AFAK: EFAK_KitBase {
+        model = QPATHTOF(data\afak.p3d);
         scope = 2;
         scopeArsenal = 2;
         displayName = CSTRING(AFAK_Display);
@@ -45,6 +48,7 @@ class CfgWeapons {
     };
 
     class efak_MFAK: EFAK_KitBase {
+        model = QPATHTOF(data\mfak.p3d);
         scope = 2;
         scopeArsenal = 2;
         displayName = CSTRING(MFAK_Display);
@@ -58,6 +62,7 @@ class CfgWeapons {
 
     // The MFAK's bag with more room, so it weighs the same empty.
     class efak_MFAKPlus: EFAK_KitBase {
+        model = QPATHTOF(data\mfakplus.p3d);
         scope = 2;
         scopeArsenal = 2;
         displayName = CSTRING(MFAKPlus_Display);

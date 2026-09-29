@@ -17,6 +17,9 @@ on the server and every client.
 - **Quick access** - see what's inside and take a stack out without opening the kit.
 - **Treat from the kit** - ACE uses bandages, morphine and co. right out of the kit.
 - **ACE Arsenal tab** - fill every kit on its own; loadouts keep what's inside.
+- **Eden crates** - set what the kits in a crate or vehicle hold, right in its Eden attributes.
+- **Hotkeys** - open the kit window or quick access, press again to cycle through your kits.
+- **Own ground models** - every kit has its own model when dropped.
 - **Four kits** - IFAK, AFAK, MFAK and MFAK+, each with its own size and default contents.
 - **Made for your medical mod** - stocked for ACE, KAT, ACM or ACM Extended, whichever you run.
 - **Mission settings** - what may go into which kit, default contents, capacity and weight.

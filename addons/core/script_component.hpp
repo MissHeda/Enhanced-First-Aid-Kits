@@ -8,7 +8,7 @@
 // Mirrors TFAR's radio approach: one prototype class + a pool of concrete
 // classes so every kit in the world has its own identity.
 // Keep in sync with tools/generate_instances.py
-#define EFAK_INSTANCES_PER_KIT 1000
+#define EFAK_INSTANCES_PER_KIT 500
 
 // ----- Kit data layout (see fnc_initKits) -----
 #define KIT_ID          0

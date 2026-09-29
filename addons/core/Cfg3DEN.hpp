@@ -2,6 +2,24 @@
 // editor (fnc_applyLoadoutRestore), and the mission hands it to the kits once the unit is played
 // (fnc_convertKits). The editor saves only a unit's plain inventory - without this, every kit set
 // up there would start the mission with the default contents.
+//
+// A crate or vehicle can say what its kits hold, one field per kit type in the format of the CBA
+// default contents. At mission start the server swaps the kits of that type in its cargo for kits
+// filled that way (fnc_fillCrateKits); an empty field leaves them to the defaults. The editor puts
+// the property name in for %s, which tells the function the kit type.
+#define CRATE_KIT_ATTRIBUTE(kit,name) \
+    class GVAR(crate_##kit) { \
+        displayName = CSTRING(3DEN_CrateContents_##name); \
+        tooltip = CSTRING(3DEN_CrateContents_Tooltip); \
+        property = QGVAR(crate_##kit); \
+        control = "EditMulti3"; \
+        expression = QUOTE(if (!is3DEN && {isServer} && {_value isNotEqualTo ''}) then {[ARR_3(_this,'%s',_value)] call FUNC(fillCrateKits)}); \
+        defaultValue = "''"; \
+        typeName = "STRING"; \
+        validate = "none"; \
+        condition = "objectHasInventoryCargo"; \
+    }
+
 class Cfg3DEN {
     class Object {
         class AttributeCategories {
@@ -21,6 +39,10 @@ class Cfg3DEN {
                         validate = "none";
                         condition = "objectBrain";
                     };
+                    CRATE_KIT_ATTRIBUTE(efak_IFAK,IFAK);
+                    CRATE_KIT_ATTRIBUTE(efak_AFAK,AFAK);
+                    CRATE_KIT_ATTRIBUTE(efak_MFAK,MFAK);
+                    CRATE_KIT_ATTRIBUTE(efak_MFAKPlus,MFAKPlus);
                 };
             };
         };

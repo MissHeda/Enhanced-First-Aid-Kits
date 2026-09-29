@@ -27,6 +27,9 @@
 
 params ["_display", "_key", "_shift", "_ctrl"];
 
+// The key that opened the window moves it on to the next kit.
+if (_this call FUNC(onCycleKey)) exitWith {true};
+
 switch (true) do {
     case (_key in [DIK_LCONTROL, DIK_RCONTROL]): {GVAR(ctrlHeld) = true};
     case (_key in [DIK_LSHIFT, DIK_RSHIFT]): {GVAR(shiftHeld) = true};

@@ -8,6 +8,7 @@ class EFAK_ContentsPopup {
     enableSimulation = 1;
     onLoad = QUOTE(uiNamespace setVariable [ARR_2(QQGVAR(contentsDisplay),_this select 0)]);
     onUnload = QUOTE(call FUNC(onContentsClosed));
+    onKeyDown = QUOTE(_this call FUNC(onCycleKey));
 
     class ControlsBackground {
         EFAK_PANEL(PopupWindow,POPUP_X,POPUP_Y,POPUP_W,POPUP_H,POPUP_ROW * 0.6,C_WINDOW);

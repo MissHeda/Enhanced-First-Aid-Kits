@@ -18,6 +18,7 @@ PREP(selectKit);
 PREP(getReachableKits);
 PREP(fillKitSwitch);
 PREP(onKitSwitchChanged);
+PREP(onCycleKey);
 PREP(onKeyDown);
 PREP(onKeyUp);
 PREP(onSearchChanged);
