@@ -9,7 +9,9 @@ class CfgPatches {
         requiredVersion = REQUIRED_VERSION;
         requiredAddons[] = {
             "efak_core",
-            "kat_main"
+            "efak_medical",
+            "kat_main",
+            "kat_misc"
         };
         skipWhenMissingDependencies = 1;
         author = "Miss Heda";
@@ -19,3 +21,15 @@ class CfgPatches {
 };
 
 #include "CfgEFAKKits.hpp"
+
+// KAT and EFAK both replace ace_medical_treatment_fnc_useItem. This compat loads after both and
+// carries one that does both jobs (overrides\fnc_useItem.sqf), so neither loses out to load order.
+class CfgFunctions {
+    class EFAK_overwrite_kat_medical_treatment {
+        tag = "ace_medical_treatment";
+
+        class ace_medical_treatment {
+            class useItem {file = QPATHTOF(overrides\fnc_useItem.sqf);};
+        };
+    };
+};

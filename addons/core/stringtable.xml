@@ -125,7 +125,7 @@
             <English>Default contents</English>
         </Key>
         <Key ID="STR_efak_core_Setting_DefaultContents_Desc">
-            <English>What a new kit starts with.\n\nFormat:\n[['ACE_morphine',2],['ACE_tourniquet',1]]\n\nThe DEBUG setting copies a backpack in\nthis format for you.</English>
+            <English>What a new kit starts with.\n\nFormat: classname, then amount:\nACE_morphine 2 ACE_tourniquet 1\n\nThe old form still works too:\n[['ACE_morphine',2],['ACE_tourniquet',1]]\n\nThe DEBUG setting copies a backpack in\nthis format for you.</English>
         </Key>
         <Key ID="STR_efak_core_Setting_ForceContents">
             <English>Force default contents</English>
@@ -305,7 +305,7 @@
             <English>MFAK+ contents</English>
         </Key>
         <Key ID="STR_efak_core_3DEN_CrateContents_Tooltip">
-            <English>What every kit of this type in this container starts with,\nwritten like the default contents in the CBA settings:\n[['ACE_fieldDressing',6],['ACE_tourniquet',2]]\n\nEmpty: the kits get the default contents.</English>
+            <English>What every kit of this type in this container\nstarts with: classname, then amount, one\nafter another or one per line:\nACE_fieldDressing 6\nACE_tourniquet 2\n\nThe array form of the CBA settings works\ntoo. Empty: the kits get the default contents.</English>
         </Key>
     </Package>
 </Project>

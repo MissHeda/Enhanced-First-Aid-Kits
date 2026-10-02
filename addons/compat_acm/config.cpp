@@ -51,19 +51,20 @@ class CfgFunctions {
 };
 
 // ACM offers the empty syringes in the medical menu only when "items _medic" holds one; the same
-// test through EFAK, so a syringe packed in a kit shows up there too.
+// test through EFAK, so a syringe packed in a kit shows up there too. ACM Extended keeps its own
+// test (ACME_fnc_itemCount), which already asks EFAK.
 class ACE_Medical_Treatment_Actions {
     class OpenTransfusionMenu;
     class UseSyringe_10: OpenTransfusionMenu {
-        condition = "'acm_syringe_10' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})";
+        condition = "if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_10' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_10'] call ACME_fnc_itemCount) > 0}";
     };
     class UseSyringe_5: UseSyringe_10 {
-        condition = "'acm_syringe_5' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})";
+        condition = "if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_5' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_5'] call ACME_fnc_itemCount) > 0}";
     };
     class UseSyringe_3: UseSyringe_10 {
-        condition = "'acm_syringe_3' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})";
+        condition = "if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_3' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_3'] call ACME_fnc_itemCount) > 0}";
     };
     class UseSyringe_1: UseSyringe_10 {
-        condition = "'acm_syringe_1' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})";
+        condition = "if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_1' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_1'] call ACME_fnc_itemCount) > 0}";
     };
 };

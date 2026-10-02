@@ -1,8 +1,8 @@
 #include "..\script_component.hpp"
 /*
  * Author: Miss Heda
- * Copies what is in the player's backpack onto the clipboard, in the exact form the default
- * contents setting takes.
+ * Copies what is in the player's backpack onto the clipboard, in the plain form the default
+ * contents setting and the Eden crate fields take: classname then amount, "ACE_fieldDressing 6".
  *
  * This is how you write a kit loadout without typing classnames: switch the setting on, fill a
  * backpack with what the kit should hold, and paste. Runs every few seconds on its own, so the
@@ -49,16 +49,14 @@ private _order = [];
     } forEach _classes;
 } forEach [getItemCargo _backpack, getMagazineCargo _backpack];
 
-private _entries = _order apply {
-    format ["['%1',%2]", _x select 1, _counts get (_x select 0)]
-};
-
-private _text = format ["[%1]", _entries joinString ","];
+// The plain form, "ACE_fieldDressing 6 ACE_tourniquet 2": the CBA settings and the Eden fields read
+// it as well as the old array, and it is the one people can read and edit by hand.
+private _text = (_order apply {format ["%1 %2", _x select 1, _counts get (_x select 0)]}) joinString " ";
 
 copyToClipboard _text;
 
-// The same list again, one per line, so the hint is readable while the clipboard stays in the
-// one-line form the edit box wants.
+// The same list again, one per line, so the hint is readable while the clipboard stays on the
+// one line a CBA edit box takes.
 private _lines = _order apply {
     format ["%1x %2", _counts get (_x select 0), [_x select 1] call FUNC(getItemName)]
 };
