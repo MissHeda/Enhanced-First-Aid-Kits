@@ -25,20 +25,9 @@ nothing.
 
 ## Older ACM Extended versions
 
-An ACM Extended without `ACME_fnc_itemCount` reads the inventory directly and sees nothing in a kit.
-For those, `efak_compat_acme` still carries its legacy overrides (`addons/compat_acme/legacy/`): 22 of
-ACME's functions, its two oxygen tank functions (`ACM_breathing`) and two of ACE's redefined through `CfgFunctions`, copies generated from ACME's PBOs
-by `tools/build_acme_overrides.py`, plus the `UseSyringe` conditions.
-
-Which one applies is decided when the game starts: the addon's `config.cpp` is not binarized, and
-`#if __has_include("\acm_extended\functions\fn_itemCount.sqf")` loads the legacy part only when that
-file is missing - the same pattern ACE's optional patches and other mods use
-(`#pragma hemtt flag pe23_ignore_has_include`).
-
-The copies are generated from the public ACM Extended release (workshop 3749759934). They replace its
-functions, so they must come from the version that is played; regenerate them after an ACME update
-until the release with `ACME_fnc_itemCount` is out. Then `legacy/`, the generator and the
-`__has_include` switch can go.
+ACM Extended before 1.2.4 has no `ACME_fnc_itemCount` and reads the inventory directly, so it sees
+nothing in a kit. EFAK used to carry generated copies of its functions for those versions; they were
+removed in EFAK 1.0.2, once ACME 1.2.4 with the hooks was on the Workshop.
 
 ## EFAK's public API
 

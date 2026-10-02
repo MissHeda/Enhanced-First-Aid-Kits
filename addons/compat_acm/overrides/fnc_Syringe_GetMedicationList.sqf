@@ -1,5 +1,20 @@
 // ACM ACM_circulation_fnc_Syringe_GetMedicationList, kit-aware for EFAK. Copied from ACM 1.5.0.4 with its macros written out;
 // ACM looks at the unit's own inventory only, so vials in a kit were not offered.
+
+// This copy only stands in for the ACM it was taken from (1.5.0.4). Any other build - an ACM update,
+// or ACM Extended, which ships its own reworked ACM - runs its own function from its own file, untouched.
+if (isNil "efak_compat_acm_useCopies") then {
+    efak_compat_acm_useCopies = getText (configFile >> "CfgPatches" >> "ACM_circulation" >> "versionStr") == "1.5.0.4";
+};
+if (!efak_compat_acm_useCopies) exitWith {
+    private _original = missionNamespace getVariable "efak_compat_acm_original_Syringe_GetMedicationList";
+    if (isNil "_original") then {
+        _original = compile preprocessFileLineNumbers "\x\ACM\addons\circulation\functions\fnc_Syringe_GetMedicationList.sqf";
+        missionNamespace setVariable ["efak_compat_acm_original_Syringe_GetMedicationList", _original];
+    };
+    _this call _original
+};
+
 /*
  * Author: Blue
  * Update medication list
