@@ -76,16 +76,16 @@ class ACE_Medical_Treatment_Actions {
     // ACM offers the empty syringes in the medical menu only when "items _medic" holds one.
     class OpenTransfusionMenu;
     class UseSyringe_10: OpenTransfusionMenu {
-        condition = "if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_10' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_10'] call ACME_fnc_itemCount) > 0}";
+        condition = "(if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_10' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_10'] call ACME_fnc_itemCount) > 0})";
     };
     class UseSyringe_5: UseSyringe_10 {
-        condition = "if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_5' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_5'] call ACME_fnc_itemCount) > 0}";
+        condition = "(if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_5' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_5'] call ACME_fnc_itemCount) > 0})";
     };
     class UseSyringe_3: UseSyringe_10 {
-        condition = "if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_3' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_3'] call ACME_fnc_itemCount) > 0}";
+        condition = "(if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_3' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_3'] call ACME_fnc_itemCount) > 0})";
     };
     class UseSyringe_1: UseSyringe_10 {
-        condition = "if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_1' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_1'] call ACME_fnc_itemCount) > 0}";
+        condition = "(if (isNil 'ACME_fnc_itemCount') then {'acm_syringe_1' in (([_medic] call efak_medical_fnc_listItems) apply {toLowerANSI _x})} else {([_medic, 'ACM_Syringe_1'] call ACME_fnc_itemCount) > 0})";
     };
 
     // BVM with a portable oxygen tank: the tank is looked for among the medic's own magazines. The
@@ -93,7 +93,7 @@ class ACE_Medical_Treatment_Actions {
     // and the tank stays in the kit.
     class UseBVM_Oxygen;
     class UseBVM_PortableOxygen: UseBVM_Oxygen {
-        condition = "[_medic, _patient] call ACM_breathing_fnc_canUseBVM && (if (isNil 'ACME_fnc_itemCount') then {([_medic, 'ACM_OxygenTank_425'] call efak_medical_fnc_countItem) > 0} else {([_medic, 'ACM_OxygenTank_425'] call ACME_fnc_itemCount) > 0})";
+        condition = "([_medic, _patient] call ACM_breathing_fnc_canUseBVM && (if (isNil 'ACME_fnc_itemCount') then {([_medic, 'ACM_OxygenTank_425'] call efak_medical_fnc_countItem) > 0} else {([_medic, 'ACM_OxygenTank_425'] call ACME_fnc_itemCount) > 0}))";
     };
 };
 
@@ -105,7 +105,7 @@ class CfgVehicles {
                 // Refilling an empty oxygen tank at a medical vehicle. A loose one is ACM's; one in a
                 // kit is refilled right there and stays in the kit (efak_medical_fnc_refillInKit).
                 class ACM_Action_Refill_PortableOxygenTank_425 {
-                    condition = "([_player, _target] call ACM_breathing_fnc_canRefillOxygenTank) || {([_player, 'ACM_OxygenTank_425_Empty'] call efak_medical_fnc_countItem) > 0 && {[_target] call ace_medical_treatment_fnc_isMedicalVehicle}}";
+                    condition = "(([_player, _target] call ACM_breathing_fnc_canRefillOxygenTank) || {([_player, 'ACM_OxygenTank_425_Empty'] call efak_medical_fnc_countItem) > 0 && {[_target] call ace_medical_treatment_fnc_isMedicalVehicle}})";
                     statement = "if (([_player, 'ACM_OxygenTank_425_Empty'] call efak_medical_fnc_countLoose) > 0) then {[_player] call ACM_breathing_fnc_refillOxygenTank} else {_player call ace_common_fnc_goKneeling; [_player, 'ACM_OxygenTank_425_Empty', 'ACM_OxygenTank_425', 8, ['STR_ACM_Breathing_RefillOxygenTank_Progress', 'STR_ACM_Breathing_RefillOxygenTank_Complete', 'STR_ACM_Breathing_RefillOxygenTank_Cancelled']] call efak_medical_fnc_refillInKit}";
                 };
             };
@@ -118,7 +118,7 @@ class CfgVehicles {
             class ACM_Action_GasMask_Other {
                 class ACM_Action_PutOnGasMask_Other;
                 class ACM_Action_ReplaceGasMaskFilter_Other: ACM_Action_PutOnGasMask_Other {
-                    condition = "[_target] call ACM_cbrn_fnc_isWearingGasMask && {([_target] call ACM_cbrn_fnc_hasFilter || [_player] call ACM_cbrn_fnc_hasFilter || {([_player, 'ACM_GasMaskFilter'] call efak_medical_fnc_countItem) > 0} || {([_target, 'ACM_GasMaskFilter'] call efak_medical_fnc_countItem) > 0})}";
+                    condition = "([_target] call ACM_cbrn_fnc_isWearingGasMask && {([_target] call ACM_cbrn_fnc_hasFilter || [_player] call ACM_cbrn_fnc_hasFilter || {([_player, 'ACM_GasMaskFilter'] call efak_medical_fnc_countItem) > 0} || {([_target, 'ACM_GasMaskFilter'] call efak_medical_fnc_countItem) > 0})})";
                     statement = "if (([_player, 'ACM_GasMaskFilter'] call efak_medical_fnc_unpackForUse) isEqualTo '') then {[_target, 'ACM_GasMaskFilter'] call efak_medical_fnc_unpackForUse}; [_player] call ACM_cbrn_fnc_replaceFilter";
                 };
             };
@@ -128,7 +128,7 @@ class CfgVehicles {
             // The AED menu on yourself.
             class ACM_Equipment {
                 class ACM_AED_Interactions {
-                    condition = "if (isNil 'ACME_fnc_itemCount') then {([_player, 'ACM_AED'] call efak_medical_fnc_countItem) > 0} else {([_player, 'ACM_AED'] call ACME_fnc_itemCount) > 0}";
+                    condition = "(if (isNil 'ACME_fnc_itemCount') then {([_player, 'ACM_AED'] call efak_medical_fnc_countItem) > 0} else {([_player, 'ACM_AED'] call ACME_fnc_itemCount) > 0})";
                 };
             };
 
@@ -136,7 +136,7 @@ class CfgVehicles {
                 class ACM_Action_GasMask {
                     class ACM_Action_PutOnGasMask;
                     class ACM_Action_ReplaceGasMaskFilter: ACM_Action_PutOnGasMask {
-                        condition = "([_player] call ACM_cbrn_fnc_canReplaceFilter) || {([_player, 'ACM_GasMaskFilter'] call efak_medical_fnc_countItem) > 0 && {(_player call ACM_cbrn_fnc_isWearingGasMask) || {[_player] call ACM_cbrn_fnc_hasGasMask}}}";
+                        condition = "(([_player] call ACM_cbrn_fnc_canReplaceFilter) || {([_player, 'ACM_GasMaskFilter'] call efak_medical_fnc_countItem) > 0 && {(_player call ACM_cbrn_fnc_isWearingGasMask) || {[_player] call ACM_cbrn_fnc_hasGasMask}}})";
                         statement = "[_player, 'ACM_GasMaskFilter'] call efak_medical_fnc_unpackForUse; [_player] call ACM_cbrn_fnc_replaceFilter";
                     };
                 };
