@@ -17,6 +17,7 @@ PREP(debugContents);
 
 // Kit weight
 PREP(getKitLoad);
+PREP(getWeightOffset);
 PREP(updateVirtualLoad);
 PREP(queueVirtualLoad);
 

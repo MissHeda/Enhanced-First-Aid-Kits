@@ -63,7 +63,7 @@ if (_instances isEqualTo []) exitWith {
         };
         case (GVAR(groups) isEqualTo []): {
             _title ctrlSetText "";
-            _hint ctrlSetText LLSTRING(Hint_NoKits);
+            _hint ctrlSetText (["hintNoKits"] call FUNC(getText));
         };
         default {
             _title ctrlSetText "";

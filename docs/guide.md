@@ -220,10 +220,17 @@ AFAK, 320 for the MFAK and 520 for the MFAK+ - a compat addon may set its own -
 and every one of them is a CBA setting whose
 description lists a vest and three backpacks for comparison.
 
-A kit's own `mass` is a config property and cannot change at runtime, so what is
-inside a kit is felt through ACE's virtual load instead. **Kit contents weight**
-is that dial, 50% by default: at 0% a kit weighs what the item weighs whatever is
-in it, at 100% everything inside weighs what it weighs. What is inside always
+The room a packed kit takes in a uniform, vest or backpack is fixed, whatever
+capacity a mission sets: 15 for the IFAK, 35 for the AFAK, 130 for the MFAK and
+210 for the MFAK+ - two IFAKs to a uniform, one MFAK to an assault pack, one
+MFAK+ to a kitbag or carryall. It is the item's config `mass`, which the engine
+uses for room and weight alike; EFAK takes the difference back off through ACE's
+virtual load, so a kit still weighs what the empty kit weighs.
+
+A kit's own `mass` cannot change at runtime, so what is inside a kit is felt
+through ACE's virtual load as well. **Kit contents weight** is that dial, 50% by
+default: at 0% a kit weighs what the empty kit weighs whatever is in it, at 100%
+everything inside weighs what it weighs. What is inside always
 counts, default contents included - a mission that hands its medics a kit set up
 through the settings feels those items too. It needs ACE movement and counts
 towards ACE weight and fatigue.
@@ -254,10 +261,10 @@ and hands both out to clients as they join.
 
 ### Known limits
 
-- The pool is 1000 instances **per kit type**. Beyond that ids get recycled and
+- The pool is 500 instances **per kit type**. Beyond that ids get recycled and
   the recycled kit falls back to its default contents. Raise
   `INSTANCES_PER_KIT` in `tools/generate_instances.py` and
-  `EFAK_INSTANCES_PER_KIT` in `addons/core/script_component.hpp` together if you
+  `EFAK_INSTANCES_PER_KIT` in `addons/kits/script_component.hpp` together if you
   need more.
 - Contents changes are applied locally and then broadcast. Two people pulling
   the last item out of the same kit within the same network tick can both get
@@ -338,6 +345,10 @@ class CfgWeapons {
         scopeArsenal = 2;
         displayName = "Trauma Bag";
         picture = "\mymod\ui\bag.paa";
+        EFAK_emptyWeight = 40;    // optional: what it weighs, while ItemInfo mass is the room it takes
+        class ItemInfo: CBA_MiscItem_ItemInfo {
+            mass = 120;
+        };
     };
     // plus mymod_TraumaBag_1 .. mymod_TraumaBag_N, see tools/generate_instances.py
 };
@@ -350,7 +361,7 @@ class EFAK_Kits {
         iconContents = "\mymod\ui\bag.paa";
         capacity = 300;
         instances = 200;          // must match the number of generated classes
-        defaultContents = "[['ACE_elasticBandage',20]]";
+        defaultContents = "ACE_elasticBandage 20";
         bag = 1;                  // optional: a bag, which the hard realism modes unload into the backpack
     };
 };
@@ -358,6 +369,58 @@ class EFAK_Kits {
 
 Everything else - CBA settings, interaction entries, the pouch UI, the arsenal
 tab - is generated from that registry.
+
+### Containers that are not first aid kits
+
+The same registry carries pouches and bags for anything else - [Enhanced Utility
+Pouches](https://github.com/MissHeda/Enhanced-Utility-Pouches) is built this way. A few optional
+properties change what a kit is for:
+
+```cpp
+class EFAK_Kits {
+    class AmmoPouch {
+        item = "mymod_AmmoPouch";
+        // ... as above, plus:
+        itemFilter = 0;                    // default of the item filter setting: 0 anything, 1 medical (default), 2 list
+        itemTypes[] = {"magazine"};        // only these kinds of items, as ace_common_fnc_getItemType gives them:
+                                           // "magazine", "item", or with the subtype, e.g. "magazine/secondary".
+                                           // The mission's whitelist still lets other items in. Empty: any kind.
+                                           // Worn things only when named outright, e.g. "item/uniform".
+        whitelist = "ClassA, ClassB";      // default of the whitelist setting - with itemFilter = 2 the only items it takes
+        useInTreatments = 0;               // default of "usable for treatments" (1 by default)
+        group = "MyPouches";               // its own interaction menu, a class of EFAK_KitGroups (default "FirstAid")
+        settingsCategory = "My Pouches";   // its own CBA settings category ("" = EFAK's)
+    };
+};
+
+class EFAK_KitGroups {
+    class MyPouches {
+        displayName = "Pouches";           // the entry on yourself
+        displayNameOther = "Pouches";      // the entry on somebody else
+        icon = "\mymod\ui\pouch.paa";
+    };
+};
+```
+
+Prototypes that are no medical item set `ACE_isMedicalItem = 0`. Short names and display names may
+be stringtable keys (`"$STR_..."`).
+
+Such a mod can also run without EFAK. EFAK's own kits are an addon of their own (`efak_kits`); the
+framework - `efak_main`, `efak_core`, `efak_gui` and `efak_arsenal` - knows no kit by name. Ship
+those four PBOs unchanged, signatures and EFAK's key included, and give the framework your name for
+the CBA settings and keybinds:
+
+```cpp
+class EFAK_Framework {
+    settingsCategory = "My Pouches";
+};
+```
+
+With EFAK loaded as well the game finds the framework twice and uses one copy, so ship the PBOs of
+the EFAK release you built against and update with every EFAK release. `efak_kits` warns in chat
+when the framework in use is of another version. Enhanced Utility Pouches does exactly this - see its
+`tools/sync_framework.py` and its `compat_efak` addon, which hands the names back to EFAK when both
+are loaded.
 
 ## Scripting
 
@@ -382,7 +445,7 @@ hemtt build
 ```
 
 `tools/generate_instances.py` regenerates
-`addons/core/CfgWeapons_instances.hpp` and only needs to run when the pool size
+`addons/kits/CfgWeapons_instances.hpp` and only needs to run when the pool size
 or the kit list changes.
 
 ## Credit

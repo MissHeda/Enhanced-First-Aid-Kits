@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<Project name="efak">
+    <Package name="kits">
+        <Key ID="STR_efak_kits_IFAK_Display">
+            <English>Individual First Aid Kit (IFAK)</English>
+        </Key>
+        <Key ID="STR_efak_kits_IFAK_DESC">
+            <English>Individual First Aid Kit, carried by every soldier. Open it to see and change what is inside.</English>
+        </Key>
+        <Key ID="STR_efak_kits_AFAK_Display">
+            <English>Advanced First Aid Kit (AFAK)</English>
+        </Key>
+        <Key ID="STR_efak_kits_AFAK_DESC">
+            <English>Advanced First Aid Kit, with enough for more than one casualty. Open it to see and change what is inside.</English>
+        </Key>
+        <Key ID="STR_efak_kits_MFAK_Display">
+            <English>Multiple First Aid Kit (MFAK)</English>
+        </Key>
+        <Key ID="STR_efak_kits_MFAK_DESC">
+            <English>Multiple First Aid Kit, supplies for several casualties. Fits into a backpack. Open it to see and change what is inside.</English>
+        </Key>
+        <Key ID="STR_efak_kits_MFAKPlus_Display">
+            <English>Multiple First Aid Kit Plus (MFAK+)</English>
+        </Key>
+        <Key ID="STR_efak_kits_MFAKPlus_DESC">
+            <English>Multiple First Aid Kit with more room, supplies for a whole squad. Fits into a backpack. Open it to see and change what is inside.</English>
+        </Key>
+        <Key ID="STR_efak_kits_Action_Root">
+            <English>First Aid Kits</English>
+        </Key>
+        <Key ID="STR_efak_kits_Action_RootOther">
+            <English>First Aid Kits</English>
+        </Key>
+        <Key ID="STR_efak_kits_3DEN_CrateContents_IFAK">
+            <English>IFAK contents</English>
+        </Key>
+        <Key ID="STR_efak_kits_3DEN_CrateContents_AFAK">
+            <English>AFAK contents</English>
+        </Key>
+        <Key ID="STR_efak_kits_3DEN_CrateContents_MFAK">
+            <English>MFAK contents</English>
+        </Key>
+        <Key ID="STR_efak_kits_3DEN_CrateContents_MFAKPlus">
+            <English>MFAK+ contents</English>
+        </Key>
+        <Key ID="STR_efak_kits_FrameworkMismatch">
+            <English>Enhanced First Aid Kits %1 runs on the kit framework of version %2, which another mod brings along (Enhanced Utility Pouches). Update both to their latest version.</English>
+        </Key>
+    </Package>
+</Project>

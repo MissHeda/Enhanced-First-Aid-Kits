@@ -205,7 +205,7 @@ call FUNC(settingsChanged);
 call FUNC(addActions);
 call FUNC(initInventoryHooks);
 
-["EFAK", "Enhanced First Aid Kits"] call CBA_fnc_registerKeybindModPrettyName;
+["EFAK", GVAR(settingsCategory)] call CBA_fnc_registerKeybindModPrettyName;
 
 // Both unbound by default. They act on the first kit the player carries.
 ["EFAK", QGVAR(openPouch), [LLSTRING(Keybind_OpenPouch), LLSTRING(Keybind_OpenPouch_Desc)], {

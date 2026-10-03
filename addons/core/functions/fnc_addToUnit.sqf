@@ -23,6 +23,24 @@
 
 params ["_unit", "_class", ["_preferred", ""], ["_rounds", -1]];
 
+// A backpack fits in no container: it goes on the unit's back, or on the ground beside them when
+// they already wear one - which counts as not reaching the unit, like any other dropped item.
+if (getNumber (configFile >> "CfgVehicles" >> _class >> "isBackpack") == 1) exitWith {
+    if (backpack _unit isEqualTo "") exitWith {
+        _unit addBackpackGlobal _class;
+        [true, _unit]
+    };
+
+    private _holder = nearestObject [_unit, "WeaponHolder"];
+
+    if (isNull _holder || {_unit distance _holder > 2}) then {
+        _holder = createVehicle ["GroundWeaponHolder", getPosATL _unit, [], 0, "CAN_COLLIDE"];
+    };
+
+    _holder addBackpackCargoGlobal [_class, 1];
+    [false, _holder]
+};
+
 private _order = ["uniform", "vest", "backpack"];
 
 if (_preferred in _order) then {

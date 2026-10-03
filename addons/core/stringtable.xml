@@ -1,30 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <Project name="efak">
     <Package name="core">
-        <Key ID="STR_efak_core_IFAK_Display">
-            <English>Individual First Aid Kit (IFAK)</English>
-        </Key>
-        <Key ID="STR_efak_core_IFAK_DESC">
-            <English>Individual First Aid Kit, carried by every soldier. Open it to see and change what is inside.</English>
-        </Key>
-        <Key ID="STR_efak_core_AFAK_Display">
-            <English>Advanced First Aid Kit (AFAK)</English>
-        </Key>
-        <Key ID="STR_efak_core_AFAK_DESC">
-            <English>Advanced First Aid Kit, with enough for more than one casualty. Open it to see and change what is inside.</English>
-        </Key>
-        <Key ID="STR_efak_core_MFAK_Display">
-            <English>Multiple First Aid Kit (MFAK)</English>
-        </Key>
-        <Key ID="STR_efak_core_MFAK_DESC">
-            <English>Multiple First Aid Kit, supplies for several casualties. Fits into a backpack. Open it to see and change what is inside.</English>
-        </Key>
-        <Key ID="STR_efak_core_MFAKPlus_Display">
-            <English>Multiple First Aid Kit Plus (MFAK+)</English>
-        </Key>
-        <Key ID="STR_efak_core_MFAKPlus_DESC">
-            <English>Multiple First Aid Kit with more room, supplies for a whole squad. Fits into a backpack. Open it to see and change what is inside.</English>
-        </Key>
         <Key ID="STR_efak_core_SubCategory_Top">
             <English>0) Quick setup &amp; debug</English>
         </Key>
@@ -181,12 +157,6 @@
         <Key ID="STR_efak_core_Container_Backpack">
             <English>Backpack</English>
         </Key>
-        <Key ID="STR_efak_core_Action_Root">
-            <English>First Aid Kits</English>
-        </Key>
-        <Key ID="STR_efak_core_Action_RootOther">
-            <English>First Aid Kits</English>
-        </Key>
         <Key ID="STR_efak_core_Action_UnpackAll">
             <English>Unpack everything</English>
         </Key>
@@ -210,6 +180,9 @@
         </Key>
         <Key ID="STR_efak_core_Error_MedicalOnly">
             <English>Only medical items fit in this kit</English>
+        </Key>
+        <Key ID="STR_efak_core_Error_TypeNotAllowed">
+            <English>Not the kind of item this one is made for</English>
         </Key>
         <Key ID="STR_efak_core_Error_Blacklisted">
             <English>This kit's blacklist keeps that out</English>
@@ -281,7 +254,7 @@
             <English>Kit contents weight</English>
         </Key>
         <Key ID="STR_efak_core_Setting_KitWeight_Desc">
-            <English>How much of what a kit holds you feel.\n\n0%: kits weigh what the item weighs,\nfull or empty.\n\n100%: everything inside weighs what it\nweighs, packed by hand or set up as\ndefault contents.\n\nBelow 100% takes the edge off, above it\nmakes a stuffed kit hurt.\n\nNeeds ACE movement. Counts towards ACE\nweight and fatigue.</English>
+            <English>How much of what a kit holds you feel.\n\n0%: a kit weighs what the empty kit\nweighs, full or empty.\n\n100%: everything inside weighs what it\nweighs, packed by hand or set up as\ndefault contents.\n\nBelow 100% takes the edge off, above it\nmakes a stuffed kit hurt.\n\nNeeds ACE movement. Counts towards ACE\nweight and fatigue.</English>
         </Key>
         <Key ID="STR_efak_core_3DEN_Category">
             <English>Enhanced First Aid Kits</English>
@@ -291,18 +264,6 @@
         </Key>
         <Key ID="STR_efak_core_3DEN_KitContents_Tooltip">
             <English>What this unit's first aid kits hold when the mission starts.\nSet by the kits tab of the ACE Arsenal - edit the loadout there rather than here.\nEmpty: every kit starts with the default contents.</English>
-        </Key>
-        <Key ID="STR_efak_core_3DEN_CrateContents_IFAK">
-            <English>IFAK contents</English>
-        </Key>
-        <Key ID="STR_efak_core_3DEN_CrateContents_AFAK">
-            <English>AFAK contents</English>
-        </Key>
-        <Key ID="STR_efak_core_3DEN_CrateContents_MFAK">
-            <English>MFAK contents</English>
-        </Key>
-        <Key ID="STR_efak_core_3DEN_CrateContents_MFAKPlus">
-            <English>MFAK+ contents</English>
         </Key>
         <Key ID="STR_efak_core_3DEN_CrateContents_Tooltip">
             <English>What every kit of this type in this container\nstarts with: classname, then amount, one\nafter another or one per line:\nACE_fieldDressing 6\nACE_tourniquet 2\n\nThe array form of the CBA settings works\ntoo. Empty: the kits get the default contents.</English>

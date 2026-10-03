@@ -28,11 +28,11 @@ private _center = missionNamespace getVariable [QACEGVAR(arsenal,center), objNul
 // In the Eden editor the arsenal dresses a stand-in for the unit being edited. There is no player
 // to compare it with, and every unit of the mission may be set up.
 if (is3DEN) exitWith {
-    ["", LLSTRING(Tab_Disabled_Unit)] select (isNull _center || {!(_center isKindOf "CAManBase")})
+    ["", (["tabDisabledUnit"] call FUNC(getText))] select (isNull _center || {!(_center isKindOf "CAManBase")})
 };
 
 if (isNull _center || {_center isNotEqualTo ACE_player} || {!local _center}) exitWith {
-    LLSTRING(Tab_Disabled_Unit)
+    (["tabDisabledUnit"] call FUNC(getText))
 };
 
 ""

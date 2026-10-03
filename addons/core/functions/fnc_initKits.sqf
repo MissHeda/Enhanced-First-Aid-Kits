@@ -43,6 +43,8 @@ private _cfgWeapons = configFile >> "CfgWeapons";
     private _shortName = getText (_x >> "shortName");
 
     if (_shortName isEqualTo "") then {_shortName = _kitId};
+    // A stringtable key, "$STR_...", the way config texts are localised.
+    if ((_shortName select [0, 1]) == "$") then {_shortName = localize (_shortName select [1])};
 
     GVAR(kits) set [toLowerANSI _item, [
         _kitId,
@@ -54,7 +56,13 @@ private _cfgWeapons = configFile >> "CfgWeapons";
         _defaults,
         getText (_cfgWeapons >> _item >> "displayName"),
         getText (_x >> "background"),
-        _shortName
+        _shortName,
+        [FILTER_MEDICAL, getNumber (_x >> "itemFilter")] select (isNumber (_x >> "itemFilter")),
+        (getArray (_x >> "itemTypes")) apply {toLowerANSI _x},
+        [true, getNumber (_x >> "useInTreatments") > 0] select (isNumber (_x >> "useInTreatments")),
+        ["FirstAid", getText (_x >> "group")] select (isText (_x >> "group")),
+        getText (_x >> "settingsCategory"),
+        getText (_x >> "whitelist")
     ]];
 
     GVAR(kitList) pushBack _item;

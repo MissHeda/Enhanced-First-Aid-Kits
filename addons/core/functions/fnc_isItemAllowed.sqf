@@ -36,9 +36,21 @@ if (isNull _config) exitWith {[false, ""]};
 // engine. Weapon attachments are small loose items and may go in.
 (_itemClass call ACEFUNC(common,getItemType)) params ["_itemType", "_itemSubtype"];
 
+// Backpacks are vehicles to the engine and nothing ACE sorts; called what they are here.
+if (getNumber (configFile >> "CfgVehicles" >> _itemClass >> "isBackpack") == 1) then {
+    _itemType = "backpack";
+    _itemSubtype = "backpack";
+};
+
+// A container made for one kind of thing lists it (itemTypes). Worn things only go into one that
+// names them outright - a CBRN bag carries the suit and the mask as "item/uniform", "item/glasses",
+// and its breathing set as "backpack".
+private _types = _kit param [KIT_TYPES, []];
+private _fullType = toLowerANSI format ["%1/%2", _itemType, _itemSubtype];
+
 if (
-    !(_itemType in ["item", "magazine"]) ||
-    {_itemSubtype in ["uniform", "vest", "headgear", "glasses", "goggles", "hmd", "binocular"]}
+    (!(_itemType in ["item", "magazine"]) && {!(_itemType == "backpack" && {"backpack" in _types})}) ||
+    {_itemSubtype in ["uniform", "vest", "headgear", "glasses", "goggles", "hmd", "binocular"] && {!(_fullType in _types)}}
 ) exitWith {
     [false, LLSTRING(Error_ItemNotAllowed)]
 };
@@ -55,8 +67,21 @@ if (_key in (GVAR(blacklistLookup) getOrDefault [_id, createHashMap])) exitWith 
     [false, LLSTRING(Error_Blacklisted)]
 };
 
-private _filter = missionNamespace getVariable [format [QGVAR(kit_%1_itemFilter), _id], FILTER_MEDICAL];
 private _whitelist = GVAR(whitelistLookup) getOrDefault [_id, createHashMap];
+
+// A container made for one kind of thing - an ammo pouch for magazines - takes only that kind,
+// unless the mission's whitelist names the item. Types as ace_common_fnc_getItemType gives them:
+// "magazine", or with the subtype, "magazine/secondary".
+if (
+    _types isNotEqualTo [] &&
+    {!(_key in _whitelist)} &&
+    {!((toLowerANSI _itemType) in _types)} &&
+    {!(_fullType in _types)}
+) exitWith {
+    [false, LLSTRING(Error_TypeNotAllowed)]
+};
+
+private _filter = missionNamespace getVariable [format [QGVAR(kit_%1_itemFilter), _id], _kit param [KIT_FILTER, FILTER_MEDICAL]];
 
 // Medical mode takes the whitelist as extra allowed items on top of everything medical, so a
 // mission can let a chemlight or a pair of scissors in without opening the kit to everything.

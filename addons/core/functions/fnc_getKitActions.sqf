@@ -8,6 +8,7 @@
  * Arguments:
  * 0: Unit carrying the kits <OBJECT>
  * 1: Player <OBJECT>
+ * 2: Only kits of this interaction group, see EFAK_KitGroups; "" for any <STRING> (default: "")
  *
  * Return Value:
  * Child actions <ARRAY>
@@ -18,7 +19,7 @@
  * Public: No
  */
 
-params ["_target", "_player"];
+params ["_target", "_player", ["_group", ""]];
 
 private _actions = [];
 
@@ -112,6 +113,8 @@ private _actions = [];
     ] call ACEFUNC(interact_menu,createAction);
 
     _actions pushBack [_action, _children, _target];
-} forEach ([_target] call FUNC(getCarriedKits));
+} forEach (([_target] call FUNC(getCarriedKits)) select {
+    _group isEqualTo "" || {(([_x] call FUNC(getKitData)) param [KIT_GROUP, "FirstAid"]) == _group}
+});
 
 _actions

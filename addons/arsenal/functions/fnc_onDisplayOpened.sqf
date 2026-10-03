@@ -70,9 +70,22 @@ private _fontHeight = missionNamespace getVariable [QACEGVAR(arsenal,fontHeight)
 private _blocker = call FUNC(getTabBlocker);
 private _tab = _display displayCtrl IDC_EFAK_TAB;
 
+// Icon and tooltip come from EFAK_Arsenal, where a mod that adds containers of its own (pouches)
+// can put its own.
+private _fnc_text = {if ((_this select [0, 1]) == "$") then {localize (_this select [1])} else {_this}};
+private _icon = getText (configFile >> "EFAK_Arsenal" >> "icon");
+
+if (_icon isNotEqualTo "") then {
+    _tab ctrlSetText _icon;
+    (_display displayCtrl IDC_EFAK_CATEGORY) ctrlSetText _icon;
+};
+
+(_display displayCtrl IDC_EFAK_CATEGORY) ctrlSetTooltip (["buttonContents"] call FUNC(getText));
+(_display displayCtrl IDC_EFAK_LEFT_TITLE) ctrlSetText (["header"] call FUNC(getText));
+
 _tab ctrlEnable (_blocker isEqualTo "");
 _tab ctrlSetFade ([0.6, 0] select (_blocker isEqualTo ""));
-_tab ctrlSetTooltip ([_blocker, LLSTRING(Tab_Tooltip)] select (_blocker isEqualTo ""));
+_tab ctrlSetTooltip ([_blocker, (getText (configFile >> "EFAK_Arsenal" >> "tabTooltip")) call _fnc_text] select (_blocker isEqualTo ""));
 _tab ctrlCommit 0;
 
 private _tabBackground = _display displayCtrl IDC_EFAK_TAB_BACKGROUND;

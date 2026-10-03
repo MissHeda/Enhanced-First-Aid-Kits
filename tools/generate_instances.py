@@ -19,7 +19,7 @@ Usage:  python tools/generate_instances.py
 import io
 import os
 
-# Keep in sync with EFAK_INSTANCES_PER_KIT in addons/core/script_component.hpp
+# Keep in sync with EFAK_INSTANCES_PER_KIT in addons/kits/script_component.hpp
 INSTANCES_PER_KIT = 500
 
 KITS = ["efak_IFAK", "efak_AFAK", "efak_MFAK", "efak_MFAKPlus"]
@@ -35,7 +35,7 @@ TEMPLATE = (
     '}};'
 )
 
-OUT = os.path.join(os.path.dirname(__file__), "..", "addons", "core", "CfgWeapons_instances.hpp")
+OUT = os.path.join(os.path.dirname(__file__), "..", "addons", "kits", "CfgWeapons_instances.hpp")
 
 
 def main():

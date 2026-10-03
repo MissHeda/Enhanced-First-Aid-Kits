@@ -4,12 +4,6 @@
 
 #include "\z\efak\addons\main\script_macros.hpp"
 
-// Number of unique instance classes generated per kit type.
-// Mirrors TFAR's radio approach: one prototype class + a pool of concrete
-// classes so every kit in the world has its own identity.
-// Keep in sync with tools/generate_instances.py
-#define EFAK_INSTANCES_PER_KIT 500
-
 // ----- Kit data layout (see fnc_initKits) -----
 #define KIT_ID          0
 #define KIT_ITEM        1
@@ -21,6 +15,12 @@
 #define KIT_NAME        7
 #define KIT_BACKGROUND  8
 #define KIT_SHORT_NAME  9
+#define KIT_FILTER      10  // default of the item filter setting, FILTER_*
+#define KIT_TYPES       11  // lowercase "type" / "type/subtype" (ace_common_fnc_getItemType) it takes, [] = any
+#define KIT_TREATMENTS  12  // default of "usable for treatments"
+#define KIT_GROUP       13  // interaction menu group, a class of EFAK_KitGroups
+#define KIT_CATEGORY    14  // CBA settings category, "" = EFAK's own
+#define KIT_WHITELIST   15  // default of the whitelist setting
 
 // Kit ids come from the config registry, so per kit setting names are built at
 // runtime with e.g. format [QGVAR(kit_%1_capacity), _kitId].

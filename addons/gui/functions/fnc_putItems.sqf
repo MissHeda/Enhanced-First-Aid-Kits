@@ -44,6 +44,7 @@ if (_key isEqualTo "kit") exitWith {
 };
 
 private _isMagazine = ((_class call ACEFUNC(common,getItemType)) select 0) isEqualTo "magazine";
+private _isBackpack = getNumber (configFile >> "CfgVehicles" >> _class >> "isBackpack") == 1;
 
 // The crate and the ground are cargo rather than carried items, and answer to their own commands.
 if (_key in ["crate", "ground"]) exitWith {
@@ -76,11 +77,32 @@ if (_key in ["crate", "ground"]) exitWith {
                 };
             };
             case (_isMagazine): {_object addMagazineCargoGlobal [_class, _fits]};
+            case (_isBackpack): {_object addBackpackCargoGlobal [_class, _fits]};
             default {_object addItemCargoGlobal [_class, _fits]};
         };
     };
 
     [_fits, 0]
+};
+
+// A backpack fits in no container: onto the player's back while it is free, the rest on the ground.
+if (_isBackpack) exitWith {
+    private _placed = 0;
+    private _dropped = 0;
+
+    for "_i" from 1 to _count do {
+        if (backpack ACE_player isEqualTo "") then {
+            ACE_player addBackpackGlobal _class;
+            _placed = _placed + 1;
+        } else {
+            private _holder = [true] call FUNC(getGroundHolder);
+            if (isNull _holder) exitWith {};
+            _holder addBackpackCargoGlobal [_class, 1];
+            _dropped = _dropped + 1;
+        };
+    };
+
+    [_placed, _dropped]
 };
 
 private _names = [_key];

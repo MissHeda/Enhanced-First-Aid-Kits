@@ -3,6 +3,7 @@ PREP(onDisplayOpened);
 PREP(onDisplayClosed);
 PREP(onKeyDown);
 PREP(getTabBlocker);
+PREP(getText);
 
 // Overlay
 PREP(openTab);
@@ -10,6 +11,7 @@ PREP(closeTab);
 PREP(applyCategorySetting);
 PREP(ensureCategoryButtons);
 PREP(onUseDefaultsChanged);
+PREP(onShowAllChanged);
 PREP(updateDefaultsBox);
 PREP(applyVisibility);
 

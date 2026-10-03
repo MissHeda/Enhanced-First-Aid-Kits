@@ -49,6 +49,12 @@
         <Key ID="STR_efak_arsenal_Clear_Tooltip">
             <English>Empty every kit of this type</English>
         </Key>
+        <Key ID="STR_efak_arsenal_ShowAll">
+            <English>All allowed items</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_ShowAll_Tooltip">
+            <English>List every item this kit may hold, not only what it holds now</English>
+        </Key>
         <Key ID="STR_efak_arsenal_UseDefaults">
             <English>Use CBA default</English>
         </Key>

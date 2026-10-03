@@ -71,6 +71,8 @@ GVAR(kitsButtonIdc) = -1;
 
 // Search and sort above the contents list. The sort choice is kept between openings.
 GVAR(searchText) = "";
+// "All allowed items": the kits button lists every item the kit may hold. Kept for the session.
+GVAR(showAll) = false;
 GVAR(sortMode) = 0;
 GVAR(sortAscending) = true;
 GVAR(fillingSort) = false;

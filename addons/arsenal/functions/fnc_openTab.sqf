@@ -118,6 +118,8 @@ _tabBackground ctrlCommit FADE_DELAY;
 
 GVAR(active) = true;
 
+(_display displayCtrl IDC_EFAK_SHOW_ALL) cbSetChecked GVAR(showAll);
+
 // The category buttons down the right edge now filter the kit contents. The tab always opens on
 // the kits button, which here means what the kit holds right now.
 [_display, true] call FUNC(hookCategoryButtons);

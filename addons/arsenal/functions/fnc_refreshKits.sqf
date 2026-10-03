@@ -83,7 +83,7 @@ switch (true) do {
         [LLSTRING(Row_Loading)] call _fnc_notice;
     };
     case (_groups isEqualTo []): {
-        [LLSTRING(Row_NoKits)] call _fnc_notice;
+        [["rowNoKits"] call FUNC(getText)] call _fnc_notice;
     };
 };
 

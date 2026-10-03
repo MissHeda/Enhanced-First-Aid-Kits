@@ -11,6 +11,7 @@ class CfgPatches {
         requiredVersion = REQUIRED_VERSION;
         requiredAddons[] = {
             "efak_core",
+            "efak_kits",
             "efak_medical",
             "ACM_main",
             "ACM_core",

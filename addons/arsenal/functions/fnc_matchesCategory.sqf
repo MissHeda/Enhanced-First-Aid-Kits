@@ -20,8 +20,9 @@ params ["_class"];
 
 // The kits button: in the kits tab it shows exactly what the selected kit holds, whatever category
 // each item would otherwise be in.
+// With "All allowed items" ticked, everything the kit may hold.
 if (GVAR(category) == GVAR(kitsButtonIdc)) exitWith {
-    (toLowerANSI _class) in GVAR(containedKeys)
+    GVAR(showAll) || {(toLowerANSI _class) in GVAR(containedKeys)}
 };
 
 if (GVAR(category) == ACE_BUTTON_MAG) exitWith {

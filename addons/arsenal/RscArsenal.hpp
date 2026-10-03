@@ -274,9 +274,24 @@ class ace_arsenal_display {
             tooltip = CSTRING(UseDefaults_Tooltip);
             x = QUOTE(safeZoneX + safeZoneW - 88 * GRID_W);
             y = QUOTE(safeZoneH + safeZoneY - 7 * GRID_H);
-            w = QUOTE(75 * GRID_W);
+            w = QUOTE(35 * GRID_W);
             h = QUOTE(5 * GRID_H);
             sizeEx = QUOTE(4.5 * GRID_H);
+        };
+
+        // Beside it: the kits button lists every item the kit may hold, not only what it holds.
+        class GVAR(showAll): GVAR(useDefaults) {
+            idc = IDC_EFAK_SHOW_ALL;
+            tooltip = CSTRING(ShowAll_Tooltip);
+            x = QUOTE(safeZoneX + safeZoneW - 53 * GRID_W);
+            onCheckedChanged = QUOTE(_this call FUNC(onShowAllChanged));
+        };
+        class GVAR(showAllLabel): GVAR(useDefaultsLabel) {
+            idc = IDC_EFAK_SHOW_ALL_LABEL;
+            text = CSTRING(ShowAll);
+            tooltip = CSTRING(ShowAll_Tooltip);
+            x = QUOTE(safeZoneX + safeZoneW - 48 * GRID_W);
+            w = QUOTE(35 * GRID_W);
         };
 
         // The kits' own category button, for missions that leave the kits among the medical items.

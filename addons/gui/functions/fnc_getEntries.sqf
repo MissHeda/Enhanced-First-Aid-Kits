@@ -56,6 +56,7 @@ private _fnc_cargo = {
 
         (getItemCargo _x) call _fnc_collect;
         (getMagazineCargo _x) call _fnc_collect;
+        (getBackpackCargo _x) call _fnc_collect;
     } forEach _objects;
 
     _order apply {[_x select 1, _counts get (_x select 0)]}

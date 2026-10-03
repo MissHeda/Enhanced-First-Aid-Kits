@@ -3,14 +3,17 @@
  * Author: Miss Heda
  * Makes the kits a player carries weigh what is actually in them, through ACE's virtual load.
  *
+ * It also takes off what a kit's packed size adds over its empty weight (fnc_getWeightOffset): a
+ * full MFAK+ takes a lot of room in a backpack, but the bag itself is no heavier for it. That part
+ * always applies, the setting only scales the contents.
+ *
  * The load goes on the unit itself, never on the uniform, vest or backpack. ACE only ever uses
  * the sum of the four, and a container that is dropped, handed over or put in a crate would
  * otherwise walk off with EFAK's share still on it. ACE's gunbag also writes to the backpack from
  * other machines, and the unit keeps us out of its way.
  *
  * Works on the difference: EFAK remembers what it has applied, works out the new total and hands
- * ACE only the change. With the setting off the new total is zero, so switching it off removes
- * exactly what was added.
+ * ACE only the change, so switching the setting removes exactly what it added.
  *
  * Only runs where the unit is local - ACE turns the load into a unit trait, and those can only be
  * set by the machine that owns the unit.
@@ -38,8 +41,6 @@ if !(GVAR(contentsSynced)) exitWith {};
 // ACE movement is where virtual load lives. Without it there is nothing to add to.
 if (isNil QACEFUNC(movement,addLoadToUnitContainer)) exitWith {};
 
-private _target = 0;
-
 // How much of what the kits hold the player is made to feel: 0 is off, 1 is the honest weight,
 // anything in between or above scales it.
 // A profile from before this was a slider can still hold the old on/off value, so true reads as
@@ -47,15 +48,17 @@ private _target = 0;
 private _factor = missionNamespace getVariable [QGVAR(kitWeight), 0];
 if (_factor isEqualType false) then {_factor = parseNumber _factor};
 
-if (_factor > 0) then {
-    private _counted = createHashMap;
+private _contents = 0;
+private _offset = 0;
+private _counted = createHashMap;
 
-    {
-        _target = _target + ([_x, _counted] call FUNC(getKitLoad));
-    } forEach ([_unit] call FUNC(getCarriedKits));
+{
+    ([_x, _counted] call FUNC(getKitLoad)) params ["_load", "_innerOffset"];
+    _contents = _contents + _load;
+    _offset = _offset + _innerOffset + ([_x] call FUNC(getWeightOffset));
+} forEach ([_unit] call FUNC(getCarriedKits));
 
-    _target = _target * _factor;
-};
+private _target = _offset + _contents * (_factor max 0);
 
 private _applied = _unit getVariable [QGVAR(appliedLoad), 0];
 private _delta = _target - _applied;

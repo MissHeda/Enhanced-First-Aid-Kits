@@ -19,36 +19,50 @@
 
 if !(hasInterface) exitWith {};
 
-// ACE builds the self action tree under a synthetic "ACE_SelfActions" root, so
-// that has to be the first element of the parent path.
-private _selfAction = [
-    QGVAR(root),
-    LLSTRING(Action_Root),
-    QPATHTOF(ui\IFAK.paa),
-    {},
-    {[_player] call FUNC(hasKits)},
-    {[_player, _player] call FUNC(getKitActions)}
-] call ACEFUNC(interact_menu,createAction);
+private _fnc_text = {
+    if ((_this select [0, 1]) == "$") then {localize (_this select [1])} else {_this}
+};
 
-["CAManBase", 1, ["ACE_SelfActions"], _selfAction, true] call ACEFUNC(interact_menu,addActionToClass);
+// One menu per group of EFAK_KitGroups: the first aid kits under their own entry, the pouches of
+// another mod under theirs. The first aid kits keep the action names they always had.
+{
+    private _group = configName _x;
+    private _suffix = ["_" + _group, ""] select (_group == "FirstAid");
+    private _icon = getText (_x >> "icon");
 
-// Reaching into someone else's kit - the medic case. Off limits while they are
-// awake unless the mission says otherwise.
-private _targetAction = [
-    QGVAR(rootOther),
-    LLSTRING(Action_RootOther),
-    QPATHTOF(ui\IFAK.paa),
-    {},
-    {
-        GVAR(interactWithOthers)
-        && {GVAR(interactWithAwake) || {!([_target] call ACEFUNC(common,isAwake))}}
-        && {
-            // An AI's kits may still be prototypes; they show up here once they are real kits.
-            [_target] call FUNC(requestUnitKits);
-            [_target] call FUNC(hasKits)
-        }
-    },
-    {[_target, _player] call FUNC(getKitActions)}
-] call ACEFUNC(interact_menu,createAction);
+    // ACE builds the self action tree under a synthetic "ACE_SelfActions" root, so
+    // that has to be the first element of the parent path.
+    private _selfAction = [
+        QGVAR(root) + _suffix,
+        (getText (_x >> "displayName")) call _fnc_text,
+        _icon,
+        {},
+        {[_player, false, (_this select 2) select 0] call FUNC(hasKits)},
+        {[_player, _player, (_this select 2) select 0] call FUNC(getKitActions)},
+        [_group]
+    ] call ACEFUNC(interact_menu,createAction);
 
-["CAManBase", 0, ["ACE_MainActions"], _targetAction, true] call ACEFUNC(interact_menu,addActionToClass);
+    ["CAManBase", 1, ["ACE_SelfActions"], _selfAction, true] call ACEFUNC(interact_menu,addActionToClass);
+
+    // Reaching into someone else's kit - the medic case. Off limits while they are
+    // awake unless the mission says otherwise.
+    private _targetAction = [
+        QGVAR(rootOther) + _suffix,
+        (getText (_x >> "displayNameOther")) call _fnc_text,
+        _icon,
+        {},
+        {
+            GVAR(interactWithOthers)
+            && {GVAR(interactWithAwake) || {!([_target] call ACEFUNC(common,isAwake))}}
+            && {
+                // An AI's kits may still be prototypes; they show up here once they are real kits.
+                [_target] call FUNC(requestUnitKits);
+                [_target, false, (_this select 2) select 0] call FUNC(hasKits)
+            }
+        },
+        {[_target, _player, (_this select 2) select 0] call FUNC(getKitActions)},
+        [_group]
+    ] call ACEFUNC(interact_menu,createAction);
+
+    ["CAManBase", 0, ["ACE_MainActions"], _targetAction, true] call ACEFUNC(interact_menu,addActionToClass);
+} forEach ("true" configClasses (configFile >> "EFAK_KitGroups"));

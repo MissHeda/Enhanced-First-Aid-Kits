@@ -4,7 +4,7 @@ class CfgPatches {
     class ADDON {
         name = COMPONENT_NAME;
         units[] = {};
-        weapons[] = {"efak_IFAK", "efak_AFAK", "efak_MFAK", "efak_MFAKPlus"};
+        weapons[] = {};
         requiredVersion = REQUIRED_VERSION;
         requiredAddons[] = {
             "efak_main"
@@ -16,6 +16,13 @@ class CfgPatches {
 };
 
 #include "CfgEventHandlers.hpp"
+
+// What the framework is called in the CBA settings and keybinds: the category of the general
+// settings and of every kit without one of its own. A mod that brings core, gui and arsenal along
+// without EFAK sets its own name here.
+class EFAK_Framework {
+    settingsCategory = CBA_SETTINGS_EFAK;
+};
 #include "CfgEFAKKits.hpp"
 #include "CfgWeapons.hpp"
 #include "Cfg3DEN.hpp"

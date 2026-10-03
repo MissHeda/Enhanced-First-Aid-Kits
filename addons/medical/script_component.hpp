@@ -7,6 +7,7 @@
 // Kit data indices, mirror addons/core/script_component.hpp
 #define KIT_ID          0
 #define KIT_SHORT_NAME  9
+#define KIT_TREATMENTS  12
 
 // Whose kits a treatment uses first, efak_medical_kitOwnerOrder
 #define KIT_OWNER_ACE       0

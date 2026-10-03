@@ -12,6 +12,7 @@ GVAR(usedInstances) = createHashMap;        // server only, lowercase instance c
 GVAR(nextInstance) = createHashMap;         // server only, lowercase prototype -> next id
 GVAR(nextRequestId) = 0;                    // instance requests sent from this machine
 GVAR(massCache) = createHashMap;
+GVAR(weightOffsetCache) = createHashMap;
 GVAR(nameCache) = createHashMap;              // lowercase class -> display name
 GVAR(pictureCache) = createHashMap;           // lowercase class -> picture path
 GVAR(contextMenuRegistered) = createHashMap;  // lowercase kit class -> true
@@ -137,6 +138,19 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
 // together, text boxes together - so the menu reads as a form rather than a mix.
 // ---------------------------------------------------------------------------
 
+// The category of the general settings and of every kit without one of its own: EFAK's, or the name
+// of a mod that brings the framework along without it (EFAK_Framework, core's config.cpp).
+GVAR(settingsCategory) = getText (configFile >> "EFAK_Framework" >> "settingsCategory");
+
+if ((GVAR(settingsCategory) select [0, 1]) == "$") then {
+    GVAR(settingsCategory) = localize (GVAR(settingsCategory) select [1]);
+};
+
+if (GVAR(settingsCategory) isEqualTo "") then {GVAR(settingsCategory) = CBA_SETTINGS_EFAK};
+
+// The medical addon only comes with EFAK itself. Without it its settings would do nothing.
+GVAR(hasMedical) = isClass (configFile >> "CfgPatches" >> "efak_medical");
+
 // ----- 0) Quick setup & debug -----
 
 // Sets many of the settings below at once, see fnc_applyPreset. It goes back to "Choose" once
@@ -146,7 +160,7 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
     QGVAR(preset),
     "LIST",
     [LLSTRING(Setting_Preset), LLSTRING(Setting_Preset_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_Top)],
+    [GVAR(settingsCategory), LLSTRING(SubCategory_Top)],
     [
         [PRESET_NONE, PRESET_SANDBOX, PRESET_NORMAL, PRESET_HARDCORE, PRESET_HARDCORE_PLUS, PRESET_FIXED],
         [
@@ -182,7 +196,7 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
     QGVAR(debugContents),
     "CHECKBOX",
     [LLSTRING(Setting_DebugContents), LLSTRING(Setting_DebugContents_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_Top)],
+    [GVAR(settingsCategory), LLSTRING(SubCategory_Top)],
     false,
     1,
     {
@@ -203,7 +217,7 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
     QGVAR(allowNesting),
     "CHECKBOX",
     [LLSTRING(Setting_AllowNesting), LLSTRING(Setting_AllowNesting_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
     false,
     1
 ] call CBA_fnc_addSetting;
@@ -212,7 +226,7 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
     QGVAR(interactWithOthers),
     "CHECKBOX",
     [LLSTRING(Setting_InteractWithOthers), LLSTRING(Setting_InteractWithOthers_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
     true,
     1
 ] call CBA_fnc_addSetting;
@@ -221,7 +235,7 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
     QGVAR(interactWithAwake),
     "CHECKBOX",
     [LLSTRING(Setting_InteractWithAwake), LLSTRING(Setting_InteractWithAwake_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
     false,
     1
 ] call CBA_fnc_addSetting;
@@ -230,7 +244,7 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
     QGVAR(doubleClickOpen),
     "CHECKBOX",
     [LLSTRING(Setting_DoubleClickOpen), LLSTRING(Setting_DoubleClickOpen_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
     true,
     0
 ] call CBA_fnc_addSetting;
@@ -242,7 +256,7 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
     "efak_arsenal_ownCategory",
     "CHECKBOX",
     [LELSTRING(arsenal,Setting_OwnCategory), LELSTRING(arsenal,Setting_OwnCategory_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
     true,
     1,
     {
@@ -252,42 +266,44 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
     }
 ] call CBA_fnc_addSetting;
 
-[
-    "efak_medical_useOrder",
-    "LIST",
-    [LELSTRING(medical,Setting_UseOrder), LELSTRING(medical,Setting_UseOrder_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
-    [[0, 1], [LELSTRING(medical,Setting_UseOrder_Inventory), LELSTRING(medical,Setting_UseOrder_Kits)], 0],
-    1
-] call CBA_fnc_addSetting;
-
-[
-    "efak_medical_kitOwnerOrder",
-    "LIST",
-    [LELSTRING(medical,Setting_KitOwnerOrder), LELSTRING(medical,Setting_KitOwnerOrder_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+if (GVAR(hasMedical)) then {
     [
-        [0, 1, 2],
-        [LELSTRING(medical,Setting_KitOwnerOrder_Ace), LELSTRING(medical,Setting_KitOwnerOrder_Medic), LELSTRING(medical,Setting_KitOwnerOrder_Patient)],
-        0
-    ],
-    1
-] call CBA_fnc_addSetting;
+        "efak_medical_useOrder",
+        "LIST",
+        [LELSTRING(medical,Setting_UseOrder), LELSTRING(medical,Setting_UseOrder_Desc)],
+        [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
+        [[0, 1], [LELSTRING(medical,Setting_UseOrder_Inventory), LELSTRING(medical,Setting_UseOrder_Kits)], 0],
+        1
+    ] call CBA_fnc_addSetting;
 
-[
-    "efak_medical_kitSizeOrder",
-    "LIST",
-    [LELSTRING(medical,Setting_KitSizeOrder), LELSTRING(medical,Setting_KitSizeOrder_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
-    [[0, 1], [LELSTRING(medical,Setting_KitSizeOrder_Smallest), LELSTRING(medical,Setting_KitSizeOrder_Biggest)], 0],
-    1
-] call CBA_fnc_addSetting;
+    [
+        "efak_medical_kitOwnerOrder",
+        "LIST",
+        [LELSTRING(medical,Setting_KitOwnerOrder), LELSTRING(medical,Setting_KitOwnerOrder_Desc)],
+        [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
+        [
+            [0, 1, 2],
+            [LELSTRING(medical,Setting_KitOwnerOrder_Ace), LELSTRING(medical,Setting_KitOwnerOrder_Medic), LELSTRING(medical,Setting_KitOwnerOrder_Patient)],
+            0
+        ],
+        1
+    ] call CBA_fnc_addSetting;
+
+    [
+        "efak_medical_kitSizeOrder",
+        "LIST",
+        [LELSTRING(medical,Setting_KitSizeOrder), LELSTRING(medical,Setting_KitSizeOrder_Desc)],
+        [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
+        [[0, 1], [LELSTRING(medical,Setting_KitSizeOrder_Smallest), LELSTRING(medical,Setting_KitSizeOrder_Biggest)], 0],
+        1
+    ] call CBA_fnc_addSetting;
+};
 
 [
     QGVAR(kitWeight),
     "SLIDER",
     [LLSTRING(Setting_KitWeight), LLSTRING(Setting_KitWeight_Desc)],
-    [CBA_SETTINGS_EFAK, LLSTRING(SubCategory_General)],
+    [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
     [0, 2, 0.5, 0, true],
     1,
     {call FUNC(queueVirtualLoad)}
@@ -298,10 +314,11 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
 // ---------------------------------------------------------------------------
 
 {
-    (GVAR(kits) get (toLowerANSI _x)) params ["_kitId", "", "", "", "_capacity", "", "_defaults", "_name"];
+    private _kit = GVAR(kits) get (toLowerANSI _x);
+    _kit params ["_kitId", "", "", "", "_capacity", "", "_defaults", "_name"];
 
     // Numbered so the CBA menu, which sorts subcategories by name, keeps them in registry order
-    // right after "1) General".
+    // right after "1) General" - or in a category of their own, for containers of another mod.
     private _category = [_x] call FUNC(getKitCategory);
 
     [
@@ -372,15 +389,17 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
         0
     ] call CBA_fnc_addSetting;
 
-    // Read by the medical addon, registered here to sit with the other switches of this kit.
-    [
-        format ["efak_medical_kit_%1_useFrom", _kitId],
-        "CHECKBOX",
-        [LELSTRING(medical,Setting_UseFromKit), LELSTRING(medical,Setting_UseFromKit_Desc)],
-        _category,
-        true,
-        1
-    ] call CBA_fnc_addSetting;
+    if (GVAR(hasMedical)) then {
+        // Read by the medical addon, registered here to sit with the other switches of this kit.
+        [
+            format ["efak_medical_kit_%1_useFrom", _kitId],
+            "CHECKBOX",
+            [LELSTRING(medical,Setting_UseFromKit), LELSTRING(medical,Setting_UseFromKit_Desc)],
+            _category,
+            _kit select KIT_TREATMENTS,
+            1
+        ] call CBA_fnc_addSetting;
+    };
 
     [
         format [QGVAR(kit_%1_arsenalEditing), _kitId],
@@ -418,7 +437,7 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
         [
             [FILTER_ALL, FILTER_MEDICAL, FILTER_LIST],
             [LLSTRING(Setting_ItemFilter_All), LLSTRING(Setting_ItemFilter_Medical), LLSTRING(Setting_ItemFilter_List)],
-            FILTER_MEDICAL
+            [FILTER_ALL, FILTER_MEDICAL, FILTER_LIST] find (_kit select KIT_FILTER)
         ],
         1,
         {call FUNC(settingsChanged)}
@@ -429,7 +448,7 @@ if (isClass (configFile >> "CfgPatches" >> "ace_arsenal")) then {
         "EDITBOX",
         [LLSTRING(Setting_Whitelist), LLSTRING(Setting_Whitelist_Desc)],
         _category,
-        "",
+        _kit select KIT_WHITELIST,
         1,
         {call FUNC(settingsChanged)}
     ] call CBA_fnc_addSetting;

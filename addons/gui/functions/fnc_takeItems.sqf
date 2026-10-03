@@ -53,6 +53,7 @@ if (_key isEqualTo "kit") exitWith {
 };
 
 private _isMagazine = ((_class call ACEFUNC(common,getItemType)) select 0) isEqualTo "magazine";
+private _isBackpack = getNumber (configFile >> "CfgVehicles" >> _class >> "isBackpack") == 1;
 private _classKey = toLowerANSI _class;
 
 // The crate and the ground are cargo rather than carried items, and answer to their own commands.
@@ -117,7 +118,7 @@ if (_key in ["crate", "ground"]) exitWith {
 
     if (isNull _object) exitWith {0};
 
-    (getItemCargo _object) params ["_classes", "_counts"];
+    ([getItemCargo _object, getBackpackCargo _object] select _isBackpack) params ["_classes", "_counts"];
 
     private _have = 0;
 
@@ -130,7 +131,11 @@ if (_key in ["crate", "ground"]) exitWith {
     private _taken = _count min _have;
 
     if (_taken > 0) then {
-        _object addItemCargoGlobal [_class, -_taken];
+        if (_isBackpack) then {
+            [_object, _class, _taken] call CBA_fnc_removeBackpackCargo;
+        } else {
+            _object addItemCargoGlobal [_class, -_taken];
+        };
     };
 
     _taken

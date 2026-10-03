@@ -22,4 +22,4 @@ private _kit = [_class] call EFUNC(core,getKitData);
 
 if (_kit isEqualTo []) exitWith {false};
 
-missionNamespace getVariable [format [QGVAR(kit_%1_useFrom), _kit select KIT_ID], true]
+missionNamespace getVariable [format [QGVAR(kit_%1_useFrom), _kit select KIT_ID], _kit param [KIT_TREATMENTS, true]]

@@ -32,10 +32,14 @@ private _own = missionNamespace getVariable [QGVAR(ownCategory), true];
 
 // Registering is what creates ACE's array in the first place, so the button comes before the rest.
 if (_own) then {
+    // Name and icon from EFAK_Arsenal, which a mod with containers of its own may change.
+    private _name = getText (configFile >> "EFAK_Arsenal" >> "buttonName");
+    if ((_name select [0, 1]) == "$") then {_name = localize (_name select [1])};
+
     private _slot = [
         GVAR(kitClasses),
-        LLSTRING(Button_Kits),
-        QPATHTOF(ui\efak_logo.paa),
+        _name,
+        getText (configFile >> "EFAK_Arsenal" >> "icon"),
         GVAR(kitsButtonSlot)
     ] call ACEFUNC(arsenal,addRightPanelButton);
 

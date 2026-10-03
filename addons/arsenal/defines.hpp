@@ -79,6 +79,9 @@
 // own in ACE's tabs. Its background sits at IDC - 1, the way ACE's own category buttons do.
 #define IDC_EFAK_CATEGORY_BG        88524
 #define IDC_EFAK_CATEGORY           88525
+// "All allowed items" box next to the defaults box
+#define IDC_EFAK_SHOW_ALL           88526
+#define IDC_EFAK_SHOW_ALL_LABEL     88527
 // Search and sort above the contents list, copies of ACE's own right panel controls
 #define IDC_EFAK_SEARCH             88520
 #define IDC_EFAK_SEARCH_BUTTON      88521
@@ -109,7 +112,9 @@
     IDC_EFAK_LOAD_TITLE, \
     IDC_EFAK_LOAD_TEXT, \
     IDC_EFAK_DEFAULTS, \
-    IDC_EFAK_DEFAULTS_LABEL
+    IDC_EFAK_DEFAULTS_LABEL, \
+    IDC_EFAK_SHOW_ALL, \
+    IDC_EFAK_SHOW_ALL_LABEL
 
 // What the kits tab may change about a kit type, from efak_core_fnc_getArsenalEditing. Mirrors
 // core's script_component.hpp, which this addon does not include.

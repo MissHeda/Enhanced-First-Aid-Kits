@@ -4,22 +4,10 @@
 // up there would start the mission with the default contents.
 //
 // A crate or vehicle can say what its kits hold, one field per kit type in the format of the CBA
-// default contents. At mission start the server swaps the kits of that type in its cargo for kits
-// filled that way (fnc_fillCrateKits); an empty field leaves them to the defaults. The editor puts
-// the property name in for %s, which tells the function the kit type.
-#define CRATE_KIT_ATTRIBUTE(kit,name) \
-    class GVAR(crate_##kit) { \
-        displayName = CSTRING(3DEN_CrateContents_##name); \
-        tooltip = CSTRING(3DEN_CrateContents_Tooltip); \
-        property = QGVAR(crate_##kit); \
-        control = "EditMulti3"; \
-        expression = QUOTE(if (!is3DEN && {isServer} && {_value isNotEqualTo ''}) then {[ARR_3(_this,'%s',_value)] call FUNC(fillCrateKits)}); \
-        defaultValue = "''"; \
-        typeName = "STRING"; \
-        validate = "none"; \
-        condition = "objectHasInventoryCargo"; \
-    }
-
+// default contents. The addon that brings a kit type adds that field to this category, with the
+// property name efak_core_crate_<prototype> - see addons/kits/Cfg3DEN.hpp. At mission start the
+// server swaps the kits of that type in its cargo for kits filled that way (fnc_fillCrateKits); an
+// empty field leaves them to the defaults.
 class Cfg3DEN {
     class Object {
         class AttributeCategories {
@@ -39,10 +27,6 @@ class Cfg3DEN {
                         validate = "none";
                         condition = "objectBrain";
                     };
-                    CRATE_KIT_ATTRIBUTE(efak_IFAK,IFAK);
-                    CRATE_KIT_ATTRIBUTE(efak_AFAK,AFAK);
-                    CRATE_KIT_ATTRIBUTE(efak_MFAK,MFAK);
-                    CRATE_KIT_ATTRIBUTE(efak_MFAKPlus,MFAKPlus);
                 };
             };
         };
