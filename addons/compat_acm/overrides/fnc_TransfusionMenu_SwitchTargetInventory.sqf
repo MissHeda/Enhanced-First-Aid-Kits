@@ -13,7 +13,8 @@ if (isNil "_original") then {
     missionNamespace setVariable ["efak_compat_acm_original_TransfusionMenu_SwitchTargetInventory", _original];
 };
 
-if (!efak_compat_acm_useCopies) exitWith {_this call _original};
+// ACM's button calls this without arguments - a plain call never touches the undefined _this.
+if (!efak_compat_acm_useCopies) exitWith {call _original};
 
 private _fluids = +(missionNamespace getVariable ["ACM_circulation_Fluids_Array", []]);
 private _fluidsData = +(missionNamespace getVariable ["ACM_circulation_Fluids_Array_Data", []]);
@@ -22,7 +23,7 @@ private _fluidsData = +(missionNamespace getVariable ["ACM_circulation_Fluids_Ar
 private _playerItems = [ACE_player, 0] call ace_common_fnc_uniqueItems;
 private _hadLoose = (_fluids findIf {_x in _playerItems}) > -1;
 
-_this call _original;
+call _original;
 
 private _selection = missionNamespace getVariable ["ACM_circulation_TransfusionMenu_Selected_Inventory", 0];
 

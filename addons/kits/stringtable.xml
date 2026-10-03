@@ -44,7 +44,7 @@
             <English>MFAK+ contents</English>
         </Key>
         <Key ID="STR_efak_kits_FrameworkMismatch">
-            <English>Enhanced First Aid Kits %1 runs on the kit framework of version %2, which another mod brings along (Enhanced Utility Pouches). Update both to their latest version.</English>
+            <English>Enhanced First Aid Kits %1 runs on another version of its kit framework, which another mod brings along (Enhanced Utility Pouches). Update both to their latest version.</English>
         </Key>
     </Package>
 </Project>

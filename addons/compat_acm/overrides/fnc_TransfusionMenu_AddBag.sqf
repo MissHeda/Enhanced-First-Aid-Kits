@@ -29,4 +29,5 @@ if (efak_compat_acm_useCopies) then {
     };
 };
 
-_this call _original
+// ACM's button calls this without arguments - a plain call never touches the undefined _this.
+call _original

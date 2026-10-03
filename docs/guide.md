@@ -417,8 +417,9 @@ class EFAK_Framework {
 ```
 
 With EFAK loaded as well the game finds the framework twice and uses one copy, so ship the PBOs of
-the EFAK release you built against and update with every EFAK release. `efak_kits` warns in chat
-when the framework in use is of another version. Enhanced Utility Pouches does exactly this - see its
+the EFAK release you built against, and update them whenever `EFAK_Framework >> revision` goes up -
+an EFAK update that leaves the framework alone needs nothing. `efak_kits` warns in chat when the
+framework in use is of another revision. Enhanced Utility Pouches does exactly this - see its
 `tools/sync_framework.py` and its `compat_efak` addon, which hands the names back to EFAK when both
 are loaded.
 

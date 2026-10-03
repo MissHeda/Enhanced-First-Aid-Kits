@@ -11,7 +11,7 @@ if (isNil "_original") then {
 
 params ["_unit"];
 
-if (([_unit, "ACM_OxygenTank_425"] call efak_medical_fnc_countLoose) > 0) exitWith {_this call _original};
+if (([_unit, "ACM_OxygenTank_425"] call efak_medical_fnc_countLoose) > 0) exitWith {call _original};
 
 private _left = [_unit, "ACM_OxygenTank_425", "ACM_OxygenTank_425_Empty"] call efak_medical_fnc_drawCharge;
 

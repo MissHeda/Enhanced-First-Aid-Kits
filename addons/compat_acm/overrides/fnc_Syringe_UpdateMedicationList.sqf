@@ -14,7 +14,7 @@ if (!efak_compat_acm_useCopies) exitWith {
         _original = compile preprocessFileLineNumbers "\x\ACM\addons\circulation\functions\fnc_Syringe_UpdateMedicationList.sqf";
         missionNamespace setVariable ["efak_compat_acm_original_Syringe_UpdateMedicationList", _original];
     };
-    _this call _original
+    call _original
 };
 
 /*

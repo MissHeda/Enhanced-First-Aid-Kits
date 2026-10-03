@@ -14,7 +14,7 @@ if (!efak_compat_acm_useCopies) exitWith {
         _original = compile preprocessFileLineNumbers "\x\ACM\addons\circulation\functions\fnc_canConnectAED.sqf";
         missionNamespace setVariable ["efak_compat_acm_original_canConnectAED", _original];
     };
-    _this call _original
+    call _original
 };
 
 /*
