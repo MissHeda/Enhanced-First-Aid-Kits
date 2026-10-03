@@ -11,3 +11,5 @@ PREP(useCharge);
 PREP(listItems);
 PREP(drawCharge);
 PREP(takeItem);
+PREP(unpackForUse);
+PREP(refillInKit);

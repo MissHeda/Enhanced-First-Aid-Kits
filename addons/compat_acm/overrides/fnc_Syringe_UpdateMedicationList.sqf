@@ -2,10 +2,11 @@
 // its macros written out; ACM counts the vials in the unit's own inventory only, so vials packed in a
 // kit never showed up in the draw window.
 
-// This copy only stands in for the ACM it was taken from (1.5.0.4). Any other build - an ACM update,
-// or ACM Extended, which ships its own reworked ACM - runs its own function from its own file, untouched.
+// This copy always stands in for ACM, whatever its version - ACM rarely touches these functions.
+// Only ACM Extended, which ships its own reworked ACM that already looks into kits, runs its own
+// function from its own file, untouched.
 if (isNil "efak_compat_acm_useCopies") then {
-    efak_compat_acm_useCopies = getText (configFile >> "CfgPatches" >> "ACM_circulation" >> "versionStr") == "1.5.0.4";
+    efak_compat_acm_useCopies = !isClass (configFile >> "CfgPatches" >> "ACM_Extended");
 };
 if (!efak_compat_acm_useCopies) exitWith {
     private _original = missionNamespace getVariable "efak_compat_acm_original_Syringe_UpdateMedicationList";

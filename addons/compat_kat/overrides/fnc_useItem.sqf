@@ -8,9 +8,8 @@
  * would silently lose its part, so this compat - loaded after both - carries both. Everything outside
  * the lines marked EFAK is KAT's code with its macros written out.
  *
- * Only for the KAT it was taken from: any other KAT version gets EFAK's own useItem (ACE's code plus
- * the kits), which keeps the kits working and loses no more than KAT's vehicle order until this copy
- * is brought up to date.
+ * Used with every KAT version - KAT's useItem is the same in 3.2.0 and 3.2.1 and rarely changes.
+ * Bring this copy up to date when it does.
  *
  * Arguments:
  * 0: Medic <OBJECT>
@@ -27,7 +26,7 @@
  */
 
 if (isNil "efak_compat_kat_useCopies") then {
-    efak_compat_kat_useCopies = getText (configFile >> "CfgPatches" >> "kat_misc" >> "versionStr") == "3.2.0";
+    efak_compat_kat_useCopies = true;
 };
 if (!efak_compat_kat_useCopies) exitWith {
     if (isNil "efak_compat_kat_efakUseItem") then {

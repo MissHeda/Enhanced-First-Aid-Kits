@@ -50,6 +50,7 @@ PREP(allocateInstance);
 PREP(freeInstance);
 PREP(convertKits);
 PREP(convertKitsNow);
+PREP(dedupeKits);
 PREP(requestUnitKits);
 PREP(fillCrateKits);
 PREP(fillNewInstance);

@@ -29,7 +29,7 @@ class EFAK_Kits {
         iconContents = QPATHTOF(ui\IFAK.paa);
         capacity = 35;
         instances = EFAK_INSTANCES_PER_KIT;
-        defaultContents = "[['ACE_elasticBandage',6],['ACE_packingBandage',8],['ACE_quikclot',6],['ACE_tourniquet',3],['ACE_morphine',1],['ACE_epinephrine',1],['ACE_painkillers',2],['ACE_splint',1]]";
+        defaultContents = "ACE_elasticBandage 6 ACE_packingBandage 8 ACE_quikclot 6 ACE_tourniquet 3 ACE_morphine 1 ACE_epinephrine 1 ACE_painkillers 2 ACE_splint 1";
         background = "";
     };
 
@@ -41,7 +41,7 @@ class EFAK_Kits {
         iconContents = QPATHTOF(ui\AFAK.paa);
         capacity = 90;
         instances = EFAK_INSTANCES_PER_KIT;
-        defaultContents = "[['ACE_elasticBandage',15],['ACE_packingBandage',15],['ACE_quikclot',10],['ACE_tourniquet',6],['ACE_morphine',4],['ACE_epinephrine',4],['ACE_painkillers',4],['ACE_splint',2],['ACE_suture',10],['ACE_salineIV_250',2],['ACE_plasmaIV_250',2]]";
+        defaultContents = "ACE_elasticBandage 15 ACE_packingBandage 15 ACE_quikclot 10 ACE_tourniquet 6 ACE_morphine 4 ACE_epinephrine 4 ACE_painkillers 4 ACE_splint 2 ACE_suture 10 ACE_salineIV_250 2 ACE_plasmaIV_250 2";
         background = "";
     };
 
@@ -54,7 +54,7 @@ class EFAK_Kits {
         iconContents = QPATHTOF(ui\MFAK.paa);
         capacity = 320;
         instances = EFAK_INSTANCES_PER_KIT;
-        defaultContents = "[['ACE_elasticBandage',40],['ACE_packingBandage',30],['ACE_quikclot',25],['ACE_tourniquet',12],['ACE_morphine',10],['ACE_epinephrine',10],['ACE_painkillers',10],['ACE_splint',8],['ACE_adenosine',6],['ACE_surgicalKit',1],['ACE_suture',40],['ACE_salineIV_500',4],['ACE_salineIV_250',4],['ACE_plasmaIV_500',4],['ACE_plasmaIV_250',4],['ACE_bloodIV_250',4]]";
+        defaultContents = "ACE_elasticBandage 40 ACE_packingBandage 30 ACE_quikclot 25 ACE_tourniquet 12 ACE_morphine 10 ACE_epinephrine 10 ACE_painkillers 10 ACE_splint 8 ACE_adenosine 6 ACE_surgicalKit 1 ACE_suture 40 ACE_salineIV_500 4 ACE_salineIV_250 4 ACE_plasmaIV_500 4 ACE_plasmaIV_250 4 ACE_bloodIV_250 4";
         // A bag rather than a pouch: the hard realism modes unload it into the backpack.
         bag = 1;
         background = "";
@@ -68,7 +68,7 @@ class EFAK_Kits {
         iconContents = QPATHTOF(ui\MFAKPlus.paa);
         capacity = 520;
         instances = EFAK_INSTANCES_PER_KIT;
-        defaultContents = "[['ACE_elasticBandage',60],['ACE_packingBandage',45],['ACE_quikclot',40],['ACE_tourniquet',16],['ACE_morphine',15],['ACE_epinephrine',15],['ACE_painkillers',15],['ACE_splint',12],['ACE_adenosine',8],['ACE_surgicalKit',2],['ACE_suture',60],['ACE_salineIV_500',6],['ACE_salineIV_250',6],['ACE_plasmaIV_500',6],['ACE_plasmaIV_250',6],['ACE_bloodIV_500',4],['ACE_bloodIV_250',6]]";
+        defaultContents = "ACE_elasticBandage 60 ACE_packingBandage 45 ACE_quikclot 40 ACE_tourniquet 16 ACE_morphine 15 ACE_epinephrine 15 ACE_painkillers 15 ACE_splint 12 ACE_adenosine 8 ACE_surgicalKit 2 ACE_suture 60 ACE_salineIV_500 6 ACE_salineIV_250 6 ACE_plasmaIV_500 6 ACE_plasmaIV_250 6 ACE_bloodIV_500 4 ACE_bloodIV_250 6";
         // A bag rather than a pouch: the hard realism modes unload it into the backpack.
         bag = 1;
         background = "";

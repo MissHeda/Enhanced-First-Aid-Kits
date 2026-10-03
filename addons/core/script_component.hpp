@@ -83,6 +83,8 @@
 // Long enough for a remote owner or a unit that becomes the player a few frames later, short
 // enough that a prototype picked up from a crate afterwards gets the default contents.
 #define EFAK_RESTORE_TIMEOUT        30
+// How long after the player gets a new unit (respawn) its kits are checked against the bodies.
+#define EFAK_DEDUPE_WINDOW          60
 
 // Limits for contents coming from outside the mission (profile, clipboard, other modpacks).
 #define EFAK_RESTORE_MAX_DEPTH      3       // kits packed inside kits

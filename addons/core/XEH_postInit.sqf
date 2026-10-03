@@ -115,14 +115,30 @@ if (isServer) then {
     // takes its kits with it, and their ids would stay taken for the rest of the mission. With AI
     // converting their kits too, a mission spawning waves would run through the pool. Units only:
     // a weapon holder is deleted the moment its last item is picked up, and that kit lives on.
+    // A kit some other unit still carries stays: a respawn that gave the gear back with plain
+    // setUnitLoadout put the body's ids on the new unit too (see fnc_dedupeKits).
     addMissionEventHandler ["EntityDeleted", {
         params ["_entity"];
 
         if !(_entity isKindOf "CAManBase") exitWith {};
 
+        private _kits = [_entity] call FUNC(getCarriedKits);
+
+        if (_kits isEqualTo []) exitWith {};
+
+        private _elsewhere = createHashMap;
+
         {
-            [_x] call FUNC(freeInstance);
-        } forEach ([_entity] call FUNC(getCarriedKits));
+            {
+                _elsewhere set [toLowerANSI _x, true];
+            } forEach ([_x] call FUNC(getCarriedKits));
+        } forEach ((allUnits + allDeadMen) - [_entity]);
+
+        {
+            if !((toLowerANSI _x) in _elsewhere) then {
+                [_x] call FUNC(freeInstance);
+            };
+        } forEach _kits;
     }];
 } else {
     // Every machine that is not the server asks for the full table - headless clients too: they own
@@ -157,6 +173,12 @@ if !(hasInterface) exitWith {};
 
 ["loadout", {
     params ["_unit"];
+
+    // A respawn script may hand the old gear back a moment after the new unit arrived.
+    if (CBA_missionTime < (_unit getVariable [QGVAR(dedupeUntil), -1])) then {
+        [_unit] call FUNC(dedupeKits);
+    };
+
     [_unit] call FUNC(convertKits);
     call FUNC(queueVirtualLoad);
 }, true] call CBA_fnc_addPlayerEventHandler;
@@ -167,6 +189,8 @@ if !(hasInterface) exitWith {};
 // over may still hold contents in its restore queue.
 ["unit", {
     params ["_unit"];
+    _unit setVariable [QGVAR(dedupeUntil), CBA_missionTime + EFAK_DEDUPE_WINDOW];
+    [_unit] call FUNC(dedupeKits);
     [_unit] call FUNC(convertKits);
     call FUNC(queueVirtualLoad);
 }, true] call CBA_fnc_addPlayerEventHandler;
