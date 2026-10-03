@@ -42,6 +42,7 @@
 #define FILTER_ALL      0
 #define FILTER_MEDICAL  1
 #define FILTER_LIST     2
+#define FILTER_KIND     3
 
 // How often the backpack contents are copied to the clipboard while the debug setting is on.
 #define EFAK_DEBUG_INTERVAL 10

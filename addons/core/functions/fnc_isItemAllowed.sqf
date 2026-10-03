@@ -98,4 +98,14 @@ if (_filter == FILTER_LIST && {!(_key in _whitelist)}) exitWith {
     [false, LLSTRING(Error_NotWhitelisted)]
 };
 
+private _isKindInWhitelist = {
+    private _i = 0;
+    {if ((_key isKindOf [_x, configFile >> "CfgWeapons"]) || (_key isKindOf [_x, configFile >> "CfgMagazines"])) exitWith {_i = 1}} forEach _whitelist;
+    _i == 0;
+};
+
+if (_filter == FILTER_KIND && _isKindInWhitelist) exitWith {
+        [false, LLSTRING(Error_NotKindOf)]
+    };
+
 [true, ""]

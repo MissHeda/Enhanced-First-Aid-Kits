@@ -193,6 +193,9 @@
         <Key ID="STR_efak_core_Error_NotInDefaults">
             <English>Not part of this kit's default contents</English>
         </Key>
+        <Key ID="STR_efak_core_Error_NotKindOf">
+            <English>Not kind of any item on the whitelist</English>
+        </Key>
         <Key ID="STR_efak_core_Error_DefaultsReached">
             <English>The kit already holds as many as its default contents</English>
         </Key>
