@@ -381,7 +381,7 @@ class EFAK_Kits {
     class AmmoPouch {
         item = "mymod_AmmoPouch";
         // ... as above, plus:
-        itemFilter = 0;                    // default of the item filter setting: 0 anything, 1 medical (default), 2 list
+        itemFilter = 0;                    // default of the item filter setting: 0 anything, 1 medical (default), 2 list, 3 list by inheritance
         itemTypes[] = {"magazine"};        // only these kinds of items, as ace_common_fnc_getItemType gives them:
                                            // "magazine", "item", or with the subtype, e.g. "magazine/secondary".
                                            // The mission's whitelist still lets other items in. Empty: any kind.
@@ -401,6 +401,8 @@ class EFAK_KitGroups {
     };
 };
 ```
+
+When `itemFilter = 3` it will check if the item's class inherits from any class in `whitelist`.
 
 Prototypes that are no medical item set `ACE_isMedicalItem = 0`. Short names and display names may
 be stringtable keys (`"$STR_..."`).
