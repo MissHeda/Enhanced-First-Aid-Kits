@@ -53,3 +53,8 @@ if (_key in GVAR(followDefaults)) then {
 };
 
 [QGVAR(contentsChanged), [_class, []]] call CBA_fnc_globalEvent;
+
+// ...and without a name.
+if (_key in GVAR(labels)) then {
+    [QGVAR(labelChanged), [_class, ""]] call CBA_fnc_globalEvent;
+};

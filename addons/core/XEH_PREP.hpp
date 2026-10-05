@@ -18,6 +18,19 @@ PREP(debugContents);
 // Kit weight
 PREP(getKitLoad);
 PREP(getWeightOffset);
+PREP(getWeightFactor);
+PREP(dropKit);
+PREP(getKitLabel);
+PREP(setKitLabel);
+PREP(getKitTitle);
+PREP(updateTypeNames);
+PREP(getTypeName);
+PREP(nameCrateKits);
+PREP(labelInventoryLists);
+PREP(getTreeLabel);
+PREP(changeKitItem);
+PREP(getWearSlot);
+PREP(wearItem);
 PREP(updateVirtualLoad);
 PREP(queueVirtualLoad);
 

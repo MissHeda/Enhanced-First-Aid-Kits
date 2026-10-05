@@ -40,6 +40,13 @@ private _prototype = [_instance] call FUNC(getPrototype);
 
 if (_prototype isEqualTo "") exitWith {[]};
 
+// The name it was saved with (the markers are no items - the checks below pass over them).
+private _label = ([_tree] call FUNC(getTreeLabel)) select 0;
+
+if (_label isNotEqualTo "") then {
+    [_instance, _label] call FUNC(setKitLabel);
+};
+
 private _defaults = [_prototype] call FUNC(getDefaultContents);
 private _allowance = createHashMap;
 
@@ -170,10 +177,17 @@ private _charges = [];
 
             _budget set [0, (_budget select 0) - 1];
             // A packed kit of a type whose contents are forced comes complete like any other.
-            if ([_nested] call FUNC(isContentsForced)) then {
-                [_nested, -1] call FUNC(fillNewInstance);
-            } else {
-                [_nested, _subTree, _depth + 1, _budget] call FUNC(restoreContents);
+            switch (true) do {
+                case ([_nested] call FUNC(isContentsForced)): {
+                    [_nested, -1] call FUNC(fillNewInstance);
+                };
+                // It followed the defaults: the defaults again, and its name.
+                case (_subTree isEqualType [] && {([_subTree] call FUNC(getTreeLabel)) select 1}): {
+                    [_nested, _subTree] call FUNC(fillNewInstance);
+                };
+                default {
+                    [_nested, _subTree, _depth + 1, _budget] call FUNC(restoreContents);
+                };
             };
             _contents pushBack [_nested, 1];
         };

@@ -26,6 +26,17 @@
 
 params ["_instance", ["_contents", -1]];
 
+// A saved kit that followed the defaults and had a name comes as a tree of markers only.
+private _label = "";
+
+if (_contents isEqualType []) then {
+    ([_contents] call FUNC(getTreeLabel)) params ["_treeLabel", "_followsDefaults"];
+
+    _label = _treeLabel;
+
+    if (_followsDefaults) then {_contents = LOADOUT_KIT_DEFAULT};
+};
+
 private _restore = _contents isEqualType [] && {!([_instance] call FUNC(isContentsForced))};
 
 if (_restore) then {
@@ -35,3 +46,8 @@ if (_restore) then {
 };
 
 [_instance, _contents isEqualTo LOADOUT_KIT_DEFAULT] call FUNC(setFollowDefaults);
+
+// restoreContents names it itself, from the same tree.
+if (!_restore && {_label isNotEqualTo ""}) then {
+    [_instance, _label] call FUNC(setKitLabel);
+};

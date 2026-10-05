@@ -9,6 +9,7 @@
  * Arguments:
  * 0: Unit <OBJECT>
  * 1: Item classes <ARRAY> of <STRING>
+ * 2: Which kits: KITS_ALL, KITS_CARRIED or KITS_GROUND <NUMBER> (default: KITS_ALL)
  *
  * Return Value:
  * 0: Kit instance class <STRING>, "" when nothing was found
@@ -20,7 +21,7 @@
  * Public: No
  */
 
-params ["_unit", "_items"];
+params ["_unit", "_items", ["_mode", KITS_ALL]];
 
 private _result = ["", ""];
 
@@ -47,6 +48,6 @@ if ((_items findIf {(_counts getOrDefault [toLowerANSI _x, 0]) > 0}) == -1) exit
     } forEach _items;
 
     if ((_result select 0) isNotEqualTo "") exitWith {};
-} forEach ([_unit] call FUNC(sortKits));
+} forEach ([_unit, _mode] call FUNC(sortKits));
 
 _result

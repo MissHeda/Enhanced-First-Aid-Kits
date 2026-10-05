@@ -13,6 +13,12 @@
         <Key ID="STR_efak_gui_Contents_Take_Tooltip">
             <English>Takes the whole stack of the selected item out of the kit. A double click on a row does the same.</English>
         </Key>
+        <Key ID="STR_efak_gui_Rename_Tooltip">
+            <English>Give this kit a name of your own.\nReturn keeps it, Escape cancels, an\nempty name gives back the usual one.</English>
+        </Key>
+        <Key ID="STR_efak_gui_RenameReset_Tooltip">
+            <English>Back to the usual name</English>
+        </Key>
         <Key ID="STR_efak_gui_KitSwitch_Tooltip">
             <English>Every kit you can reach from here:\nyour own, the casualty's and those\nin the crate. Pick one to switch to it.</English>
         </Key>

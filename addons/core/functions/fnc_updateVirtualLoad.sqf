@@ -5,7 +5,7 @@
  *
  * It also takes off what a kit's packed size adds over its empty weight (fnc_getWeightOffset): a
  * full MFAK+ takes a lot of room in a backpack, but the bag itself is no heavier for it. That part
- * always applies, the setting only scales the contents.
+ * always applies, the "Contents weight" setting of each kit only scales its contents.
  *
  * The load goes on the unit itself, never on the uniform, vest or backpack. ACE only ever uses
  * the sum of the four, and a container that is dropped, handed over or put in a crate would
@@ -41,13 +41,6 @@ if !(GVAR(contentsSynced)) exitWith {};
 // ACE movement is where virtual load lives. Without it there is nothing to add to.
 if (isNil QACEFUNC(movement,addLoadToUnitContainer)) exitWith {};
 
-// How much of what the kits hold the player is made to feel: 0 is off, 1 is the honest weight,
-// anything in between or above scales it.
-// A profile from before this was a slider can still hold the old on/off value, so true reads as
-// the full weight and false as off.
-private _factor = missionNamespace getVariable [QGVAR(kitWeight), 0];
-if (_factor isEqualType false) then {_factor = parseNumber _factor};
-
 private _contents = 0;
 private _offset = 0;
 private _counted = createHashMap;
@@ -58,7 +51,7 @@ private _counted = createHashMap;
     _offset = _offset + _innerOffset + ([_x] call FUNC(getWeightOffset));
 } forEach ([_unit] call FUNC(getCarriedKits));
 
-private _target = _offset + _contents * (_factor max 0);
+private _target = _offset + _contents;
 
 private _applied = _unit getVariable [QGVAR(appliedLoad), 0];
 private _delta = _target - _applied;

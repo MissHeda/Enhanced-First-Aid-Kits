@@ -39,7 +39,7 @@ private _capacity = [_kitClass] call EFUNC(core,getCapacity);
 // The short name keeps the title on one line; the full one is its tooltip.
 private _title = _display displayCtrl IDC_CONTENTS_TITLE;
 
-_title ctrlSetText ([_kitClass] call EFUNC(core,getKitShortName));
+_title ctrlSetText ([_kitClass] call EFUNC(core,getKitTitle));
 _title ctrlSetTooltip ([_kitClass] call EFUNC(core,getKitName));
 (_display displayCtrl IDC_CONTENTS_CAPACITY) ctrlSetText format [
     "%1 %2 / %3 %4",

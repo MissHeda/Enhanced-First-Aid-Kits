@@ -13,6 +13,8 @@ GVAR(nextInstance) = createHashMap;         // server only, lowercase prototype 
 GVAR(nextRequestId) = 0;                    // instance requests sent from this machine
 GVAR(massCache) = createHashMap;
 GVAR(weightOffsetCache) = createHashMap;
+GVAR(labels) = createHashMap;            // lowercase instance class -> the name a player gave it
+GVAR(typeNames) = createHashMap;         // lowercase prototype -> the name the settings give its type, see updateTypeNames
 GVAR(nameCache) = createHashMap;              // lowercase class -> display name
 GVAR(pictureCache) = createHashMap;           // lowercase class -> picture path
 GVAR(contextMenuRegistered) = createHashMap;  // lowercase kit class -> true
@@ -32,6 +34,8 @@ GVAR(contentsSynced) = isServer || {is3DEN};
 GVAR(contentsStamp) = 0;
 GVAR(whitelistLookup) = createHashMap;      // kit id -> lowercase class -> true
 GVAR(blacklistLookup) = createHashMap;      // kit id -> lowercase class -> true
+GVAR(whitelistPattern) = createHashMap;     // kit id -> regex of the entries with a *, or ""
+GVAR(blacklistPattern) = createHashMap;     // kit id -> regex of the entries with a *, or ""
 GVAR(medicalLookup) = createHashMap;
 
 // Magazines no kit may hold, by the start of their lowercase class name. Compat addons list them in
@@ -82,10 +86,11 @@ call FUNC(initKits);
 // The tables travel as "toArray" gives them - [[keys], [values]], not pairs - and are put back
 // together with "keys createHashMapFromArray values".
 [QGVAR(syncAll), {
-    params [["_contents", [[], []]], ["_follow", []], ["_charges", [[], []]]];
+    params [["_contents", [[], []]], ["_follow", []], ["_charges", [[], []]], ["_labels", [[], []]]];
     GVAR(contents) = (_contents select 0) createHashMapFromArray (_contents select 1);
     GVAR(followDefaults) = createHashMapFromArray (_follow apply {[_x, true]});
     GVAR(charges) = (_charges select 0) createHashMapFromArray (_charges select 1);
+    GVAR(labels) = (_labels select 0) createHashMapFromArray (_labels select 1);
     GVAR(contentsSynced) = true;
     GVAR(contentsStamp) = GVAR(contentsStamp) + 1;
     call FUNC(queueVirtualLoad);
@@ -94,9 +99,22 @@ call FUNC(initKits);
 if (isServer) then {
     [QGVAR(requestSync), {
         params ["_owner"];
-        [QGVAR(syncAll), [toArray GVAR(contents), keys GVAR(followDefaults), toArray GVAR(charges)], _owner] call CBA_fnc_ownerEvent;
+        [QGVAR(syncAll), [toArray GVAR(contents), keys GVAR(followDefaults), toArray GVAR(charges), toArray GVAR(labels)], _owner] call CBA_fnc_ownerEvent;
     }] call CBA_fnc_addEventHandler;
 };
+
+// The names players give their kits (fnc_setKitLabel), on every machine like the contents.
+[QGVAR(labelChanged), {
+    params ["_class", "_label"];
+
+    if (_label isEqualTo "") then {
+        GVAR(labels) deleteAt (toLowerANSI _class);
+    } else {
+        GVAR(labels) set [toLowerANSI _class, _label];
+    };
+
+    GVAR(contentsStamp) = GVAR(contentsStamp) + 1;
+}] call CBA_fnc_addEventHandler;
 
 // Kits marked to come back with the default contents from a saved loadout.
 [QGVAR(followDefaultsChanged), {
@@ -267,12 +285,26 @@ GVAR(hasMedical) = isClass (configFile >> "CfgPatches" >> "efak_medical");
 ] call CBA_fnc_addSetting;
 
 if (GVAR(hasMedical)) then {
+    // Each player's own: whether the medical menu marks where the next item comes from.
+    [
+        "efak_medical_markNextSource",
+        "CHECKBOX",
+        [LELSTRING(medical,Setting_MarkNextSource), LELSTRING(medical,Setting_MarkNextSource_Desc)],
+        [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
+        true,
+        0
+    ] call CBA_fnc_addSetting;
+
     [
         "efak_medical_useOrder",
         "LIST",
         [LELSTRING(medical,Setting_UseOrder), LELSTRING(medical,Setting_UseOrder_Desc)],
         [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
-        [[0, 1], [LELSTRING(medical,Setting_UseOrder_Inventory), LELSTRING(medical,Setting_UseOrder_Kits)], 0],
+        [
+            [0, 1, 2],
+            [LELSTRING(medical,Setting_UseOrder_Inventory), LELSTRING(medical,Setting_UseOrder_Kits), LELSTRING(medical,Setting_UseOrder_Ground)],
+            0
+        ],
         1
     ] call CBA_fnc_addSetting;
 
@@ -297,20 +329,21 @@ if (GVAR(hasMedical)) then {
         [[0, 1], [LELSTRING(medical,Setting_KitSizeOrder_Smallest), LELSTRING(medical,Setting_KitSizeOrder_Biggest)], 0],
         1
     ] call CBA_fnc_addSetting;
+
+    // Each player's own: which kit their drop key puts down first.
+    [
+        "efak_medical_dropOrder",
+        "LIST",
+        [LELSTRING(medical,Setting_DropOrder), LELSTRING(medical,Setting_DropOrder_Desc)],
+        [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
+        [[0, 1], [LELSTRING(medical,Setting_DropOrder_Biggest), LELSTRING(medical,Setting_DropOrder_Smallest)], 0],
+        0
+    ] call CBA_fnc_addSetting;
 };
 
-[
-    QGVAR(kitWeight),
-    "SLIDER",
-    [LLSTRING(Setting_KitWeight), LLSTRING(Setting_KitWeight_Desc)],
-    [GVAR(settingsCategory), LLSTRING(SubCategory_General)],
-    [0, 2, 0.5, 0, true],
-    1,
-    {call FUNC(queueVirtualLoad)}
-] call CBA_fnc_addSetting;
-
 // ---------------------------------------------------------------------------
-// Per kit settings, generated from the config registry
+// Per kit settings, generated from the config registry - like the general ones, like with like:
+// numbers, then switches, then lists, then text boxes.
 // ---------------------------------------------------------------------------
 
 {
@@ -320,6 +353,8 @@ if (GVAR(hasMedical)) then {
     // Numbered so the CBA menu, which sorts subcategories by name, keeps them in registry order
     // right after "1) General" - or in a category of their own, for containers of another mod.
     private _category = [_x] call FUNC(getKitCategory);
+
+    // Numbers
 
     [
         format [QGVAR(kit_%1_capacity), _kitId],
@@ -333,13 +368,28 @@ if (GVAR(hasMedical)) then {
     ] call CBA_fnc_addSetting;
 
     [
-        format [QGVAR(kit_%1_defaultContents), _kitId],
-        "EDITBOX",
-        [LLSTRING(Setting_DefaultContents), LLSTRING(Setting_DefaultContents_Desc)],
+        format [QGVAR(kit_%1_weight), _kitId],
+        "SLIDER",
+        [LLSTRING(Setting_KitWeight), LLSTRING(Setting_KitWeight_Desc)],
         _category,
-        _defaults,
-        1
+        [0, 2, 0.5, 0, true],
+        1,
+        {call FUNC(queueVirtualLoad)}
     ] call CBA_fnc_addSetting;
+
+    if (GVAR(hasMedical)) then {
+        // 3 m for the bags (MFAK, MFAK+), what a medic sets down next to a casualty; off for the rest.
+        [
+            format ["efak_medical_kit_%1_nearbyRange", _kitId],
+            "SLIDER",
+            [LELSTRING(medical,Setting_NearbyRange), LELSTRING(medical,Setting_NearbyRange_Desc)],
+            _category,
+            [0, 15, [0, 3] select ((_kit select KIT_TREATMENTS) && {getNumber (configFile >> "EFAK_Kits" >> _kitId >> "bag") > 0}), 0],
+            1
+        ] call CBA_fnc_addSetting;
+    };
+
+    // Switches
 
     // Every kit of this type comes with the defaults, whatever a loadout says it held.
     [
@@ -401,6 +451,8 @@ if (GVAR(hasMedical)) then {
         ] call CBA_fnc_addSetting;
     };
 
+    // Lists
+
     [
         format [QGVAR(kit_%1_arsenalEditing), _kitId],
         "LIST",
@@ -441,6 +493,29 @@ if (GVAR(hasMedical)) then {
         ],
         1,
         {call FUNC(settingsChanged)}
+    ] call CBA_fnc_addSetting;
+
+    // Text boxes
+
+    // Filled in with the type's own name; whatever else it says is the name of every kit of the type
+    // that has none of its own.
+    [
+        format [QGVAR(kit_%1_name), _kitId],
+        "EDITBOX",
+        [LLSTRING(Setting_TypeName), LLSTRING(Setting_TypeName_Desc)],
+        _category,
+        getText (configFile >> "CfgWeapons" >> _x >> "displayName"),
+        1,
+        {call FUNC(updateTypeNames)}
+    ] call CBA_fnc_addSetting;
+
+    [
+        format [QGVAR(kit_%1_defaultContents), _kitId],
+        "EDITBOX",
+        [LLSTRING(Setting_DefaultContents), LLSTRING(Setting_DefaultContents_Desc)],
+        _category,
+        _defaults,
+        1
     ] call CBA_fnc_addSetting;
 
     [

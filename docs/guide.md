@@ -45,6 +45,26 @@ picture and name, how full it is, and every item with its picture and count
 (hover for the masses). Select a row and press **Take**, or double click it, to
 take the whole stack out. It follows the kit live.
 
+### Names and wearing
+
+Every kit can have a name of its own - "Spare mags", "Team 2 bag". Click the
+pencil next to the kit's name at the top of the kit window, type, and press
+Return (Escape cancels, an empty name gives back the usual one). The name shows
+in the kit window, the quick access window, the ACE menu and the arsenal's kits
+tab, and a saved loadout keeps it. In the ACE Arsenal, the pencil next to the
+kits tab's title names the selected kit.
+
+A mission can rename a whole kit type in its settings (**Name**, filled in with
+the usual name): every kit of that type without a name of its own goes by it.
+In the Eden editor, a crate or vehicle has a name field next to each kit type's
+contents field - every kit of that type in it gets that name.
+
+Something to wear inside a kit - the suit, mask, breathing set or detector watch
+of a CBRN bag - is put on straight out of it: double click it in the kit list,
+or pick **Put on** in the kit's ACE menu. What it replaces goes back into the
+kit if it fits there, else into your inventory, else onto the ground; a backpack
+it replaces is set down next to you with everything in it.
+
 ### The pouch UI
 
 Open a kit through the ACE self interaction (or the keybind under
@@ -158,6 +178,21 @@ and the vehicle. **Treat out of this kit** switches it off per
 kit type: an MFAK that has to be unpacked first, while IFAKs work straight away.
 A kit type switched off is not used and not counted.
 
+A kit does not have to be on you. Set an MFAK down next to the casualty and the
+medic treats out of it as long as it lies within reach: **Treat out of it lying
+nearby** sets that distance per kit type, up to 15 m - 3 m for the MFAK and
+MFAK+, off (0) for the IFAK, the AFAK and the pouches. The **Drop kit** key puts
+your next kit down at your feet, the biggest first or the smallest first - each
+player picks that for themselves - and **Drop on the ground** in a kit's own ACE
+menu puts down that one. With **ACE medical: use
+kit supplies** on *Kits on the ground first*, a treatment takes from the kits
+lying there before your own pockets and kits.
+
+The medical menu lists the kits on the ground on lines of their own - *"4 in
+MFAK (on the ground)"* - and frames the line the next treatment takes its item
+from, *» 4 in MFAK (on the ground) «* (**Medical menu: highlight the supply used
+next**, each player's own setting).
+
 This works by redefining four ACE functions through `CfgFunctions` - `hasItem`,
 `useItem`, `countTreatmentItems` and `formatItemCounts` - as ACE's own code plus
 the kit part, so nothing changes for anyone who is not carrying a kit.
@@ -228,9 +263,9 @@ uses for room and weight alike; EFAK takes the difference back off through ACE's
 virtual load, so a kit still weighs what the empty kit weighs.
 
 A kit's own `mass` cannot change at runtime, so what is inside a kit is felt
-through ACE's virtual load as well. **Kit contents weight** is that dial, 50% by
-default: at 0% a kit weighs what the empty kit weighs whatever is in it, at 100%
-everything inside weighs what it weighs. What is inside always
+through ACE's virtual load as well. **Contents weight** is that dial, per kit
+type and 50% by default: at 0% a kit weighs what the empty kit weighs whatever
+is in it, at 100% everything inside weighs what it weighs. What is inside always
 counts, default contents included - a mission that hands its medics a kit set up
 through the settings feels those items too. It needs ACE movement and counts
 towards ACE weight and fatigue.
@@ -296,28 +331,32 @@ in order.
 | Open on double click | Double clicking a carried kit in the inventory opens it |
 | Open other units' kits | Adds their kits to their ACE interaction menu |
 | Open kits of conscious units | Off: their kits only show while they are unconscious |
-| Kit contents weight | 0-200%, how much of the contents' weight you actually feel (default 50%) |
 | Own arsenal category for kits | Kits get their own category button instead of sitting with the medical items |
-| ACE medical: use kit supplies | Loose items first and kits last, or the other way round |
+| ACE medical: use kit supplies | Loose items first and kits last, the other way round, or kits on the ground first, then loose items, then carried kits |
 | Whose kits are used first | Like ACE's own order (default), the medic's kits first, or the patient's first |
 | Which kit is used first | With several kits, the smallest (default) or the biggest is used first |
+| Medical menu: highlight the supply used next | Frames the item count the next treatment takes from, » like this «. Each player's own setting, on by default |
+| Drop key: which kit first | Which of your kits the **Drop kit** key puts down first: the biggest (default) or the smallest. Each player's own setting |
 
 **2) IFAK, 3) AFAK, 4) MFAK, 5) MFAK+** (one section per kit type)
 
 | Setting | What it does |
 |---|---|
 | Capacity | How much mass the kit holds |
+| Contents weight | 0-200%, how much of the contents' weight you actually feel (default 50%) |
 | Default contents | What a freshly spawned kit starts with, e.g. `[['ACE_fieldDressing',6],['ACE_morphine',1]]` |
 | Force default contents | Every kit of this type starts with the defaults, whatever a loadout says it held (arsenal, respawn, Zeus, editor). Off by default |
 | Pack up to the default contents only | Nothing beyond the default amounts, nothing that is not in them. **Pack all** at a crate fills the kit back up to its defaults |
 | Allow packing in the kit window | Whether items may be put into this kit by hand |
 | Arsenal editing | Remove and add (default) / remove only / nothing (greyed out) |
 | Allowed items | Medical items only (default) / whitelist only / anything |
+| Name | What kits of this type are called, filled in with the usual name. A kit with a name of its own keeps it |
 | Whitelist, Blacklist | Comma separated classnames |
 | Unload container | Player's choice (default), or forced to automatic / uniform / vest / backpack for everyone |
 | Remove when empty | Drops the kit item once the last thing is taken out. Off by default |
 | Show single item interactions | Lists every item of this kit in the ACE interaction menu. Off by default: the kit offers Open, Unpack everything and Quick access |
 | Treat out of this kit | Whether ACE treatments may use what is inside this kit type |
+| Treat out of it lying nearby | How far from the medic it may lie on the ground and still be used for treatments, 0-15 m. 3 m for the MFAK and MFAK+, off (0) for the others |
 
 See *Compat addons* above for what the kits hold with KAT, ACM or ACM Extended.
 
@@ -387,6 +426,7 @@ class EFAK_Kits {
                                            // The mission's whitelist still lets other items in. Empty: any kind.
                                            // Worn things only when named outright, e.g. "item/uniform".
         whitelist = "ClassA, ClassB";      // default of the whitelist setting - with itemFilter = 2 the only items it takes
+                                           // * stands for any text: "greenmag_ammo_*" (blacklist too)
         useInTreatments = 0;               // default of "usable for treatments" (1 by default)
         group = "MyPouches";               // its own interaction menu, a class of EFAK_KitGroups (default "FirstAid")
         settingsCategory = "My Pouches";   // its own CBA settings category ("" = EFAK's)

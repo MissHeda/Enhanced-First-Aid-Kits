@@ -20,7 +20,7 @@
             <English>Fast edit | Choose realism mode</English>
         </Key>
         <Key ID="STR_efak_core_Setting_Preset_Desc">
-            <English>Changes the rules of all kits at once.\n\nPick a mode and press OK. Packing, arsenal\nediting, forced contents, kit weight and\nwhich kits treatments may use are all set\nto match it. Then this box jumps back to\n&quot;Choose to apply...&quot; - it only applies a\nmode, it does not stay on. Every setting\ncan still be changed by hand afterwards.\n\nNever changed: capacities, default\ncontents, whitelists and blacklists.\n\n\nPLAYERS CAN DO EVERYTHING\nAny item fits, kits go into kits, the\narsenal can add and remove, what is in a\nkit weighs nothing.\n\nNORMAL\nThe mod's own defaults.\n\nHARDCORE\nThe arsenal can only take items out.\nKits are refilled only up to their\ndefault contents. What is in a kit\nweighs fully. MFAK and MFAK+ are unloaded\ninto the backpack, and a treatment cannot\nuse them until they are unpacked.\n\nHARDCORE+\nHardcore, and also: every loadout brings\ncomplete kits, the arsenal cannot change\nkits at all, an empty kit is thrown away.\n\nFORCE EVERYTHING\nFixed kits, for groups that hand out\nloadouts: every loadout brings complete\nkits, the arsenal cannot change them, and\nnothing can be packed by hand.</English>
+            <English>Changes the rules of all kits at once.\n\nPick a mode and press OK. Packing, arsenal\nediting, forced contents, kit weight,\nwhich kits treatments may use and how far\nfrom the medic a kit may lie are all set\nto match it. Then this box jumps back to\n&quot;Choose to apply...&quot; - it only applies a\nmode, it does not stay on. Every setting\ncan still be changed by hand afterwards.\n\nNever changed: capacities, default\ncontents, whitelists, blacklists and\nnames. Pouches of other mods keep their\nown item rules.\n\n\nPLAYERS CAN DO EVERYTHING\nAny item fits, kits go into kits, the\narsenal can add and remove, what is in a\nkit weighs nothing. Kits are used lying\nup to 3 m away, MFAK and MFAK+ up to 5 m.\n\nNORMAL\nThe mod's own defaults: MFAK and MFAK+\nare used lying up to 3 m away.\n\nHARDCORE\nThe arsenal can only take items out.\nKits are refilled only up to their\ndefault contents. What is in a kit\nweighs fully. MFAK and MFAK+ are unloaded\ninto the backpack, and a treatment cannot\nuse them until they are unpacked - not\nfrom the ground either.\n\nHARDCORE+\nHardcore, and also: every loadout brings\ncomplete kits, the arsenal cannot change\nkits at all, an empty kit is thrown away.\n\nFORCE EVERYTHING\nFixed kits, for groups that hand out\nloadouts: every loadout brings complete\nkits, the arsenal cannot change them, and\nnothing can be packed by hand.</English>
         </Key>
         <Key ID="STR_efak_core_Preset_None">
             <English>Choose to apply...</English>
@@ -65,13 +65,13 @@
             <English>Whitelist</English>
         </Key>
         <Key ID="STR_efak_core_Setting_Whitelist_Desc">
-            <English>Classnames, separated by commas.\n\nWhitelist only: the only items allowed.\nMedical items only: allowed on top of\nevery medical item.</English>
+            <English>Classnames, separated by commas.\n* stands for any text: greenmag_ammo_*\n\nWhitelist only: the only items allowed.\nMedical items only: allowed on top of\nevery medical item.</English>
         </Key>
         <Key ID="STR_efak_core_Setting_Blacklist">
             <English>Blacklist</English>
         </Key>
         <Key ID="STR_efak_core_Setting_Blacklist_Desc">
-            <English>Classnames, separated by commas.\n\nThese never go into this kit, whatever\nthe filter says - not by hand, not from\na loadout and not from the default\ncontents.</English>
+            <English>Classnames, separated by commas.\n* stands for any text: greenmag_ammo_*\n\nThese never go into this kit, whatever\nthe filter says - not by hand, not from\na loadout and not from the default\ncontents.</English>
         </Key>
         <Key ID="STR_efak_core_Setting_ItemActions">
             <English>Show single item interactions</English>
@@ -250,11 +250,29 @@
         <Key ID="STR_efak_core_Debug_Copied">
             <English>%1 entries, %2 mass - copied to the clipboard</English>
         </Key>
+        <Key ID="STR_efak_core_Setting_TypeName">
+            <English>Name</English>
+        </Key>
+        <Key ID="STR_efak_core_Setting_TypeName_Desc">
+            <English>What kits of this type are called -\nin the kit window, the inventory, the\nACE menu and the arsenal.\n\nFilled in with the usual name. A kit a\nplayer gave a name of its own keeps it.</English>
+        </Key>
+        <Key ID="STR_efak_core_3DEN_CrateName_Tooltip">
+            <English>A name for every kit of this type in this\ncontainer - shown wherever the kit is,\nlike a name a player gives it.\nEmpty: the usual name.</English>
+        </Key>
+        <Key ID="STR_efak_core_Action_Drop">
+            <English>Drop on the ground</English>
+        </Key>
+        <Key ID="STR_efak_core_Action_Wear">
+            <English>Put on: %1</English>
+        </Key>
+        <Key ID="STR_efak_core_Sync_NoServer">
+            <English>%1: no answer from the server. The mod has to be loaded on the server too, in the same version - until then kits stay empty and are never prepared.</English>
+        </Key>
         <Key ID="STR_efak_core_Setting_KitWeight">
-            <English>Kit contents weight</English>
+            <English>Contents weight</English>
         </Key>
         <Key ID="STR_efak_core_Setting_KitWeight_Desc">
-            <English>How much of what a kit holds you feel.\n\n0%: a kit weighs what the empty kit\nweighs, full or empty.\n\n100%: everything inside weighs what it\nweighs, packed by hand or set up as\ndefault contents.\n\nBelow 100% takes the edge off, above it\nmakes a stuffed kit hurt.\n\nNeeds ACE movement. Counts towards ACE\nweight and fatigue.</English>
+            <English>How much of what this kit holds you\nfeel.\n\n0%: the kit weighs what the empty kit\nweighs, full or empty.\n\n100%: everything inside weighs what it\nweighs, packed by hand or set up as\ndefault contents.\n\nBelow 100% takes the edge off, above it\nmakes a stuffed kit hurt.\n\nNeeds ACE movement. Counts towards ACE\nweight and fatigue.</English>
         </Key>
         <Key ID="STR_efak_core_3DEN_Category">
             <English>Enhanced First Aid Kits</English>

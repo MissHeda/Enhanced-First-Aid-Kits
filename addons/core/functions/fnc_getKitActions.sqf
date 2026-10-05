@@ -60,6 +60,23 @@ private _actions = [];
     ] call ACEFUNC(interact_menu,createAction);
     _children pushBack [_unpackAll, [], _target];
 
+    // Set it down at your feet - only your own, and not from inside a vehicle.
+    if (_target isEqualTo _player) then {
+        private _drop = [
+            QGVAR(drop),
+            LLSTRING(Action_Drop),
+            _icon,
+            {
+                (_this select 2) params ["_kitClass"];
+                [_player, _kitClass] call FUNC(dropKit);
+            },
+            {isNull objectParent _player},
+            {},
+            [_kitClass]
+        ] call ACEFUNC(interact_menu,createAction);
+        _children pushBack [_drop, [], _target];
+    };
+
     private _show = [
         QGVAR(showContents),
         LLSTRING(Action_ShowContents),
@@ -70,6 +87,28 @@ private _actions = [];
         [_kitClass]
     ] call ACEFUNC(interact_menu,createAction);
     _children pushBack [_show, [], _target];
+
+    // Something to wear - the suit, mask and breathing set of a CBRN bag - is put on straight out of
+    // the kit, by whoever opens the menu.
+    {
+        _x params ["_itemClass"];
+
+        if (([_itemClass] call FUNC(getWearSlot)) isEqualTo []) then {continue};
+
+        private _wear = [
+            format [QGVAR(wear_%1), _itemClass],
+            format [LLSTRING(Action_Wear), [_itemClass] call FUNC(getItemName)],
+            [_itemClass] call FUNC(getItemPicture),
+            {
+                (_this select 2) params ["_kitClass", "_itemClass"];
+                [_player, _kitClass, _itemClass] call FUNC(wearItem);
+            },
+            {isNull objectParent _player},
+            {},
+            [_kitClass, _itemClass]
+        ] call ACEFUNC(interact_menu,createAction);
+        _children pushBack [_wear, [], _target];
+    } forEach _contents;
 
     // One entry per stack, so you can take a single type of item out instead of
     // dumping the whole kit on the ground. Off by default: a full MFAK makes a list longer than the
@@ -101,7 +140,7 @@ private _actions = [];
 
     private _action = [
         format [QGVAR(kit_%1), _kitClass],
-        format ["%1 (%2/%3)", [_kitClass] call FUNC(getKitShortName), round _used, round _capacity],
+        format ["%1 (%2/%3)", [_kitClass] call FUNC(getKitTitle), round _used, round _capacity],
         _icon,
         {
             (_this select 2) params ["_kitClass"];

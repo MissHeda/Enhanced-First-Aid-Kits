@@ -73,6 +73,10 @@ GVAR(kitsButtonIdc) = -1;
 GVAR(searchText) = "";
 // "All allowed items": the kits button lists every item the kit may hold. Kept for the session.
 GVAR(showAll) = false;
+GVAR(renaming) = "";                  // the kit whose name is being typed, see onRenameClick
+GVAR(renameClosedAt) = -1;
+GVAR(lastRenamed) = "";
+GVAR(kitRowCounts) = createHashMap; // kit type -> count shown in ACE's container list, see recountKitRows
 GVAR(sortMode) = 0;
 GVAR(sortAscending) = true;
 GVAR(fillingSort) = false;
@@ -103,6 +107,15 @@ if (hasInterface) then {
             [_display] call FUNC(closeTab);
         };
     }] call CBA_fnc_addEventHandler;
+
+    // ACE counts its container list by exact class; kits in a container are instances of their type.
+    // Its counts are set right after this event, so the kit rows are corrected a frame later.
+    [QACEGVAR(arsenal,rightPanelFilled), {
+        params ["_display"];
+        [FUNC(recountKitRows), [_display]] call CBA_fnc_execNextFrame;
+    }] call CBA_fnc_addEventHandler;
+
+    [QACEGVAR(arsenal,cargoChanged), {_this call FUNC(onCargoChanged)}] call CBA_fnc_addEventHandler;
 
     // Backspace, the hide button and the loadouts screen hide and show the whole interface. Only ACE
     // 3.21 and later raise this - on older versions the tab simply stays up while the rest is hidden.

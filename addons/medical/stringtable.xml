@@ -7,6 +7,42 @@
         <Key ID="STR_efak_medical_Setting_UseFromKit">
             <English>Treat out of this kit</English>
         </Key>
+        <Key ID="STR_efak_medical_Setting_NearbyRange">
+            <English>Treat out of it lying nearby</English>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_NearbyRange_Desc">
+            <English>How far from the medic a kit of this\ntype may lie on the ground and still be\nused for treatments, in meters - a bag\nset down next to the casualty.\n\n0: off, it has to be carried.\n\nOnly with &quot;Treat out of this kit&quot; on.</English>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_UseOrder_Ground">
+            <English>Kits on the ground first, then loose items, then carried kits</English>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_DropOrder">
+            <English>Drop key: which kit first</English>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_DropOrder_Desc">
+            <English>Which of your kits the drop key and the\n&quot;Drop&quot; action put down first.</English>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_DropOrder_Biggest">
+            <English>Biggest first</English>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_DropOrder_Smallest">
+            <English>Smallest first</English>
+        </Key>
+        <Key ID="STR_efak_medical_Keybind_DropKit">
+            <English>Drop kit</English>
+        </Key>
+        <Key ID="STR_efak_medical_Keybind_DropKit_Desc">
+            <English>Puts your next kit down at your feet, to treat out of it lying there</English>
+        </Key>
+        <Key ID="STR_efak_medical_ItemCount_InKitGround">
+            <English>in %1 (on the ground)</English>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_MarkNextSource">
+            <English>Medical menu: highlight the supply used next</English>
+        </Key>
+        <Key ID="STR_efak_medical_Setting_MarkNextSource_Desc">
+            <English>In the item counts of a treatment, the\nline the next one is taken from is\nframed: » 15 in MFAK «.\n\nYour inventory, the patient's, a kit or\na kit lying on the ground.</English>
+        </Key>
         <Key ID="STR_efak_medical_Setting_UseFromKit_Desc">
             <English>Lets ACE treatments use what is inside\nkits of this type, without taking it out\nfirst.\n\nOff: this kit has to be opened and its\ncontents taken out before they can be\nused, and the medical menu does not\ncount them.</English>
         </Key>
@@ -41,7 +77,7 @@
             <English>ACE medical: use kit supplies</English>
         </Key>
         <Key ID="STR_efak_medical_Setting_UseOrder_Desc">
-            <English>What a treatment uses up first: loose\nitems or items inside kits.\n\nLoose items come out of the uniform\nfirst, then the vest, then the backpack.\n\nWhich kit goes first is set with\n"Whose kits are used first" and\n"Which kit is used first".</English>
+            <English>What a treatment uses up first: loose\nitems, items inside kits, or the kits\nlying on the ground near the medic.\n\nLoose items come out of the uniform\nfirst, then the vest, then the backpack.\n\nWhich kit goes first is set with\n"Whose kits are used first" and\n"Which kit is used first".</English>
         </Key>
         <Key ID="STR_efak_medical_Setting_UseOrder_Inventory">
             <English>Loose items first, kits last</English>

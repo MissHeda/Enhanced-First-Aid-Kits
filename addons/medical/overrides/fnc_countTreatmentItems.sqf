@@ -74,9 +74,25 @@ if (!isNull _vehicle) then {
 };
 
 // ----- EFAK -----
-// One count per kit type, in registry order - "6 in IFAK", "3 in AFAK". Only kit types
-// treatments may use are counted at all, so a switched off one never shows up.
+// One count per kit type, in registry order - "6 in IFAK", "3 in AFAK" - and one per kit type
+// lying nearby, "4 in MFAK (on the ground)". Only kit types treatments may use are counted at all,
+// so a switched off one never shows up.
 GVAR(lastKitCounts) = [];
+
+// Where the treatment would take it from - the same function that takes it, in a dry run, so the
+// line formatItemCounts marks is the one that pays. Only if that function is EFAK's (or the KAT
+// compat's): one of another mod would not know a dry run and really use the item.
+if (isNil QGVAR(canDryRun)) then {
+    GVAR(canDryRun) = "_dryRun" in str (missionNamespace getVariable ["ace_medical_treatment_fnc_useItem", {}]);
+};
+
+GVAR(nextSource) = "";
+
+if (GVAR(canDryRun)) then {
+    private _source = [ACE_player, _target, _items, true] call ACEFUNC(medical_treatment,useItem);
+
+    if (_source isEqualType "") then {GVAR(nextSource) = _source};
+};
 
 // An AI patient's kits may still be prototypes, which hold nothing yet. Reaching for them turns
 // them into real kits, so they count the next time the menu looks.
@@ -91,21 +107,26 @@ if (ACE_player != _target && {ACEGVAR(medical_treatment,allowSharedEquipment) !=
 private _perUnit = _units apply {[_x, true] call FUNC(kitCounts)};
 
 {
-    private _kit = EGVAR(core,kits) get (toLowerANSI _x);
-    private _type = _kit select KIT_ID;
-    private _count = 0;
+    private _ground = _x;
 
     {
-        private _ofType = _x getOrDefault [_type, createHashMap];
+        private _kit = EGVAR(core,kits) get (toLowerANSI _x);
+        private _line = (_kit select KIT_ID) + (["", "@ground"] select _ground);
+        private _count = 0;
 
         {
-            _count = _count + (_ofType getOrDefault [toLowerANSI _x, 0]);
-        } forEach _items;
-    } forEach _perUnit;
+            private _ofType = _x getOrDefault [_line, createHashMap];
 
-    if (_count > 0) then {
-        GVAR(lastKitCounts) pushBack [_kit select KIT_SHORT_NAME, _count];
-    };
-} forEach EGVAR(core,kitList);
+            {
+                _count = _count + (_ofType getOrDefault [toLowerANSI _x, 0]);
+            } forEach _items;
+        } forEach _perUnit;
+
+        if (_count > 0) then {
+            private _label = format [[LLSTRING(ItemCount_InKit), LLSTRING(ItemCount_InKitGround)] select _ground, [_x, true] call EFUNC(core,getKitShortName)];
+            GVAR(lastKitCounts) pushBack [_label, _count, _line];
+        };
+    } forEach EGVAR(core,kitList);
+} forEach [false, true];
 
 [_medicCount, _patientCount, _vehicleCount]

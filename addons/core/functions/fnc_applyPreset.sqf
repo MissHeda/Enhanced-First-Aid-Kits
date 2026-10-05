@@ -4,10 +4,15 @@
  * Sets many EFAK settings at once to one of the realism modes of the "Fast edit" setting, as if a
  * settings file had been imported, and puts the fast edit box back to "Choose".
  *
- * Only the rules are touched: capacities, default contents, whitelists and blacklists are what a
- * mission sets up for its own kits and stay as they are. Kits marked "bag = 1" in EFAK_Kits (the MFAK
- * and the MFAK+, or a third party bag) count as bags: in the hard modes they are unloaded into the
- * backpack and have to be unpacked before a treatment can use what is in them.
+ * Only the rules are touched: capacities, default contents, whitelists and blacklists - and names -
+ * are what a mission sets up for its own kits and stay as they are. Kits marked "bag = 1" in
+ * EFAK_Kits (the MFAK and the MFAK+, or a third party bag) count as bags: in the hard modes they are
+ * unloaded into the backpack and have to be unpacked before a treatment can use what is in them, and
+ * how far one may lie from the medic and still be used depends on the mode.
+ *
+ * Containers that are no first aid kits (useInTreatments = 0 in EFAK_Kits - the pouches of Enhanced
+ * Utility Pouches) keep their own item rules: a mode sets their weight, packing, arsenal editing,
+ * unloading and "remove when empty", never what may go into them or that only their defaults may.
  *
  * Runs where the choice is stored: the server (the settings menu's server tab, single player too)
  * or the Eden editor (the mission tab). Every value it sets is forced as far as that source can:
@@ -44,27 +49,28 @@ private _source = switch (true) do {
 if (_source isEqualTo "" || {([QGVAR(preset), _source] call CBA_settings_fnc_get) != _preset}) exitWith {};
 
 // [nesting, others' kits, conscious units' kits, kit weight] and per kit
-// [force, limit, packing, arsenal editing, item filter, removeWhenEmpty, [unload, treat out of] for kits, for bags]
+// [force, limit, packing, arsenal editing, item filter, removeWhenEmpty,
+//  [unload, treat out of, range lying nearby] for kits, for bags]
 private _values = switch (_preset) do {
     case PRESET_SANDBOX: {[
         [true, true, true, 0],
-        [false, false, true, EDIT_ALL, FILTER_ALL, false, [CONTAINER_PLAYER, true], [CONTAINER_PLAYER, true]]
+        [false, false, true, EDIT_ALL, FILTER_ALL, false, [CONTAINER_PLAYER, true, 3], [CONTAINER_PLAYER, true, 5]]
     ]};
     case PRESET_NORMAL: {[
         [false, true, false, 0.5],
-        [false, false, true, EDIT_ALL, FILTER_MEDICAL, false, [CONTAINER_PLAYER, true], [CONTAINER_PLAYER, true]]
+        [false, false, true, EDIT_ALL, FILTER_MEDICAL, false, [CONTAINER_PLAYER, true, 0], [CONTAINER_PLAYER, true, 3]]
     ]};
     case PRESET_HARDCORE: {[
         [false, true, false, 1],
-        [false, true, true, EDIT_REMOVE, FILTER_MEDICAL, false, [CONTAINER_PLAYER, true], [CONTAINER_BACKPACK, false]]
+        [false, true, true, EDIT_REMOVE, FILTER_MEDICAL, false, [CONTAINER_PLAYER, true, 0], [CONTAINER_BACKPACK, false, 0]]
     ]};
     case PRESET_HARDCORE_PLUS: {[
         [false, true, false, 1],
-        [true, true, true, EDIT_NOTHING, FILTER_MEDICAL, true, [CONTAINER_PLAYER, true], [CONTAINER_BACKPACK, false]]
+        [true, true, true, EDIT_NOTHING, FILTER_MEDICAL, true, [CONTAINER_PLAYER, true, 0], [CONTAINER_BACKPACK, false, 0]]
     ]};
     case PRESET_FIXED: {[
         [false, true, false, 0.5],
-        [true, true, false, EDIT_NOTHING, FILTER_MEDICAL, false, [CONTAINER_PLAYER, true], [CONTAINER_PLAYER, true]]
+        [true, true, false, EDIT_NOTHING, FILTER_MEDICAL, false, [CONTAINER_PLAYER, true, 0], [CONTAINER_PLAYER, true, 3]]
     ]};
     default {[]};
 };
@@ -78,8 +84,7 @@ _perKit params ["_force", "_limit", "_packing", "_editing", "_filter", "_removeE
 private _pairs = [
     [QGVAR(allowNesting), _nesting],
     [QGVAR(interactWithOthers), _others],
-    [QGVAR(interactWithAwake), _awake],
-    [QGVAR(kitWeight), _weight]
+    [QGVAR(interactWithAwake), _awake]
 ];
 
 {
@@ -90,18 +95,26 @@ private _pairs = [
     // AFAK with room for 100 is still a pouch.
     private _isBag = getNumber (configFile >> "EFAK_Kits" >> _id >> "bag") > 0;
 
-    ([_kitValues, _bagValues] select _isBag) params ["_unload", "_treat"];
+    ([_kitValues, _bagValues] select _isBag) params ["_unload", "_treat", "_range"];
 
     _pairs append [
-        [format [QGVAR(kit_%1_forceContents), _id], _force],
-        [format [QGVAR(kit_%1_limitToDefaults), _id], _limit],
+        [format [QGVAR(kit_%1_weight), _id], _weight],
         [format [QGVAR(kit_%1_packing), _id], _packing],
         [format [QGVAR(kit_%1_arsenalEditing), _id], _editing],
-        [format [QGVAR(kit_%1_itemFilter), _id], _filter],
         [format [QGVAR(kit_%1_unloadContainer), _id], _unload],
-        [format [QGVAR(kit_%1_removeWhenEmpty), _id], _removeEmpty],
-        [format ["efak_medical_kit_%1_useFrom", _id], _treat]
+        [format [QGVAR(kit_%1_removeWhenEmpty), _id], _removeEmpty]
     ];
+
+    // A first aid kit gets the medical rules too. Another container keeps what may go into it.
+    if (_kit select KIT_TREATMENTS) then {
+        _pairs append [
+            [format [QGVAR(kit_%1_forceContents), _id], _force],
+            [format [QGVAR(kit_%1_limitToDefaults), _id], _limit],
+            [format [QGVAR(kit_%1_itemFilter), _id], _filter],
+            [format ["efak_medical_kit_%1_useFrom", _id], _treat],
+            [format ["efak_medical_kit_%1_nearbyRange", _id], _range]
+        ];
+    };
 } forEach GVAR(kitList);
 
 // Forced: over the mission and the clients from the server, over the clients from the mission.

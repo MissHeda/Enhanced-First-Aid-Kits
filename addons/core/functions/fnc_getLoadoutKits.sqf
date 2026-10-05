@@ -121,10 +121,14 @@ private _entries = [];
 
             _taken set [_slotKey, _first + _count];
         } else {
-            // Marked to follow the defaults: written down as such, whatever it holds right now.
+            // Marked to follow the defaults: written down as such, whatever it holds right now - with
+            // its name, when it has one.
             if (_key in GVAR(followDefaults)) then {
+                private _label = [_class] call FUNC(getKitLabel);
+                private _default = [[[KIT_MARK_DEFAULT, 1], [KIT_MARK_LABEL, _label]], LOADOUT_KIT_DEFAULT] select (_label isEqualTo "");
+
                 for "_i" from 1 to _count do {
-                    _entries pushBack [_slot, _forEachIndex, _prototype, LOADOUT_KIT_DEFAULT];
+                    _entries pushBack [_slot, _forEachIndex, _prototype, if (_default isEqualType []) then {+_default} else {_default}];
                 };
                 continue;
             };

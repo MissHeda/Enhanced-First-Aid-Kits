@@ -65,7 +65,8 @@ private _containers = [
     private _class = _x;
     private _key = toLowerANSI _class;
     private _prototype = GVAR(prototypeOf) get _key;
-    private _contents = if (_key in GVAR(followDefaults)) then {LOADOUT_KIT_DEFAULT} else {[_class] call FUNC(getContentsTree)};
+    // The tree says it all - a kit that follows the defaults carries that as a marker, with its name.
+    private _contents = [_class] call FUNC(getContentsTree);
 
     {
         _x params ["_slot", "_items"];

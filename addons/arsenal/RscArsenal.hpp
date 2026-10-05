@@ -119,6 +119,19 @@ class ace_arsenal_display {
             y = QUOTE(safeZoneY + 8 * GRID_H);
             sizeEx = QUOTE(4.5 * GRID_H);
         };
+        // The pencil next to the title: the selected kit gets a name of its own (fnc_onRenameClick).
+        class GVAR(renameButton): buttonRemoveAll {
+            EFAK_STARTS_HIDDEN;
+            idc = IDC_EFAK_RENAME;
+            text = "\z\efak\addons\gui\ui\icon_edit_ca.paa";
+            tooltip = CSTRING(Rename_Tooltip);
+            colorBackground[] = {0, 0, 0, 0.8};
+            x = QUOTE(safeZoneX + 94 * GRID_W);
+            y = QUOTE(safeZoneY + 1.8 * GRID_H);
+            w = QUOTE(6 * GRID_W);
+            h = QUOTE(6 * GRID_H);
+            onButtonClick = QUOTE(call FUNC(onRenameClick));
+        };
         // Borrows ACE's left list focus flag on purpose: ACE's key handler swallows the arrow keys
         // unless one of its lists has focus, and that flag is what lets up/down move through this one.
         class GVAR(kitList): leftTabContent {
@@ -129,6 +142,7 @@ class ace_arsenal_display {
             // White, and a size down from ACE's own left list (7). The selection bar is see-through,
             // so the white text stays readable on the selected row.
             sizeEx = QUOTE(6 * GRID_H);
+            rowHeight = QUOTE(KIT_ROW_H);
             colorText[] = {1, 1, 1, 1};
             colorSelect[] = {1, 1, 1, 1};
             colorSelect2[] = {1, 1, 1, 1};
@@ -136,8 +150,47 @@ class ace_arsenal_display {
             colorSelectBackground2[] = {1, 1, 1, 0.25};
             onLBSelChanged = QUOTE(call FUNC(onKitSelected));
             onLBDblClick = "";
+            onMouseButtonDown = QUOTE(call FUNC(onRenameReset));
             onSetFocus = QUOTE(ACEGVAR(arsenal,leftTabFocus) = true; GVAR(kitListFocus) = true);
             onKillFocus = QUOTE(ACEGVAR(arsenal,leftTabFocus) = false; GVAR(kitListFocus) = false);
+        };
+
+        // After the kit list on purpose: what comes later in here is drawn above it.
+        // The name being typed, over the selected kit's row (onRenameClick places it). ACE's search flag
+        // keeps its hotkeys out of the way while typing; its live search is switched off.
+        class GVAR(renameEdit): rightSearchbar {
+            EFAK_STARTS_HIDDEN;
+            idc = IDC_EFAK_RENAME_EDIT;
+            x = QUOTE(safeZoneX + 20 * GRID_W);
+            y = QUOTE(safeZoneY + 14 * GRID_H);
+            w = QUOTE(66 * GRID_W);
+            h = QUOTE(KIT_ROW_H);
+            sizeEx = QUOTE(5 * GRID_H);
+            colorBackground[] = {0.05, 0.05, 0.05, 1};
+            maxChars = 40;
+            onEditChanged = "";
+            onMouseButtonClick = "";
+            onSetFocus = QUOTE(ACEGVAR(arsenal,rightSearchbarFocus) = true);
+            onKillFocus = QUOTE(ACEGVAR(arsenal,rightSearchbarFocus) = false; [true] call FUNC(onRenameDone));
+            // Return or the number pad's Enter keeps the name.
+            // On the key's release: an edit box keeps the press of Return to itself.
+            onKeyUp = QUOTE(if ((_this select 1) in [ARR_2(28,156)]) then {[true] call FUNC(onRenameDone)}; false);
+        };
+        // Back to the usual name - shown while typing the name of a kit that has one of its own. On the
+        // press rather than the click: the press already ends the typing.
+        class GVAR(renameReset): buttonRemoveAll {
+            EFAK_STARTS_HIDDEN;
+            idc = IDC_EFAK_RENAME_RESET;
+            text = "\z\efak\addons\gui\ui\icon_reset_ca.paa";
+            tooltip = CSTRING(RenameReset_Tooltip);
+            colorBackground[] = {0, 0, 0, 0};
+            colorBackgroundActive[] = {0, 0, 0, 0};
+            colorBackgroundDisabled[] = {0, 0, 0, 0};
+            colorFocused[] = {0, 0, 0, 0};
+            w = QUOTE(6 * GRID_W);
+            h = QUOTE(KIT_ROW_H);
+            onButtonClick = "";
+            onMouseButtonDown = QUOTE(call FUNC(onRenameReset));
         };
 
         // ----- Right panel -----

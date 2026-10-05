@@ -20,6 +20,21 @@
 
 params ["_display"];
 
+// The names players gave their kits, in place of the item's own name - every frame the inventory is
+// open, since the engine writes its own names back whenever something moves. Nothing to do, and
+// nothing done, while no kit has a name.
+[{
+    params ["_display", "_handle"];
+
+    if (isNull _display) exitWith {
+        [_handle] call CBA_fnc_removePerFrameHandler;
+    };
+
+    if (count GVAR(labels) == 0 && {count GVAR(typeNames) == 0}) exitWith {};
+
+    [_display] call FUNC(labelInventoryLists);
+}, 0, _display] call CBA_fnc_addPerFrameHandler;
+
 if !(missionNamespace getVariable [QGVAR(doubleClickOpen), true]) exitWith {};
 
 {

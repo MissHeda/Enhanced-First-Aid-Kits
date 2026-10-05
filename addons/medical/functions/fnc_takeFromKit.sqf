@@ -43,9 +43,16 @@ if (_count >= _have) then {
 
 [_kitClass, _contents, [[_kitClass] call EFUNC(core,getCharges), _itemClass, [], _rounds] call EFUNC(core,adjustCharges)] call EFUNC(core,setContents);
 
-// Does nothing unless the kit is both empty and set up to disappear when it is.
+// Does nothing unless the kit is both empty and set up to disappear when it is. A kit lying on the
+// ground (see usableKits) disappears from where it lies.
 if (_contents isEqualTo []) then {
-    [_unit, _kitClass] call EFUNC(core,removeKit);
+    private _owner = _unit;
+
+    if (((items _unit) findIf {(toLowerANSI _x) isEqualTo (toLowerANSI _kitClass)}) == -1) then {
+        _owner = GVAR(nearbyHolders) getOrDefault [toLowerANSI _kitClass, _unit];
+    };
+
+    [_owner, _kitClass] call EFUNC(core,removeKit);
 };
 
 true

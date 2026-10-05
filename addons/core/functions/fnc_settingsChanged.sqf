@@ -19,6 +19,17 @@
  * Public: No
  */
 
+// The entries with a * in them as one pattern: * stands for any text ("greenmag_ammo_*").
+private _fnc_toPattern = {
+    params ["_lookup"];
+
+    private _wildcards = (keys _lookup) select {"*" in _x} apply {
+        (_x regexReplace ["[.]", "[.]"]) regexReplace ["[*]", ".*"]
+    };
+
+    ["", format ["^(%1)$", _wildcards joinString "|"]] select (_wildcards isNotEqualTo [])
+};
+
 private _fnc_toLookup = {
     params ["_string"];
 
@@ -36,12 +47,16 @@ private _fnc_toLookup = {
 // Every kit type has a whitelist and a blacklist of its own.
 GVAR(whitelistLookup) = createHashMap;
 GVAR(blacklistLookup) = createHashMap;
+GVAR(whitelistPattern) = createHashMap;
+GVAR(blacklistPattern) = createHashMap;
 
 {
     private _id = (GVAR(kits) get (toLowerANSI _x)) select KIT_ID;
 
     GVAR(whitelistLookup) set [_id, [missionNamespace getVariable [format [QGVAR(kit_%1_whitelist), _id], ""]] call _fnc_toLookup];
     GVAR(blacklistLookup) set [_id, [missionNamespace getVariable [format [QGVAR(kit_%1_blacklist), _id], ""]] call _fnc_toLookup];
+    GVAR(whitelistPattern) set [_id, [GVAR(whitelistLookup) get _id] call _fnc_toPattern];
+    GVAR(blacklistPattern) set [_id, [GVAR(blacklistLookup) get _id] call _fnc_toPattern];
 } forEach GVAR(kitList);
 
 GVAR(massCache) = createHashMap;

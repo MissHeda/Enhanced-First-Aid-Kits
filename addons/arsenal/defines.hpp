@@ -15,6 +15,14 @@
 #define IDD_ACE_LOADOUTS            1127002
 #define IDC_ACE_MENUBAR             10
 #define IDC_ACE_TOTAL_WEIGHT_TEXT   801
+#define IDC_ACE_RIGHT_LIST          15    // the right list (rightTabContentListnBox)
+#define IDC_ACE_SORT_RIGHT          17    // its sort box (sortRightTab)
+#define IDC_ACE_LOAD_BAR            701   // container load bar (loadIndicatorBar)
+#define IDC_ACE_UNIFORM             2010  // left tab buttons of the containers
+#define IDC_ACE_VEST                2012
+#define IDC_ACE_BACKPACK            2014
+#define ACE_CURRENT_UNIFORM_ITEMS   15    // ace_arsenal_currentItems: uniform, vest, backpack items
+#define ACE_LOADOUT_UNIFORM         3     // getUnitLoadout: uniform, vest, backpack
 
 // Every ACE control the kits tab covers up. Left panel: list, sort, search. Right panel: frame,
 // load bar, both lists, sort, search, the current magazine buttons and "remove all". Plus the item
@@ -82,6 +90,10 @@
 // "All allowed items" box next to the defaults box
 #define IDC_EFAK_SHOW_ALL           88526
 #define IDC_EFAK_SHOW_ALL_LABEL     88527
+#define IDC_EFAK_RENAME             88528 // the pencil next to the left title
+#define IDC_EFAK_RENAME_EDIT        88529 // the name being typed, over the selected kit's row
+#define IDC_EFAK_RENAME_RESET       88530 // back to the usual name, at the end of that box
+#define KIT_ROW_H                   (6 * GRID_H) // a row of the kit list
 // Search and sort above the contents list, copies of ACE's own right panel controls
 #define IDC_EFAK_SEARCH             88520
 #define IDC_EFAK_SEARCH_BUTTON      88521
@@ -114,7 +126,8 @@
     IDC_EFAK_DEFAULTS, \
     IDC_EFAK_DEFAULTS_LABEL, \
     IDC_EFAK_SHOW_ALL, \
-    IDC_EFAK_SHOW_ALL_LABEL
+    IDC_EFAK_SHOW_ALL_LABEL, \
+    IDC_EFAK_RENAME
 
 // What the kits tab may change about a kit type, from efak_core_fnc_getArsenalEditing. Mirrors
 // core's script_component.hpp, which this addon does not include.

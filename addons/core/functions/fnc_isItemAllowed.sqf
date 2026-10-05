@@ -63,18 +63,26 @@ if (_itemType == "magazine" && {GVAR(excludedPrefixes) findIf {(_key find _x) ==
     [false, LLSTRING(Error_ItemNotAllowed)]
 };
 
-if (_key in (GVAR(blacklistLookup) getOrDefault [_id, createHashMap])) exitWith {
+// Named outright, or matched by an entry with a * in it.
+private _fnc_listed = {
+    params ["_lookup", "_pattern"];
+
+    _key in (_lookup getOrDefault [_id, createHashMap]) ||
+    {((_pattern getOrDefault [_id, ""]) isNotEqualTo "") && {_key regexMatch (_pattern get _id)}}
+};
+
+if ([GVAR(blacklistLookup), GVAR(blacklistPattern)] call _fnc_listed) exitWith {
     [false, LLSTRING(Error_Blacklisted)]
 };
 
-private _whitelist = GVAR(whitelistLookup) getOrDefault [_id, createHashMap];
+private _whitelisted = [GVAR(whitelistLookup), GVAR(whitelistPattern)] call _fnc_listed;
 
 // A container made for one kind of thing - an ammo pouch for magazines - takes only that kind,
 // unless the mission's whitelist names the item. Types as ace_common_fnc_getItemType gives them:
 // "magazine", or with the subtype, "magazine/secondary".
 if (
     _types isNotEqualTo [] &&
-    {!(_key in _whitelist)} &&
+    {!_whitelisted} &&
     {!((toLowerANSI _itemType) in _types)} &&
     {!(_fullType in _types)}
 ) exitWith {
@@ -89,12 +97,12 @@ if (
     _filter == FILTER_MEDICAL &&
     {!(_key in GVAR(medicalLookup))} &&
     {getNumber (_config >> "ACE_isMedicalItem") != 1} &&
-    {!(_key in _whitelist)}
+    {!_whitelisted}
 ) exitWith {
     [false, LLSTRING(Error_MedicalOnly)]
 };
 
-if (_filter == FILTER_LIST && {!(_key in _whitelist)}) exitWith {
+if (_filter == FILTER_LIST && {!_whitelisted}) exitWith {
     [false, LLSTRING(Error_NotWhitelisted)]
 };
 

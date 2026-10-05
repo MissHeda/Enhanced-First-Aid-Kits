@@ -38,6 +38,12 @@ private _allowance = createHashMap;
 private _result = [];
 
 {
+    // The kit's name and the defaults marker are no items, and stay as they are.
+    if (_x isEqualType [] && {(_x param [0, ""]) in [KIT_MARK_LABEL, KIT_MARK_DEFAULT]}) then {
+        _result pushBack +_x;
+        continue;
+    };
+
     if !(_x isEqualType [] && {_x isEqualTypeParams ["", 0]}) then {continue};
 
     _x params ["_class", "_count"];

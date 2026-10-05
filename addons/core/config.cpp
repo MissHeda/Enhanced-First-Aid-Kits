@@ -22,10 +22,13 @@ class CfgPatches {
 // without EFAK sets its own name here.
 class EFAK_Framework {
     settingsCategory = CBA_SETTINGS_EFAK;
+    // The keybinds' heading, if it should differ from the settings category. Only the heading - the
+    // keys stay bound, they are stored under the id "EFAK".
+    keybindCategory = "";
     // Goes up by one whenever main, core, gui or arsenal change - the four addons Enhanced Utility
     // Pouches carries a copy of. efak_kits checks it (EFAK_FRAMEWORK_REVISION), so an EFAK update
     // that leaves them alone needs no new copy there.
-    revision = 1;
+    revision = 2;
 };
 #include "CfgEFAKKits.hpp"
 #include "CfgWeapons.hpp"

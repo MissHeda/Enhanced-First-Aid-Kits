@@ -48,6 +48,7 @@
 
 // ----- Inventory display (RscDisplayInventory) -----
 #define IDC_ITEMLIST_GROUND     632
+#define IDC_ITEMLIST_SOLDIER    640 // the container or unit opened next to the ground
 #define IDC_ITEMLIST_UNIFORM    633
 #define IDC_ITEMLIST_VEST       638
 #define IDC_ITEMLIST_BACKPACK   619
@@ -73,6 +74,11 @@
 // Written instead of a contents tree for a kit marked to follow the default contents. A string, so
 // it survives export, import and the profile like the rest of the entry does.
 #define LOADOUT_KIT_DEFAULT         "default"
+
+// Markers a contents tree carries besides its items, see fnc_getTreeLabel
+#define KIT_MARK_LABEL              "#label"
+#define KIT_MARK_DEFAULT            "#default"
+#define KIT_LABEL_MAX               40
 
 // Loadout slots that hold containers, as indices into a getUnitLoadout array.
 #define LOADOUT_SLOT_UNIFORM        3

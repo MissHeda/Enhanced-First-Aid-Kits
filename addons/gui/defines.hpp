@@ -45,6 +45,11 @@
 #define IDC_HEADER_KIT_COUNT        8847
 // The kit's picture in the switcher and over the kit list, the amounts next to the two meters
 #define IDC_KIT_SWITCH_PICTURE      8848
+#define IDC_RENAME_ICON             8870
+#define IDC_RENAME_HIT              8871
+#define IDC_RENAME_EDIT             8872
+#define IDC_RENAME_RESET_ICON       8874
+#define IDC_RENAME_RESET_HIT        8875
 #define IDC_HEADER_KIT_PICTURE      8849
 #define IDC_LOAD_VALUE              8860
 #define IDC_CAPACITY_VALUE          8861
@@ -288,6 +293,14 @@
 #define KIT_SWITCH_TEXT  (ROW * 0.98)
 #define KIT_SWITCH_ICON  (ROW * 0.7)
 #define KIT_SWITCH_GAP   (SQUARE(ROW * 0.35))
+// The pencil that renames the kit: a button of its own inside the switcher, left of the arrow, with
+// room enough around the icon to be hit rather than the switcher. The name ends before it.
+#define RENAME_H         (HEAD_H * 0.8)
+#define RENAME_W         (SQUARE(RENAME_H) * 1.1)
+#define RENAME_X         (KIT_SWITCH_X + KIT_SWITCH_W - KIT_SWITCH_GAP * 1.2 - SQUARE(KIT_SWITCH_ICON) - RENAME_W)
+#define RENAME_Y         (HEAD_Y + (HEAD_H - RENAME_H) / 2)
+#define KIT_NAME_X       (KIT_SWITCH_X + KIT_SWITCH_GAP * 2 + SQUARE(KIT_SWITCH_PIC_H))
+#define KIT_NAME_W       (RENAME_X - KIT_SWITCH_GAP - KIT_NAME_X)
 // Section row
 #define SECTION_Y (POUCH_Y + ROW * 3.35)
 #define SECTION_H (ROW * 1.5)

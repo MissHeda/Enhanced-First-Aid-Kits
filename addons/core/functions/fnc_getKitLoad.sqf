@@ -7,6 +7,9 @@
  * mission that writes its own default contents feels those items too, which it would not if this
  * were measured against the stock fill.
  *
+ * Each kit's contents count as much as its own "Contents weight" setting says (fnc_getWeightFactor),
+ * nested ones included.
+ *
  * Nested kits add their contents once, however many times their class turns up. A kit packed in
  * another one takes the room of its packed size there, so its weight offset (fnc_getWeightOffset)
  * comes along separately - that part is not scaled by the kit weight setting.
@@ -16,7 +19,7 @@
  * 1: Kit classes already counted <HASHMAP> (default: new)
  *
  * Return Value:
- * 0: Mass of everything inside <NUMBER>
+ * 0: Mass of everything inside, scaled by the kits' settings <NUMBER>
  * 1: Weight offsets of the kits inside <NUMBER>
  *
  * Example:
@@ -34,7 +37,7 @@ if (_key in _counted) exitWith {[0, 0]};
 _counted set [_key, true];
 
 private _contents = [_kitClass] call FUNC(getContents);
-private _load = [_contents] call FUNC(getUsedCapacity);
+private _load = ([_contents] call FUNC(getUsedCapacity)) * ([_kitClass] call FUNC(getWeightFactor));
 private _offset = 0;
 
 {

@@ -107,14 +107,26 @@ private _selectedPreparing = -1;
     private _name = [_prototype] call EFUNC(core,getKitName);
     private _picture = [_prototype] call EFUNC(core,getItemPicture);
 
+    // Where the kit is, as the icon of ACE's own tab for that container, on the right of the row.
+    private _containerIcon = switch (_container) do {
+        case "uniform": {"\A3\Ui_f\data\GUI\Rsc\RscDisplayArsenal\Uniform_ca.paa"};
+        case "vest": {"\A3\Ui_f\data\GUI\Rsc\RscDisplayArsenal\Vest_ca.paa"};
+        case "backpack": {"\A3\Ui_f\data\GUI\Rsc\RscDisplayArsenal\Backpack_ca.paa"};
+        default {""};
+    };
+
     if (_instances isNotEqualTo []) then {
         private _typeKey = toLowerANSI ([_prototype] call EFUNC(core,getPrototype));
         private _number = (_numbers getOrDefault [_typeKey, 0]) + 1;
         _numbers set [_typeKey, _number];
 
-        private _label = format ["%1 #%2", _name, _number];
-        if (_containerName isNotEqualTo "") then {
-            _label = format ["%1 - %2", _label, _containerName];
+        private _label = _name;
+
+        // Kits with a name a player gave them (efak_core_fnc_setKitLabel) go by it; what they are is
+        // in the tooltip.
+        private _names = (_instances apply {[_x] call EFUNC(core,getKitLabel)}) select {_x isNotEqualTo ""};
+        if (_names isNotEqualTo []) then {
+            _label = _names joinString ", ";
         };
 
         private _editing = [_prototype] call EFUNC(core,getArsenalEditing);
@@ -129,6 +141,12 @@ private _selectedPreparing = -1;
         _ctrl lbSetValue [_index, ROW_KITS];
         _ctrl lbSetPicture [_index, _picture];
         _ctrl lbSetTooltip [_index, format [LLSTRING(Row_Kits_Tooltip), _name, _containerName, _note]];
+
+        if (_containerIcon isNotEqualTo "") then {
+            _ctrl lbSetPictureRight [_index, _containerIcon];
+            _ctrl lbSetPictureRightColor [_index, [1, 1, 1, 0.75]];
+            _ctrl lbSetPictureRightColorSelected [_index, [1, 1, 1, 1]];
+        };
 
         if (_editing == EDIT_NOTHING) then {
             _ctrl lbSetColor [_index, COLOR_GREYED];

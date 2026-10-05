@@ -7,6 +7,9 @@ ADDON = false;
 
 // The kit the window is showing and who or what holds it - the player, a casualty or a crate.
 GVAR(kitClass) = "";
+GVAR(renaming) = "";              // the kit whose name is being typed, see fnc_onRenameClick
+GVAR(renameClosedAt) = -1;
+GVAR(lastRenamed) = "";
 GVAR(owner) = objNull;
 
 // The unit the window was opened on when that is somebody else, so their kits stay in the switcher.
@@ -81,6 +84,8 @@ private _dropdown = [[S_FIELD, S_FIELD_HOVER, S_FIELD_HOVER, S_FIELD], _quiet, _
 
 GVAR(buttonStyles) = createHashMapFromArray [
     ["KitSwitch", _dropdown],
+    ["Rename", _ghost],
+    ["RenameReset", _ghost],
     ["Sort", _dropdown],
     ["TakeInto", _dropdown],
     ["BtnClose", _field],

@@ -26,20 +26,28 @@
 
 params ["_medicCount", "_patientCount", "_vehicleCount"];
 
-private _countStrings = [format ["%1 %2", _medicCount, localize "STR_ACE_Medical_GUI_TreatmentItemCount_Medic"]];
+// EFAK: the line the treatment would take it from is marked (countTreatmentItems works it out). The
+// tooltip is plain text - nothing bold in it - so it is framed, » like this «, each player's choice.
+private _next = ["", missionNamespace getVariable [QGVAR(nextSource), ""]] select (missionNamespace getVariable [QGVAR(markNextSource), true]);
+private _fnc_line = {
+    params ["_text", "_source"];
+    [_text, format ["» %1 «", _text]] select (_source isEqualTo _next)
+};
+
+private _countStrings = [[format ["%1 %2", _medicCount, localize "STR_ACE_Medical_GUI_TreatmentItemCount_Medic"], "medic"] call _fnc_line];
 
 if ((ACEGVAR(medical_treatment,allowSharedEquipment) != 2) && {!isNil "_patientCount"}) then {
-    _countStrings pushBack format ["%1 %2", _patientCount, localize "STR_ACE_Medical_GUI_TreatmentItemCount_Patient"];
+    _countStrings pushBack ([format ["%1 %2", _patientCount, localize "STR_ACE_Medical_GUI_TreatmentItemCount_Patient"], "patient"] call _fnc_line);
 };
 
 if (!isNil "_vehicleCount") then {
-    _countStrings pushBack format ["%1 %2", _vehicleCount, localize "STR_ACE_Medical_GUI_TreatmentItemCount_Vehicle"];
+    _countStrings pushBack ([format ["%1 %2", _vehicleCount, localize "STR_ACE_Medical_GUI_TreatmentItemCount_Vehicle"], "vehicle"] call _fnc_line);
 };
 
 // ----- EFAK -----
 {
-    _x params ["_type", "_count"];
-    _countStrings pushBack format ["%1 %2", _count, format [LLSTRING(ItemCount_InKit), _type]];
+    _x params ["_label", "_count", "_line"];
+    _countStrings pushBack ([format ["%1 %2", _count, _label], _line] call _fnc_line);
 } forEach (missionNamespace getVariable [QGVAR(lastKitCounts), []]);
 
 _countStrings joinString "\n"

@@ -24,9 +24,13 @@
  * Public: No
  */
 
-params ["_medic", "_patient", "_items"];
+// EFAK: a fourth argument, true, makes it a dry run - nothing is used, and the answer is where the
+// item would come from: "medic", "patient", "vehicle" or a kit's line (fnc_kitSourceKey), "" for
+// nowhere. The medical menu marks that line with it.
+params ["_medic", "_patient", "_items", ["_dryRun", false]];
 
 if (_medic isEqualTo player && {!isNull findDisplay 312}) exitWith {
+    if (_dryRun) exitWith {""};
     [_medic, _items select 0, false] // return
 };
 
@@ -35,8 +39,10 @@ scopeName "Main";
 // ----- EFAK -----
 // Kit supplies, tried per unit - in ACE's own order, or the medic's or the patient's first, as the
 // mission sets it; never the patient's where ACE allows the medic's supplies only. Whether they go
-// before or after the loose items is EFAK's setting too.
+// before or after the loose items is EFAK's setting too, and kits lying nearby can go first of all.
 private _fnc_fromKits = {
+    params ["_mode"];
+
     private _kitOrder = switch (missionNamespace getVariable [QGVAR(kitOwnerOrder), KIT_OWNER_ACE]) do {
         case KIT_OWNER_MEDIC: {[_medic, _patient] arrayIntersect _useOrder};
         case KIT_OWNER_PATIENT: {[_patient, _medic] arrayIntersect _useOrder};
@@ -44,9 +50,13 @@ private _fnc_fromKits = {
     };
 
     {
-        ([_x, _items] call FUNC(findInKits)) params ["_kitClass", "_itemClass"];
+        ([_x, _items, _mode] call FUNC(findInKits)) params ["_kitClass", "_itemClass"];
 
         if (_kitClass isNotEqualTo "") then {
+            if (_dryRun) then {
+                ([_x, _kitClass] call FUNC(kitSourceKey)) breakOut "Main"; // return
+            };
+
             private _size = [_itemClass] call EFUNC(core,getMagazineSize);
 
             // A magazine of several rounds - a pill bottle, where ACE takes one round of a loose one -
@@ -67,14 +77,18 @@ private _fnc_fromKits = {
     } forEach _kitOrder;
 };
 
-private _kitsFirst = (missionNamespace getVariable [QGVAR(useOrder), 0]) == 1;
+private _order = missionNamespace getVariable [QGVAR(useOrder), USE_LOOSE_FIRST];
 // ----- EFAK end -----
 
 private _allowSharedEquipment = ACEGVAR(medical_treatment,allowSharedEquipment);
 if (_allowSharedEquipment == 3) then { _allowSharedEquipment = parseNumber ([_medic] call ACEFUNC(medical_treatment,isMedic)) };
 private _useOrder = [[_patient, _medic], [_medic, _patient], [_medic]] select _allowSharedEquipment;
 
-if (_kitsFirst) then {call _fnc_fromKits}; // EFAK
+// EFAK
+switch (_order) do {
+    case USE_KITS_FIRST: {[KITS_ALL] call _fnc_fromKits};
+    case USE_GROUND_FIRST: {[KITS_GROUND] call _fnc_fromKits};
+};
 
 {
     private _unit = _x;
@@ -87,6 +101,12 @@ if (_kitsFirst) then {call _fnc_fromKits}; // EFAK
 
     {
         switch (true) do {
+            case (_dryRun && {_x in _vehicleItems || {_x in _vehicleMagazines}}): {
+                "vehicle" breakOut "Main"; // EFAK: dry run
+            };
+            case (_dryRun && {_x in _unitItems || {_x in _unitMagazines}}): {
+                (["patient", "medic"] select (_unit isEqualTo _medic)) breakOut "Main"; // EFAK: dry run
+            };
             case (_x in _vehicleItems): {
                 _unitVehicle addItemCargoGlobal [_x, -1];
                 [_unit, _x, false] breakOut "Main"; // return
@@ -110,6 +130,11 @@ if (_kitsFirst) then {call _fnc_fromKits}; // EFAK
 } forEach _useOrder;
 
 // ----- EFAK -----
-if (!_kitsFirst) then {call _fnc_fromKits};
+switch (_order) do {
+    case USE_LOOSE_FIRST: {[KITS_ALL] call _fnc_fromKits};
+    case USE_GROUND_FIRST: {[KITS_CARRIED] call _fnc_fromKits};
+};
+
+if (_dryRun) exitWith {""};
 
 [objNull, "", false] // return

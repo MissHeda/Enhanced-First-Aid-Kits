@@ -25,6 +25,12 @@
 
 params ["_display", "_key", ["_shift", false]];
 
+// Typing a kit's name: Return keeps it. (Escape closes the arsenal, as ACE has it.)
+if (GVAR(renaming) isNotEqualTo "" && {_key in [DIK_RETURN, DIK_NUMPADENTER]}) exitWith {
+    [true] call FUNC(onRenameDone);
+    true
+};
+
 if (!GVAR(active) || {!GVAR(contentsFocus)}) exitWith {false};
 if !(_key in [DIK_LEFT, DIK_RIGHT]) exitWith {false};
 

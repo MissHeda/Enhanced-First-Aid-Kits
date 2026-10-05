@@ -2,7 +2,7 @@
 /*
  * Author: Miss Heda
  * What a unit has across the kits ACE treatments may use, as lowercase class -> count - in total,
- * or per kit type.
+ * or per line of the medical menu: per kit type, the kits lying nearby apart (fnc_kitSourceKey).
  *
  * Only kits of a type the mission lets treatments use count (fnc_canUseKit); the others are not
  * there as far as ACE medical is concerned.
@@ -17,8 +17,8 @@
  * 1: Per kit type <BOOL> (default: false)
  *
  * Return Value:
- * Lowercase class -> count <HASHMAP>, or kit type -> (lowercase class -> count) <HASHMAP> - do not
- * modify either
+ * Lowercase class -> count <HASHMAP>, or kit type ("<id>" or "<id>@ground") -> (lowercase class ->
+ * count) <HASHMAP> - do not modify either
  *
  * Example:
  * ([player] call efak_medical_fnc_kitCounts) getOrDefault ["ace_morphine", 0];
@@ -39,8 +39,11 @@ private _result = [_counts, _perType] select _byType;
 // the frame counts - ACM Extended counts, takes one and counts again to see that it worked.
 if (_frame isEqualTo diag_frameNo && {_stamp isEqualTo EGVAR(core,contentsStamp)}) exitWith {_result};
 
-// A kit type switched off drops out of this list, so a settings change is a different list.
-private _now = ([_unit] call EFUNC(core,getCarriedKits)) select {[_x] call FUNC(canUseKit)};
+// A kit type switched off drops out of this list, so a settings change is a different list. Where a
+// kit is belongs to it too: one set down on the ground counts on a line of its own from then on.
+private _carried = ([_unit, KITS_CARRIED] call FUNC(usableKits)) select {[_x] call FUNC(canUseKit)};
+private _ground = ([_unit, KITS_GROUND] call FUNC(usableKits)) select {[_x] call FUNC(canUseKit)};
+private _now = _carried + (_ground apply {_x + "@ground"});
 
 if (_stamp isEqualTo EGVAR(core,contentsStamp) && {_kits isEqualTo _now}) exitWith {
     _cache set [0, diag_frameNo];
@@ -51,18 +54,22 @@ private _fresh = createHashMap;
 private _freshPerType = createHashMap;
 
 {
-    private _type = ([_x] call EFUNC(core,getKitData)) select KIT_ID;
-    private _ofType = _freshPerType getOrDefault [_type, createHashMap, true];
+    _x params ["_kits", "_suffix"];
 
-    // Only read here, so it comes straight out of the store rather than through a copy.
     {
-        _x params ["_class", "_count"];
+        private _type = (([_x] call EFUNC(core,getKitData)) select KIT_ID) + _suffix;
+        private _ofType = _freshPerType getOrDefault [_type, createHashMap, true];
 
-        private _key = toLowerANSI _class;
-        _fresh set [_key, (_fresh getOrDefault [_key, 0]) + _count];
-        _ofType set [_key, (_ofType getOrDefault [_key, 0]) + _count];
-    } forEach (EGVAR(core,contents) getOrDefault [toLowerANSI _x, []]);
-} forEach _now;
+        // Only read here, so it comes straight out of the store rather than through a copy.
+        {
+            _x params ["_class", "_count"];
+
+            private _key = toLowerANSI _class;
+            _fresh set [_key, (_fresh getOrDefault [_key, 0]) + _count];
+            _ofType set [_key, (_ofType getOrDefault [_key, 0]) + _count];
+        } forEach (EGVAR(core,contents) getOrDefault [toLowerANSI _x, []]);
+    } forEach _kits;
+} forEach [[_carried, ""], [_ground, "@ground"]];
 
 _unit setVariable [QGVAR(countCache), [diag_frameNo, EGVAR(core,contentsStamp), _now, _fresh, _freshPerType]];
 

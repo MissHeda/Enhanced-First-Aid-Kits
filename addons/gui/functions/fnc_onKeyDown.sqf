@@ -27,6 +27,15 @@
 
 params ["_display", "_key", "_shift", "_ctrl"];
 
+// Typing a kit's name: Return keeps it, Escape throws it away, every other key is the text box's.
+if (GVAR(renaming) isNotEqualTo "") exitWith {
+    switch (true) do {
+        case (_key in [DIK_RETURN, DIK_NUMPADENTER]): {[true] call FUNC(onRenameDone); true};
+        case (_key == DIK_ESCAPE): {[false] call FUNC(onRenameDone); true};
+        default {false};
+    };
+};
+
 // The key that opened the window moves it on to the next kit.
 if (_this call FUNC(onCycleKey)) exitWith {true};
 

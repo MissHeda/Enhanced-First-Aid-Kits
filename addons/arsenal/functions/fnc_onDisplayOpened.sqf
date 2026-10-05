@@ -110,6 +110,28 @@ GVAR(tabSlotPFH) = [{
     [_display] call FUNC(updateTabSlot);
 }, 0.5, _display] call CBA_fnc_addPerFrameHandler;
 
+// What may go into a kit type is a look at every item of the arsenal - for each type the unit carries
+// it is worked out now, in the background, so opening the kits tab does not stall on it.
+private _center = missionNamespace getVariable [QACEGVAR(arsenal,center), objNull];
+private _types = ([_center] call EFUNC(core,getCarriedKits)) apply {[_x] call EFUNC(core,getPrototype)};
+
+[_types arrayIntersect _types] spawn {
+    params ["_types"];
+    {
+        [_x] call FUNC(getCandidates);
+    } forEach _types;
+};
+
 // ACE's key handler only knows its own lists. This one adds the arrow keys for the contents list
 // and stays out of the way otherwise.
 _display displayAddEventHandler ["KeyDown", {call FUNC(onKeyDown)}];
+_display displayAddEventHandler ["KeyUp", {
+    params ["", "_key"];
+
+    // Typing a kit's name: Return keeps it.
+    if (GVAR(renaming) isNotEqualTo "" && {_key in [DIK_RETURN, DIK_NUMPADENTER]}) then {
+        [true] call FUNC(onRenameDone);
+    };
+
+    false
+}];

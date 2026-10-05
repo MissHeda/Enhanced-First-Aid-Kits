@@ -50,7 +50,8 @@ private _fnc_header = {
     _x params ["_key", "_listIdc", "_pictureIdc", "_headerIdc", "_valueIdc", "_fill", "_label", "_container", "_worn", "_cfg"];
 
     if (isNull _container) then {
-        [_pictureIdc, _headerIdc, _valueIdc, UI_TEX(icon_inventory_ca), true, format ["%1 - %2", _label, LLSTRING(Preview_None)], S_MUTED] call _fnc_header;
+        // Nothing worn there: the game's own picture of the empty slot.
+        [_pictureIdc, _headerIdc, _valueIdc, format ["\A3\ui_f\data\GUI\Rsc\RscDisplayGear\ui_gear_%1_gs.paa", _key], true, format ["%1 - %2", _label, LLSTRING(Preview_None)], S_MUTED] call _fnc_header;
         [_display, _fill, 0, S_INFO] call FUNC(setBar);
     } else {
         private _max = maxLoad _container;

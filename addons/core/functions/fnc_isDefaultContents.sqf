@@ -32,6 +32,9 @@ private _fnc_count = {
     private _counts = createHashMap;
 
     {
+        // Items only - a saved tree also carries the kit's name as a marker (fnc_getTreeLabel).
+        if !(_x isEqualType [] && {_x isEqualTypeParams ["", 0]}) then {continue};
+
         _x params ["_class", "_count"];
 
         private _key = toLowerANSI _class;
@@ -44,6 +47,9 @@ private _fnc_count = {
 // A packed kit - instance or prototype - makes it a changed kit, and so does an opened magazine in a
 // contents tree (fnc_getContentsTree): written down as "default" it would come back full.
 if ((_contents findIf {(toLowerANSI (_x select 0)) in GVAR(prototypeOf)}) > -1) exitWith {false};
+
+// A kit with a name is no plain fresh kit either: written down as "default" it would lose the name.
+if ((_contents findIf {(_x param [0, ""]) isEqualTo KIT_MARK_LABEL}) > -1) exitWith {false};
 if ((_contents findIf {(_x param [3, []]) isNotEqualTo []}) > -1) exitWith {false};
 
 private _held = _contents call _fnc_count;

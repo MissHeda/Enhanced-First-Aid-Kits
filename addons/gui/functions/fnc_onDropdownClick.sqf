@@ -37,10 +37,12 @@ switch (_base) do {
         [
             _display,
             _base,
-            _kits apply {[_x select 3, _x select 4]},
+            _kits apply {[_x select 3, _x select 4, false, _x select 5, _x select 6]},
             _current,
             FUNC(onKitSwitchChanged),
-            _kits
+            _kits,
+            KIT_SWITCH_W, // as wide as the whole field - its click area stops at the pencil
+            RENAME_X + RENAME_W / 2 // where each kit is, in a column under the pencil
         ] call FUNC(openMenu);
     };
 
@@ -57,10 +59,11 @@ switch (_base) do {
     // The pictures are of what the player wears, so the menu says which uniform, vest and backpack
     // that is. Automatic has an icon of its own.
     case "TakeInto": {
+        // Nothing worn there: the game's own picture of the empty slot.
         private _fnc_worn = {
-            params ["_class", "_cfg"];
+            params ["_class", "_cfg", "_slot"];
 
-            [getText (configFile >> _cfg >> _class >> "picture"), UI_TEX(icon_inventory_ca)] select (_class isEqualTo "")
+            [getText (configFile >> _cfg >> _class >> "picture"), format ["\A3\ui_f\data\GUI\Rsc\RscDisplayGear\ui_gear_%1_gs.paa", _slot]] select (_class isEqualTo "")
         };
 
         [
@@ -68,9 +71,9 @@ switch (_base) do {
             _base,
             [
                 [LELSTRING(core,Container_Auto), UI_TEX(icon_auto_ca), true],
-                [LELSTRING(core,Container_Uniform), [uniform ACE_player, "CfgWeapons"] call _fnc_worn, uniform ACE_player isEqualTo ""],
-                [LELSTRING(core,Container_Vest), [vest ACE_player, "CfgWeapons"] call _fnc_worn, vest ACE_player isEqualTo ""],
-                [LELSTRING(core,Container_Backpack), [backpack ACE_player, "CfgVehicles"] call _fnc_worn, backpack ACE_player isEqualTo ""]
+                [LELSTRING(core,Container_Uniform), [uniform ACE_player, "CfgWeapons", "uniform"] call _fnc_worn, uniform ACE_player isEqualTo ""],
+                [LELSTRING(core,Container_Vest), [vest ACE_player, "CfgWeapons", "vest"] call _fnc_worn, vest ACE_player isEqualTo ""],
+                [LELSTRING(core,Container_Backpack), [backpack ACE_player, "CfgVehicles", "backpack"] call _fnc_worn, backpack ACE_player isEqualTo ""]
             ],
             [GVAR(kitClass)] call EFUNC(core,getTakeInto),
             FUNC(onTakeIntoChanged),

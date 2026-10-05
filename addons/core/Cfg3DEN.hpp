@@ -5,7 +5,8 @@
 //
 // A crate or vehicle can say what its kits hold, one field per kit type in the format of the CBA
 // default contents. The addon that brings a kit type adds that field to this category, with the
-// property name efak_core_crate_<prototype> - see addons/kits/Cfg3DEN.hpp. At mission start the
+// property name efak_core_crate_<prototype> - see addons/kits/Cfg3DEN.hpp - and a field for a name every
+// kit of that type in it gets, efak_core_crateName_<prototype> (fnc_nameCrateKits). At mission start the
 // server swaps the kits of that type in its cargo for kits filled that way (fnc_fillCrateKits); an
 // empty field leaves them to the defaults.
 class Cfg3DEN {

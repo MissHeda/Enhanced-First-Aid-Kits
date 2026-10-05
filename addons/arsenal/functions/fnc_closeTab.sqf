@@ -25,6 +25,9 @@ params ["_display"];
 
 if (!GVAR(active)) exitWith {};
 
+// A name half typed goes with the tab.
+[false] call FUNC(onRenameDone);
+
 call FUNC(flush);
 
 GVAR(active) = false;
@@ -49,7 +52,7 @@ if (isNull _display) exitWith {
     _ctrl ctrlShow false;
     _ctrl ctrlEnable false;
     _ctrl ctrlCommit 0;
-} forEach [EFAK_PANEL_IDCS, IDC_EFAK_CLEAR, IDC_EFAK_CATEGORY, IDC_EFAK_CATEGORY_BG];
+} forEach [EFAK_PANEL_IDCS, IDC_EFAK_CLEAR, IDC_EFAK_CATEGORY, IDC_EFAK_CATEGORY_BG, IDC_EFAK_RENAME_EDIT, IDC_EFAK_RENAME_RESET];
 
 private _tabBackground = _display displayCtrl IDC_EFAK_TAB_BACKGROUND;
 _tabBackground ctrlSetFade 1;

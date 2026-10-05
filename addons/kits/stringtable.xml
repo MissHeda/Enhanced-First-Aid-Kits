@@ -43,6 +43,18 @@
         <Key ID="STR_efak_kits_3DEN_CrateContents_MFAKPlus">
             <English>MFAK+ contents</English>
         </Key>
+        <Key ID="STR_efak_kits_3DEN_CrateName_IFAK">
+            <English>IFAK name</English>
+        </Key>
+        <Key ID="STR_efak_kits_3DEN_CrateName_AFAK">
+            <English>AFAK name</English>
+        </Key>
+        <Key ID="STR_efak_kits_3DEN_CrateName_MFAK">
+            <English>MFAK name</English>
+        </Key>
+        <Key ID="STR_efak_kits_3DEN_CrateName_MFAKPlus">
+            <English>MFAK+ name</English>
+        </Key>
         <Key ID="STR_efak_kits_FrameworkMismatch">
             <English>Enhanced First Aid Kits %1 runs on another version of its kit framework, which another mod brings along (Enhanced Utility Pouches). Update both to their latest version.</English>
         </Key>

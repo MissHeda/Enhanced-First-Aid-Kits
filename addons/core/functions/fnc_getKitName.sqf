@@ -22,4 +22,6 @@ private _kit = [_class] call FUNC(getKitData);
 
 if (_kit isEqualTo []) exitWith {_class};
 
-_kit select KIT_NAME
+private _typeName = [_class] call FUNC(getTypeName);
+
+[_kit select KIT_NAME, _typeName] select (_typeName isNotEqualTo "")

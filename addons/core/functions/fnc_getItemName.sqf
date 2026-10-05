@@ -17,6 +17,16 @@
 
 params ["_class"];
 
+// A kit with a name a player gave it goes by that name (fnc_setKitLabel). Never cached: it can change.
+private _label = GVAR(labels) getOrDefault [toLowerANSI _class, ""];
+
+if (_label isNotEqualTo "") exitWith {_label};
+
+// ...and every kit of a type the mission renamed goes by that name.
+private _typeName = [_class] call FUNC(getTypeName);
+
+if (_typeName isNotEqualTo "") exitWith {_typeName};
+
 // Every list redraw asks for the name of every row, and the config lookup walks several classes.
 GVAR(nameCache) getOrDefaultCall [toLowerANSI _class, {
     private _config = _class call CBA_fnc_getItemConfig;

@@ -25,8 +25,15 @@
 private _kits = [];
 private _seen = createHashMap;
 
+// Where each kit is, in words and as a picture: what the player wears there, or the ground's and
+// the crate's icon. A casualty's kits say whose they are in words only.
+private _fnc_worn = {
+    params ["_class", "_cfg"];
+    [getText (configFile >> _cfg >> _class >> "picture"), false]
+};
+
 private _fnc_add = {
-    params ["_holder", "_classes", "_where"];
+    params ["_holder", "_classes", "_where", ["_icon", ["", false]]];
 
     {
         private _key = toLowerANSI _x;
@@ -40,13 +47,13 @@ private _fnc_add = {
 
         if (_key in GVAR(removedKits)) then {continue};
 
-        _kits pushBack [_holder, _x, _where];
+        _kits pushBack [_holder, _x, _where, _icon select 0, _icon select 1];
     } forEach _classes;
 };
 
-[ACE_player, uniformItems ACE_player, LELSTRING(core,Container_Uniform)] call _fnc_add;
-[ACE_player, vestItems ACE_player, LELSTRING(core,Container_Vest)] call _fnc_add;
-[ACE_player, backpackItems ACE_player, LELSTRING(core,Container_Backpack)] call _fnc_add;
+[ACE_player, uniformItems ACE_player, LELSTRING(core,Container_Uniform), [uniform ACE_player, "CfgWeapons"] call _fnc_worn] call _fnc_add;
+[ACE_player, vestItems ACE_player, LELSTRING(core,Container_Vest), [vest ACE_player, "CfgWeapons"] call _fnc_worn] call _fnc_add;
+[ACE_player, backpackItems ACE_player, LELSTRING(core,Container_Backpack), [backpack ACE_player, "CfgVehicles"] call _fnc_worn] call _fnc_add;
 
 private _patient = GVAR(patient);
 
@@ -57,14 +64,14 @@ if (!isNull _patient && {_patient isNotEqualTo ACE_player}) then {
 private _crate = GVAR(crate);
 
 if (!isNull _crate) then {
-    [_crate, (getItemCargo _crate) param [0, []], [LLSTRING(Header_Crate), LLSTRING(Header_Vehicle)] select (_crate isKindOf "AllVehicles")] call _fnc_add;
+    [_crate, (getItemCargo _crate) param [0, []], [LLSTRING(Header_Crate), LLSTRING(Header_Vehicle)] select (_crate isKindOf "AllVehicles"), [UI_TEX(icon_crate_ca), true]] call _fnc_add;
 };
 
 // Kits lying on the pile at the player's feet - the second tab when there is no crate.
 private _ground = [false] call FUNC(getGroundHolder);
 
 if (!isNull _ground) then {
-    [_ground, (getItemCargo _ground) param [0, []], LLSTRING(Preview_Ground)] call _fnc_add;
+    [_ground, (getItemCargo _ground) param [0, []], LLSTRING(Preview_Ground), [UI_TEX(icon_ground_ca), true]] call _fnc_add;
 };
 
 // A removed kit that is nowhere to be found any more is gone for good. Its instance can be handed

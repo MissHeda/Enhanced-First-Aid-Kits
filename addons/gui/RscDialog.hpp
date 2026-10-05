@@ -52,6 +52,8 @@ class EFAK_PouchDialog {
         // The fields in the header and the middle column: the controls on them draw nothing themselves.
         // KitSwitch, Sort and TakeInto are the surfaces of their drop downs, painted like buttons.
         EFAK_PANEL(KitSwitch,KIT_SWITCH_X,HEAD_Y,KIT_SWITCH_W,HEAD_H,RADIUS_FIELD,C_FIELD);
+        // The pencil's own film, clear until the mouse is on it (fnc_paintButton).
+        EFAK_PANEL(Rename,RENAME_X,RENAME_Y,RENAME_W,RENAME_H,RADIUS_FIELD,C_CLEAR);
         EFAK_PANEL(SearchField,SEARCH_X,HEAD_Y,SEARCH_W,HEAD_H,RADIUS_FIELD,C_FIELD);
         EFAK_PANEL(Sort,SORT_X,HEAD_Y,SORT_W,HEAD_H,RADIUS_FIELD,C_FIELD);
         EFAK_PANEL(TabTrack,POUCH_X + PAD,SECTION_Y,LIST_W,SECTION_H,RADIUS_FIELD,C_FIELD);
@@ -137,9 +139,9 @@ class EFAK_PouchDialog {
         };
         class KitSwitch_Label: EFAK_Label {
             idc = IDC_KIT_SWITCH;
-            x = QUOTE(KIT_SWITCH_X + KIT_SWITCH_GAP * 2 + SQUARE(KIT_SWITCH_PIC_H));
+            x = QUOTE(KIT_NAME_X);
             y = QUOTE(HEAD_Y);
-            w = QUOTE(KIT_SWITCH_W - KIT_SWITCH_GAP * 4 - SQUARE(KIT_SWITCH_PIC_H) - SQUARE(KIT_SWITCH_ICON));
+            w = QUOTE(KIT_NAME_W);
             h = QUOTE(HEAD_H);
             sizeEx = QUOTE(KIT_SWITCH_TEXT);
             font = "RobotoCondensedBold";
@@ -151,13 +153,72 @@ class EFAK_PouchDialog {
             w = QUOTE(SQUARE(KIT_SWITCH_ICON));
             h = QUOTE(KIT_SWITCH_ICON);
         };
+        // In two pieces, left and right of the pencil, never under it: the engine draws a control that
+        // was clicked on top of the others, and a switcher field across the pencil would take its clicks.
         class KitSwitch_Hit: EFAK_Hitbox {
             x = QUOTE(KIT_SWITCH_X);
             y = QUOTE(HEAD_Y);
-            w = QUOTE(KIT_SWITCH_W);
+            w = QUOTE(RENAME_X - KIT_SWITCH_X);
             h = QUOTE(HEAD_H);
             tooltip = CSTRING(KitSwitch_Tooltip);
             onButtonClick = QUOTE(_this call FUNC(onDropdownClick));
+        };
+        class KitSwitch_HitArrow: KitSwitch_Hit {
+            x = QUOTE(RENAME_X + RENAME_W);
+            w = QUOTE(KIT_SWITCH_X + KIT_SWITCH_W - RENAME_X - RENAME_W);
+        };
+
+        // The pencil next to the name: click it and the name becomes a text box (fnc_onRenameClick).
+        // Over the switcher's own hit box, so the click is the pencil's.
+        class Rename_Icon: EFAK_Icon {
+            idc = IDC_RENAME_ICON;
+            text = UI_TEX(icon_edit_ca);
+            x = QUOTE(RENAME_X + (RENAME_W - SQUARE(KIT_SWITCH_ICON)) / 2);
+            y = QUOTE(HEAD_Y + (HEAD_H - KIT_SWITCH_ICON) / 2);
+            w = QUOTE(SQUARE(KIT_SWITCH_ICON));
+            h = QUOTE(KIT_SWITCH_ICON);
+        };
+        class Rename_Hit: EFAK_Hitbox {
+            idc = IDC_RENAME_HIT;
+            x = QUOTE(RENAME_X);
+            y = QUOTE(HEAD_Y);
+            w = QUOTE(RENAME_W);
+            h = QUOTE(HEAD_H);
+            tooltip = CSTRING(Rename_Tooltip);
+            onButtonClick = QUOTE(_this call FUNC(onRenameClick));
+        };
+        class Rename_Edit: EFAK_Edit {
+            idc = IDC_RENAME_EDIT;
+            x = QUOTE(KIT_NAME_X);
+            y = QUOTE(HEAD_Y + HEAD_H * 0.12);
+            w = QUOTE(KIT_NAME_W - SQUARE(KIT_SWITCH_ICON) - KIT_SWITCH_GAP);
+            h = QUOTE(HEAD_H * 0.76);
+            sizeEx = QUOTE(KIT_SWITCH_TEXT);
+            colorBackground[] = {0, 0, 0, 0.55};
+            maxChars = 40; // KIT_LABEL_MAX in core
+            onLoad = "(_this select 0) ctrlShow false";
+            onKillFocus = QUOTE([true] call FUNC(onRenameDone));
+        };
+        // Back to the usual name, at the end of the box - only while typing the name of a kit that has
+        // one of its own. On the press: the press already ends the typing.
+        class RenameReset_Icon: EFAK_Icon {
+            idc = IDC_RENAME_RESET_ICON;
+            text = UI_TEX(icon_reset_ca);
+            x = QUOTE(KIT_NAME_X + KIT_NAME_W - SQUARE(KIT_SWITCH_ICON));
+            y = QUOTE(HEAD_Y + (HEAD_H - KIT_SWITCH_ICON) / 2);
+            w = QUOTE(SQUARE(KIT_SWITCH_ICON));
+            h = QUOTE(KIT_SWITCH_ICON);
+            onLoad = "(_this select 0) ctrlShow false";
+        };
+        class RenameReset_Hit: EFAK_Hitbox {
+            idc = IDC_RENAME_RESET_HIT;
+            x = QUOTE(KIT_NAME_X + KIT_NAME_W - SQUARE(KIT_SWITCH_ICON) - KIT_SWITCH_GAP * 0.5);
+            y = QUOTE(HEAD_Y);
+            w = QUOTE(SQUARE(KIT_SWITCH_ICON) + KIT_SWITCH_GAP);
+            h = QUOTE(HEAD_H);
+            tooltip = CSTRING(RenameReset_Tooltip);
+            onLoad = "(_this select 0) ctrlShow false";
+            onMouseButtonDown = QUOTE(call FUNC(onRenameReset));
         };
 
         // One search for every list. The whole field focuses the words; "Search" shows while it is empty.

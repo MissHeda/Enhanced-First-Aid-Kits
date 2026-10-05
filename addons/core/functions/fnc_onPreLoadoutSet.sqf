@@ -142,7 +142,9 @@ private _queue = createHashMap;
         // nothing at all, or only take things out of the default contents.
         switch ([_prototype] call FUNC(getArsenalEditing)) do {
             case EDIT_NOTHING: {
-                _contents = LOADOUT_KIT_DEFAULT;
+                // Its name stays, the contents go back to the defaults.
+                private _label = ([_contents] call FUNC(getTreeLabel)) select 0;
+                _contents = [[[KIT_MARK_DEFAULT, 1], [KIT_MARK_LABEL, _label]], LOADOUT_KIT_DEFAULT] select (_label isEqualTo "");
             };
             case EDIT_REMOVE: {
                 // Offered by nothing, so every item may stay up to the amount the defaults hold.

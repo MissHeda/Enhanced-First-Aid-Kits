@@ -30,7 +30,7 @@
 
 disableSerialization;
 
-params ["_display", "_base", "_choices", "_current", "_onPick", ["_arguments", []], ["_minWidth", 0]];
+params ["_display", "_base", "_choices", "_current", "_onPick", ["_arguments", []], ["_minWidth", 0], ["_afterX", -1]];
 
 [_display] call FUNC(closeMenu);
 
@@ -93,7 +93,7 @@ private _checkW = SQUARE(MENU_CHECK_H);
 private _inset = SQUARE(ROW * 0.35);
 
 {
-    _x params ["_text", ["_picture", ""], ["_isIcon", false]];
+    _x params ["_text", ["_picture", ""], ["_isIcon", false], ["_after", ""], ["_afterIsIcon", false]];
 
     private _top = _forEachIndex * MENU_ROW_H;
     private _chosen = _forEachIndex == _current;
@@ -117,14 +117,47 @@ private _inset = SQUARE(ROW * 0.35);
         _textX = _textX + SQUARE(MENU_PIC_H) + SQUARE(ROW * 0.3);
     };
 
+    private _labelW = _padX + _rowW - _textX - _checkW - _inset * 1.5;
+    private _afterW = [0, SQUARE(MENU_PIC_H)] select (_after isNotEqualTo "");
+    private _afterGap = SQUARE(ROW * 0.25);
+    private _font = ["RobotoCondensed", "RobotoCondensedBold"] select _chosen;
+
+    // A picture behind the words (where a kit is) sits in a column of its own: centred on _afterX
+    // when the caller gives one (the kit switcher: under its pencil), else right before the check.
+    // The words end before it and are shortened to fit.
+    private _afterLeft = if (_afterX >= 0) then {
+        _afterX - _x0 - _afterW / 2
+    } else {
+        _padX + _rowW - _inset - _checkW - _afterGap - _afterW
+    };
+
+    if (_afterW > 0) then {
+        _labelW = _afterLeft - _afterGap - _textX;
+        _text = [_text, _labelW, _font, MENU_TEXT] call FUNC(fitText);
+    };
+
     private _label = _display ctrlCreate ["EFAK_Label", -1, _group];
-    _label ctrlSetPosition [_textX, _top, _padX + _rowW - _textX - _checkW - _inset * 1.5, MENU_ROW_H];
-    _label ctrlSetFont (["RobotoCondensed", "RobotoCondensedBold"] select _chosen);
+    _label ctrlSetPosition [_textX, _top, _labelW, MENU_ROW_H];
+    _label ctrlSetFont _font;
     _label ctrlSetFontHeight MENU_TEXT;
     _label ctrlSetText _text;
     _label ctrlSetTextColor ([S_TEXT, S_ACCENT] select _chosen);
     _label ctrlCommit 0;
     _created pushBack _label;
+
+    if (_afterW > 0) then {
+        private _behind = _display ctrlCreate ["EFAK_Icon", -1, _group];
+        _behind ctrlSetPosition [
+            _afterLeft,
+            _top + (MENU_ROW_H - MENU_PIC_H) / 2,
+            _afterW,
+            MENU_PIC_H
+        ];
+        _behind ctrlSetText _after;
+        _behind ctrlSetTextColor ([[1, 1, 1, 1], S_TEXT2] select _afterIsIcon);
+        _behind ctrlCommit 0;
+        _created pushBack _behind;
+    };
 
     if (_chosen) then {
         private _check = _display ctrlCreate ["EFAK_Icon", -1, _group];

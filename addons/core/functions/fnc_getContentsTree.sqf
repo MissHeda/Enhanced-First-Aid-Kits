@@ -26,7 +26,7 @@
 
 params ["_kitClass", ["_depth", 0]];
 
-([_kitClass] call FUNC(getContents)) apply {
+private _tree = ([_kitClass] call FUNC(getContents)) apply {
     _x params ["_class", "_count"];
 
     private _key = toLowerANSI _class;
@@ -42,7 +42,13 @@ params ["_kitClass", ["_depth", 0]];
             [_class, _count]
         };
         // Deeper than a restore would ever read: keep the kit, lose what is inside it.
-        case (_depth >= EFAK_RESTORE_MAX_DEPTH);
+        case (_depth >= EFAK_RESTORE_MAX_DEPTH): {
+            [_prototype, _count]
+        };
+        // A kit with a name keeps it - so it goes in with its tree, which carries the name.
+        case (([_class] call FUNC(getKitLabel)) isNotEqualTo ""): {
+            [_prototype, _count, [_class, _depth + 1] call FUNC(getContentsTree)]
+        };
         // A packed kit nobody touched, or one marked to follow the defaults, goes in as a fresh one.
         case (_key in GVAR(followDefaults));
         case (([_class] call FUNC(getCharges)) isEqualTo [] && {[_prototype, [_class] call FUNC(getContents)] call FUNC(isDefaultContents)}): {
@@ -52,4 +58,17 @@ params ["_kitClass", ["_depth", 0]];
             [_prototype, _count, [_class, _depth + 1] call FUNC(getContentsTree)]
         };
     };
-}
+};
+
+// The kit's name, and whether it follows the defaults, as markers (fnc_getTreeLabel).
+private _label = [_kitClass] call FUNC(getKitLabel);
+
+if ((toLowerANSI _kitClass) in GVAR(followDefaults)) then {
+    _tree pushBack [KIT_MARK_DEFAULT, 1];
+};
+
+if (_label isNotEqualTo "") then {
+    _tree pushBack [KIT_MARK_LABEL, _label];
+};
+
+_tree

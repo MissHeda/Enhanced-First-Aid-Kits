@@ -159,6 +159,12 @@ if (isServer) then {
         if ((_args select 0) > EFAK_SYNC_ATTEMPTS) exitWith {
             [_handle] call CBA_fnc_removePerFrameHandler;
             WARNING("No kit contents from the server - kits on this machine may show the wrong contents.");
+
+            // Most often the mod is missing on the server: no kit gets an id there, so every kit stays
+            // "being prepared" and empty. Said where the player sees it, not only in the log.
+            if (hasInterface) then {
+                systemChat format [LLSTRING(Sync_NoServer), GVAR(settingsCategory)];
+            };
         };
 
         [QGVAR(requestSync), [clientOwner]] call CBA_fnc_serverEvent;
@@ -205,7 +211,9 @@ call FUNC(settingsChanged);
 call FUNC(addActions);
 call FUNC(initInventoryHooks);
 
-["EFAK", GVAR(settingsCategory)] call CBA_fnc_registerKeybindModPrettyName;
+// Only the heading changes with the mods loaded; the keys are stored under the id "EFAK".
+private _keybindCategory = getText (configFile >> "EFAK_Framework" >> "keybindCategory");
+["EFAK", [_keybindCategory, GVAR(settingsCategory)] select (_keybindCategory isEqualTo "")] call CBA_fnc_registerKeybindModPrettyName;
 
 // Both unbound by default. They act on the first kit the player carries.
 ["EFAK", QGVAR(openPouch), [LLSTRING(Keybind_OpenPouch), LLSTRING(Keybind_OpenPouch_Desc)], {

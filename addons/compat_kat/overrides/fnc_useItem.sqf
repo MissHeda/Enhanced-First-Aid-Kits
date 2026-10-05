@@ -35,9 +35,11 @@ if (!efak_compat_kat_useCopies) exitWith {
     _this call efak_compat_kat_efakUseItem
 };
 
-params ["_medic", "_patient", "_items"];
+// A fourth argument, true, makes it a dry run, see EFAK's own (addons\medical\overrides).
+params ["_medic", "_patient", "_items", ["_dryRun", false]];
 
 if (_medic isEqualTo player && {!isNull findDisplay 312}) exitWith {
+    if (_dryRun) exitWith {""};
     [_medic, _items select 0, false]
 };
 
@@ -95,6 +97,8 @@ if (kat_misc_allowSharedVehicleEquipment > 0 && _vehicleCondition) then {
 // sets it. Whether they go before or after the loose items is EFAK's setting.
 private _units = _useOrder select {_x isKindOf "CAManBase"};
 private _fnc_fromKits = {
+    params ["_mode"];
+
     private _kitOrder = switch (missionNamespace getVariable ["efak_medical_kitOwnerOrder", 0]) do {
         case 1: {[_medic, _patient] arrayIntersect _units};
         case 2: {[_patient, _medic] arrayIntersect _units};
@@ -102,9 +106,13 @@ private _fnc_fromKits = {
     };
 
     {
-        ([_x, _items] call efak_medical_fnc_findInKits) params ["_kitClass", "_itemClass"];
+        ([_x, _items, _mode] call efak_medical_fnc_findInKits) params ["_kitClass", "_itemClass"];
 
         if (_kitClass isNotEqualTo "") then {
+            if (_dryRun) then {
+                ([_x, _kitClass] call efak_medical_fnc_kitSourceKey) breakOut "Main";
+            };
+
             if (([_itemClass] call efak_core_fnc_getMagazineSize) > 1) then {
                 private _left = [_x, _kitClass, _itemClass] call efak_medical_fnc_useCharge;
                 [_x, _itemClass, _left <= 0] breakOut "Main";
@@ -116,9 +124,12 @@ private _fnc_fromKits = {
     } forEach _kitOrder;
 };
 
-private _kitsFirst = (missionNamespace getVariable ["efak_medical_useOrder", 0]) == 1;
+private _order = missionNamespace getVariable ["efak_medical_useOrder", 0];
 
-if (_kitsFirst) then {call _fnc_fromKits};
+switch (_order) do {
+    case 1: {[0] call _fnc_fromKits};   // kits first
+    case 2: {[2] call _fnc_fromKits};   // kits lying nearby first
+};
 // ----- EFAK end -----
 
 {
@@ -126,6 +137,11 @@ if (_kitsFirst) then {call _fnc_fromKits};
     if (_forEachIndex != _vehicleIndex) then { // Remove unit item
         // EFAK: loose items only - a packed one is taken out of its kit by _fnc_fromKits
         private _originItems = [_origin, 0] call efak_medical_fnc_looseItems; // Item
+
+        if (_dryRun && {(_items findAny (_originItems + ([_origin, 2] call efak_medical_fnc_looseItems))) != -1}) then {
+            (["patient", "medic"] select (_origin isEqualTo _medic)) breakOut "Main";
+        };
+
         {
             if (_x in _originItems) then {
                 _origin removeItem _x;
@@ -144,6 +160,11 @@ if (_kitsFirst) then {call _fnc_fromKits};
         } forEach _items;
     } else { // Remove vehicle item
         private _originItems = [_origin, 0] call ace_common_fnc_uniqueItems; // Item
+
+        if (_dryRun && {(_items findAny (_originItems + ([_origin, 2] call ace_common_fnc_uniqueItems))) != -1}) then {
+            "vehicle" breakOut "Main";
+        };
+
         {
             if (_x in _originItems) then {
                 _origin addItemCargoGlobal [_x, -1];
@@ -162,6 +183,11 @@ if (_kitsFirst) then {call _fnc_fromKits};
 } forEach _useOrder;
 
 // ----- EFAK -----
-if (!_kitsFirst) then {call _fnc_fromKits};
+switch (_order) do {
+    case 0: {[0] call _fnc_fromKits};   // loose items first, kits last
+    case 2: {[1] call _fnc_fromKits};   // the carried kits last
+};
+
+if (_dryRun) exitWith {""};
 
 [objNull, "", false]

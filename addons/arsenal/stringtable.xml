@@ -46,6 +46,12 @@
         <Key ID="STR_efak_arsenal_Reason_NotAllowed">
             <English>That does not belong in this kit</English>
         </Key>
+        <Key ID="STR_efak_arsenal_Rename_Tooltip">
+            <English>Give the selected kit a name of its own.\nReturn keeps it, an empty name gives\nback the usual one.</English>
+        </Key>
+        <Key ID="STR_efak_arsenal_RenameReset_Tooltip">
+            <English>Back to the usual name</English>
+        </Key>
         <Key ID="STR_efak_arsenal_Clear_Tooltip">
             <English>Empty every kit of this type</English>
         </Key>

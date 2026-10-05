@@ -228,7 +228,13 @@ private _gap = SQUARE(ROW * 0.35);
     // The same table as in the arsenal: what each number is on one line, the numbers centred under
     // it on the next.
     private _table = [_labels, [format ["%1x", _count], _each call _fnc_mass, _stack call _fnc_mass]] call EFUNC(core,formatColumns);
+    // A kit with a name of its own shows it first, then what it is.
+    private _realName = [[[_class] call EFUNC(core,getPrototype)] call EFUNC(core,getItemName), ""] select (([_class] call EFUNC(core,getKitLabel)) isEqualTo "");
     private _tooltip = format ["%1\n%2\n\n%3\n%4", _name, _class, _table select 0, _table select 1];
+
+    if (_realName isNotEqualTo "") then {
+        _tooltip = format ["%1\n%2\n%3\n\n%4\n%5", _name, _realName, _class, _table select 0, _table select 1];
+    };
 
     // Greyed rows say why they cannot move; what arrived on a container says where it can go.
     switch (true) do {

@@ -167,7 +167,20 @@ if ((toLowerANSI _kitClass) in EGVAR(core,needsConversion)) exitWith {
             if (GVAR(ctrlHeld) || {GVAR(shiftHeld)}) exitWith {};
             if (diag_tickTime - GVAR(lastModifierMove) < MODIFIER_GRACE) exitWith {};
 
-            [ctrlIDC _ctrl, _index, 1] call FUNC(transfer);
+            // Something to wear in the kit is put on, as a double click does in the inventory.
+            if (ctrlIDC _ctrl == IDC_LIST_KIT) then {
+                private _class = _ctrl lnbData [_index, 0];
+
+                if (_class isNotEqualTo "" && {([_class] call EFUNC(core,getWearSlot)) isNotEqualTo []}) exitWith {
+                    if ([ACE_player, GVAR(kitClass), _class] call EFUNC(core,wearItem)) then {
+                        [{call FUNC(refreshPouch)}] call CBA_fnc_execNextFrame;
+                    };
+                };
+
+                [ctrlIDC _ctrl, _index, 1] call FUNC(transfer);
+            } else {
+                [ctrlIDC _ctrl, _index, 1] call FUNC(transfer);
+            };
         }];
 
         // Picking a row up shows how many the drag carries, see fnc_onDragStart.

@@ -4,6 +4,12 @@ PREP(onDisplayClosed);
 PREP(onKeyDown);
 PREP(getTabBlocker);
 PREP(getText);
+PREP(getContainerItems);
+PREP(recountKitRows);
+PREP(onCargoChanged);
+PREP(onRenameClick);
+PREP(onRenameDone);
+PREP(onRenameReset);
 
 // Overlay
 PREP(openTab);

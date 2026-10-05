@@ -30,9 +30,10 @@ private _current = toLowerANSI GVAR(kitClass);
 private _numbers = createHashMap;
 private _shown = [];
 
-// Row by row, so a pick can be traced back to who holds the kit: [holder, kit, where, name, picture].
+// Row by row, so a pick can be traced back to who holds the kit:
+// [holder, kit, where, name, picture, where's picture, that picture is an icon].
 GVAR(kitChoices) = _kits apply {
-    _x params ["_holder", "_kitClass", "_where"];
+    _x params ["_holder", "_kitClass", "_where", ["_whereIcon", ""], ["_whereIsIcon", false]];
 
     private _prototype = [_kitClass] call EFUNC(core,getPrototype);
     private _typeKey = toLowerANSI _prototype;
@@ -44,8 +45,19 @@ GVAR(kitChoices) = _kits apply {
         _holder,
         _kitClass,
         _where,
-        format ["%1 #%2 - %3", [_kitClass] call EFUNC(core,getKitShortName), _number, _where],
-        [_prototype] call EFUNC(core,getItemPicture)
+        // A kit with a name goes by it; the others are numbered by type. Where it is shows as a
+        // picture behind the name - in words only for a casualty's kit.
+        format [
+            ["%1 - %2", "%1"] select (_whereIcon isNotEqualTo ""),
+            [
+                [_kitClass] call EFUNC(core,getKitShortName),
+                [_kitClass] call EFUNC(core,getKitLabel)
+            ] select (([_kitClass] call EFUNC(core,getKitLabel)) isNotEqualTo ""),
+            _where
+        ],
+        [_prototype] call EFUNC(core,getItemPicture),
+        _whereIcon,
+        _whereIsIcon
     ];
 
     if ((toLowerANSI _kitClass) isEqualTo _current) then {_shown = _choice};
@@ -53,17 +65,18 @@ GVAR(kitChoices) = _kits apply {
     _choice
 };
 
-_shown params ["", ["_kitClass", ""], "", ["_name", ""], ["_picture", ""]];
+_shown params ["", ["_kitClass", ""], ["_where", ""], ["_name", ""], ["_picture", ""]];
 
 private _label = _display displayCtrl IDC_KIT_SWITCH;
 
+// The name only - where the kit is shows in the menu and the tooltip.
 _label ctrlSetText _name;
 (_display displayCtrl IDC_KIT_SWITCH_PICTURE) ctrlSetText _picture;
 
 // The full name in the tooltip - but not while the menu is open, where it would pop up over it; the
 // menu puts it back when it closes (fnc_closeMenu).
 private _hit = ((_display getVariable [QGVAR(buttons), createHashMap]) getOrDefault ["KitSwitch", []]) param [4, controlNull];
-private _tooltip = format ["%1\n\n%2", [_kitClass] call EFUNC(core,getKitName), LLSTRING(KitSwitch_Tooltip)];
+private _tooltip = format ["%1 - %2\n\n%3", [_kitClass] call EFUNC(core,getKitName), _where, LLSTRING(KitSwitch_Tooltip)];
 private _menu = _display getVariable [QGVAR(menu), []];
 
 if ((_menu param [0, ""]) isEqualTo "KitSwitch") then {
