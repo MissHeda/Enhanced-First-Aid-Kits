@@ -28,7 +28,7 @@ class EFAK_Framework {
     // Goes up by one whenever main, core, gui or arsenal change - the four addons Enhanced Utility
     // Pouches carries a copy of. efak_kits checks it (EFAK_FRAMEWORK_REVISION), so an EFAK update
     // that leaves them alone needs no new copy there.
-    revision = 2;
+    revision = 3;
 };
 #include "CfgEFAKKits.hpp"
 #include "CfgWeapons.hpp"

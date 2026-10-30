@@ -47,4 +47,7 @@ if (_result isEqualTo "") then {
 
 GVAR(usedInstances) set [toLowerANSI _result, true];
 
+// The id comes with whatever its last kit held - freeing it left that in place.
+[_result] call FUNC(clearInstance);
+
 _result

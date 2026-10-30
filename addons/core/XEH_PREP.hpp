@@ -62,6 +62,9 @@ PREP(getDefaultContents);
 // Instance pool
 PREP(allocateInstance);
 PREP(freeInstance);
+PREP(clearInstance);
+PREP(claimInstances);
+PREP(claimCarriedKits);
 PREP(convertKits);
 PREP(convertKitsNow);
 PREP(dedupeKits);

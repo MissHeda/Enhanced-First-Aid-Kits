@@ -7,7 +7,7 @@
  * getUnitLoadout when the player died) puts the very same kit ids on the new unit that the old
  * body still carries - CBA_fnc_setLoadout, which ACE's respawn uses, goes through
  * fnc_onPreLoadoutSet and never does. Two kits with one id share one set of contents, and once
- * the body is cleared away its ids go back to the pool, emptying the kit the player still has.
+ * the body is cleared away its ids go back to the pool, free for a third kit to share.
  *
  * Every shared kit turns back into its prototype, with its current contents in the restore queue,
  * and fnc_convertKits fetches a fresh id for it. The body keeps the old one, contents and all.
