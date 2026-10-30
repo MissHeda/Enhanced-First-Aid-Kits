@@ -1,9 +1,15 @@
 #include "..\script_component.hpp"
 /*
  * Author: Miss Heda
- * Returns an instance class to its pool and clears its contents. Runs on the
- * server, but may be called from anywhere. Kits packed inside it are freed as
- * well, since they only ever existed inside this one.
+ * Returns an instance class to its pool. Runs on the server, but may be called
+ * from anywhere. Kits packed inside it are freed as well, since they only ever
+ * existed inside this one.
+ *
+ * What the kit held stays until the id is handed out again (fnc_clearInstance).
+ * A freed kit is not always gone: a player who disconnects is deleted with his
+ * kits, and a mission that saved his gear with getUnitLoadout gives the very
+ * same kits back when he returns - fnc_claimInstances takes them out of the
+ * pool again, contents and all.
  *
  * Arguments:
  * 0: Instance class <STRING>
@@ -46,15 +52,3 @@ if (_depth <= EFAK_RESTORE_MAX_DEPTH) then {
 };
 
 GVAR(usedInstances) deleteAt _key;
-
-// The next kit to get this id starts out plain.
-if (_key in GVAR(followDefaults)) then {
-    [QGVAR(followDefaultsChanged), [_class, false]] call CBA_fnc_globalEvent;
-};
-
-[QGVAR(contentsChanged), [_class, []]] call CBA_fnc_globalEvent;
-
-// ...and without a name.
-if (_key in GVAR(labels)) then {
-    [QGVAR(labelChanged), [_class, ""]] call CBA_fnc_globalEvent;
-};

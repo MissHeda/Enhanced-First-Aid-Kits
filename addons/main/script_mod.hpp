@@ -12,7 +12,7 @@
 #define VERSION_CONFIG version = MAJOR.MINOR; versionStr = QUOTE(MAJOR.MINOR.PATCH); versionAr[] = {MAJOR,MINOR,PATCH}
 
 // Minimal required game version.
-#define REQUIRED_VERSION 2.16
+#define REQUIRED_VERSION 2.18
 #define REQUIRED_CBA_VERSION {3,17,0}
 
 #ifdef COMPONENT_BEAUTIFIED

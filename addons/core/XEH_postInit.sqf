@@ -111,6 +111,11 @@ if (isServer) then {
         [_class] call FUNC(freeInstance);
     }] call CBA_fnc_addEventHandler;
 
+    [QGVAR(claimInstances), {
+        params ["_classes"];
+        [_classes] call FUNC(claimInstances);
+    }] call CBA_fnc_addEventHandler;
+
     // A unit that is deleted - a body the garbage collector clears away, an AI a Zeus deletes -
     // takes its kits with it, and their ids would stay taken for the rest of the mission. With AI
     // converting their kits too, a mission spawning waves would run through the pool. Units only:
@@ -186,6 +191,7 @@ if !(hasInterface) exitWith {};
     };
 
     [_unit] call FUNC(convertKits);
+    [_unit] call FUNC(claimCarriedKits);
     call FUNC(queueVirtualLoad);
 }, true] call CBA_fnc_addPlayerEventHandler;
 
@@ -198,6 +204,8 @@ if !(hasInterface) exitWith {};
     _unit setVariable [QGVAR(dedupeUntil), CBA_missionTime + EFAK_DEDUPE_WINDOW];
     [_unit] call FUNC(dedupeKits);
     [_unit] call FUNC(convertKits);
+    _unit setVariable [QGVAR(claimedKits), nil];
+    [_unit] call FUNC(claimCarriedKits);
     call FUNC(queueVirtualLoad);
 }, true] call CBA_fnc_addPlayerEventHandler;
 
