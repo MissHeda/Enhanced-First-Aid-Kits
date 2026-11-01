@@ -70,7 +70,7 @@ class EFAK_Kits {
         icon = QPATHTOF(ui\NarcBox.paa);
         iconContents = QPATHTOF(ui\NarcBox.paa);
         capacity = 30;
-        instances = EFAK_INSTANCES_NARCBOX;
+        instances = EFAK_INSTANCES_PER_KIT;
         defaultContents = "ACE_morphine 6 ACE_epinephrine 6 ACE_adenosine 4 ACE_painkillers 2";
         itemFilter = 2;
         whitelist = "ACE_morphine, ACE_epinephrine, ACE_adenosine, ACE_painkillers";
