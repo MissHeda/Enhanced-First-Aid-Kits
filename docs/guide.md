@@ -29,7 +29,7 @@ kits added again.
 | Refilling | only by repacking a fixed slot | drag anything you carry into the kit |
 | Taking things out | whole slot, or the whole kit | any stack, any amount, or the whole kit |
 | Seeing what is inside | hint listing the configured slots | pouch UI with icons, plus a Quick access window |
-| Kit types | three, hardcoded | four (IFAK, AFAK, MFAK, MFAK+), driven off a config registry, others can add more |
+| Kit types | three, hardcoded | five (IFAK, AFAK, MFAK, MFAK+, Narc Box), driven off a config registry, others can add more |
 | Arsenal | kits were opaque items | own tab, every kit filled individually |
 | Treatments | had to unpack first | ACE treats straight out of the kit |
 
@@ -206,7 +206,7 @@ missing is skipped - and each replaces the capacity and the default contents of
 every kit with a set for that mod. Without any of them the kits are stocked with
 ACE items, straight out of `efak_core`.
 
-The four kits are a chain, not four sizes of the same thing:
+The four first aid kits are a chain, not four sizes of the same thing; the narc box sits beside them:
 
 | Kit | For | Holds |
 |---|---|---|
@@ -214,6 +214,7 @@ The four kits are a chain, not four sizes of the same thing:
 | AFAK | the team medic | that many times over, plus chest seals, IV access and a splint |
 | MFAK | the squad medic | a working kit: airways, suction, monitoring, the drug set, IVs, surgical kit |
 | MFAK+ | the maximum | what the squad medic has and more of it, plus AED, BVM, oxygen and the surgical set |
+| Narc Box | the medic's drugs | painkillers, injectors, vials and syringes - only what its whitelist names goes in |
 
 Only the defaults change: default contents a mission or a server set itself stay
 as they are.
@@ -251,12 +252,12 @@ the item it is: an opened bottle of something the defaults hold goes back in.
 
 A kit no longer has four or six or eight slots. It has a capacity in inventory
 mass units, and it holds whatever fits. Defaults are 35 for the IFAK, 90 for the
-AFAK, 320 for the MFAK and 520 for the MFAK+ - a compat addon may set its own -
+AFAK, 320 for the MFAK, 520 for the MFAK+ and 30 for the Narc Box - a compat addon may set its own -
 and every one of them is a CBA setting whose
 description lists a vest and three backpacks for comparison.
 
 The room a packed kit takes in a uniform, vest or backpack is fixed, whatever
-capacity a mission sets: 15 for the IFAK, 35 for the AFAK, 130 for the MFAK and
+capacity a mission sets: 15 for the IFAK, 35 for the AFAK, 130 for the MFAK, 12 for the Narc Box and
 210 for the MFAK+ - two IFAKs to a uniform, one MFAK to an assault pack, one
 MFAK+ to a kitbag or carryall. It is the item's config `mass`, which the engine
 uses for room and weight alike; EFAK takes the difference back off through ACE's
@@ -338,7 +339,7 @@ in order.
 | Medical menu: highlight the supply used next | Frames the item count the next treatment takes from, » like this «. Each player's own setting, on by default |
 | Drop key: which kit first | Which of your kits the **Drop kit** key puts down first: the biggest (default) or the smallest. Each player's own setting |
 
-**2) IFAK, 3) AFAK, 4) MFAK, 5) MFAK+** (one section per kit type)
+**2) IFAK, 3) AFAK, 4) MFAK, 5) MFAK+, 6) Narc Box** (one section per kit type)
 
 | Setting | What it does |
 |---|---|

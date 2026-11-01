@@ -64,5 +64,20 @@ class CfgWeapons {
         };
     };
 
+    // A small hard case, like the ones medics lock their drugs in. Holds little, so it packs small.
+    class efak_NarcBox: EFAK_KitBase {
+        model = QPATHTOF(data\narcbox.p3d);
+        scope = 2;
+        scopeArsenal = 2;
+        displayName = CSTRING(NarcBox_Display);
+        descriptionShort = CSTRING(NarcBox_DESC);
+        picture = QPATHTOF(ui\NarcBox.paa);
+        editorPreview = QPATHTOF(ui\NarcBox.paa);
+        EFAK_emptyWeight = 18.75; // 1 lb 14 oz
+        class ItemInfo: CBA_MiscItem_ItemInfo {
+            mass = 12;
+        };
+    };
+
     #include "CfgWeapons_instances.hpp"
 };

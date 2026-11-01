@@ -1,6 +1,6 @@
 // EFAK's own kits in the registry, see addons/core/CfgEFAKKits.hpp for every property.
 //
-// Three kits by size: individual, advanced, and one for several casualties. Item masses come from real
+// Three kits by size: individual, advanced, and one for several casualties, plus a narc box for the drugs. Item masses come from real
 // products of each size; the stock fills are what a unit would issue with ACE. The AFAK carries an IFAK
 // inside - the prototype, never an instance id, or every AFAK would share that one IFAK. Items of a mod
 // that is not loaded are dropped quietly, so a mission can put ACM or KAT items in here.
@@ -59,6 +59,21 @@ class EFAK_Kits {
         defaultContents = "ACE_elasticBandage 60 ACE_packingBandage 45 ACE_quikclot 40 ACE_tourniquet 16 ACE_morphine 15 ACE_epinephrine 15 ACE_painkillers 15 ACE_splint 12 ACE_adenosine 8 ACE_surgicalKit 2 ACE_suture 60 ACE_salineIV_500 6 ACE_salineIV_250 6 ACE_plasmaIV_500 6 ACE_plasmaIV_250 6 ACE_bloodIV_500 4 ACE_bloodIV_250 6";
         // A bag rather than a pouch: the hard realism modes unload it into the backpack.
         bag = 1;
+        background = "";
+    };
+
+    // Narc box, a small hard case for the drugs only: painkillers, injectors, vials and syringes. A
+    // medic's item - nothing but what the whitelist names goes in.
+    class NarcBox {
+        item = "efak_NarcBox";
+        shortName = "Narc Box";
+        icon = QPATHTOF(ui\NarcBox.paa);
+        iconContents = QPATHTOF(ui\NarcBox.paa);
+        capacity = 30;
+        instances = EFAK_INSTANCES_NARCBOX;
+        defaultContents = "ACE_morphine 6 ACE_epinephrine 6 ACE_adenosine 4 ACE_painkillers 2";
+        itemFilter = 2;
+        whitelist = "ACE_morphine, ACE_epinephrine, ACE_adenosine, ACE_painkillers";
         background = "";
     };
 };

@@ -42,6 +42,8 @@ class Cfg3DEN {
                     CRATE_KIT_NAME_ATTRIBUTE(efak_MFAK,MFAK);
                     CRATE_KIT_ATTRIBUTE(efak_MFAKPlus,MFAKPlus);
                     CRATE_KIT_NAME_ATTRIBUTE(efak_MFAKPlus,MFAKPlus);
+                    CRATE_KIT_ATTRIBUTE(efak_NarcBox,NarcBox);
+                    CRATE_KIT_NAME_ATTRIBUTE(efak_NarcBox,NarcBox);
                 };
             };
         };
