@@ -62,7 +62,8 @@ private _cfgWeapons = configFile >> "CfgWeapons";
         [true, getNumber (_x >> "useInTreatments") > 0] select (isNumber (_x >> "useInTreatments")),
         ["FirstAid", getText (_x >> "group")] select (isText (_x >> "group")),
         getText (_x >> "settingsCategory"),
-        getText (_x >> "whitelist")
+        getText (_x >> "whitelist"),
+        getNumber (_x >> "directUse") > 0
     ]];
 
     GVAR(kitList) pushBack _item;

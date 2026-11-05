@@ -106,6 +106,8 @@ PREP(isContentsForced);
 PREP(isItemAllowed);
 PREP(packItem);
 PREP(unpackItem);
+PREP(stageItems);
+PREP(restoreStaged);
 PREP(unpackAll);
 PREP(removeKit);
 PREP(showContents);

@@ -178,6 +178,17 @@ if (isServer) then {
 
 if !(hasInterface) exitWith {};
 
+// Items of the kits that allow it are laid out while the ACE interaction menu is open, so ACE's
+// actions find them, and go back once it is closed - see fnc_stageItems.
+["ace_interactMenuOpened", {[ACE_player] call FUNC(stageItems)}] call CBA_fnc_addEventHandler;
+["ace_interactMenuClosed", {[] call FUNC(restoreStaged)}] call CBA_fnc_addEventHandler;
+
+// Never left lying out: dying or switching units with the menu open puts them back at once.
+["unit", {[true] call FUNC(restoreStaged)}] call CBA_fnc_addPlayerEventHandler;
+addMissionEventHandler ["EntityKilled", {
+    if ((_this select 0) isEqualTo GVAR(stagedUnit)) then {[true] call FUNC(restoreStaged)};
+}];
+
 // ---------------------------------------------------------------------------
 // Client side
 // ---------------------------------------------------------------------------

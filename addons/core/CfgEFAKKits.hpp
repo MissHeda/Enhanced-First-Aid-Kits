@@ -22,6 +22,9 @@
 //                    names them here outright, e.g. "item/uniform"; backpacks as "backpack".
 //   whitelist        default of the whitelist setting, class names separated by commas
 //   useInTreatments  default of "usable for treatments": 1 (default) or 0
+//   directUse        default of "use items without unpacking": 0 (default) or 1. On, ACE actions
+//                    see the items inside as if they were carried loose - earplugs, cable ties,
+//                    spray paint - see fnc_stageItems
 //   group            interaction menu it is listed under, a class of EFAK_KitGroups
 //                    (default "FirstAid")
 //   settingsCategory CBA settings category of its settings, "" (default) for EFAK's own

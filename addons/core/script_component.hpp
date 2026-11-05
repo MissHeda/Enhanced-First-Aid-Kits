@@ -21,6 +21,7 @@
 #define KIT_GROUP       13  // interaction menu group, a class of EFAK_KitGroups
 #define KIT_CATEGORY    14  // CBA settings category, "" = EFAK's own
 #define KIT_WHITELIST   15  // default of the whitelist setting
+#define KIT_DIRECT_USE  16  // default of "use items without unpacking"
 
 // Kit ids come from the config registry, so per kit setting names are built at
 // runtime with e.g. format [QGVAR(kit_%1_capacity), _kitId].

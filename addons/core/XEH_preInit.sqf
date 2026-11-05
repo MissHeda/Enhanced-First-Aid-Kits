@@ -18,6 +18,9 @@ GVAR(typeNames) = createHashMap;         // lowercase prototype -> the name the 
 GVAR(nameCache) = createHashMap;              // lowercase class -> display name
 GVAR(pictureCache) = createHashMap;           // lowercase class -> picture path
 GVAR(contextMenuRegistered) = createHashMap;  // lowercase kit class -> true
+GVAR(staged) = [];                         // [kit, item] laid out while the interaction menu is open, see fnc_stageItems
+GVAR(stagedUnit) = objNull;
+GVAR(stagedGeneration) = 0;
 
 // The container the player last opened. The engine tells us which one, which beats guessing from
 // distance when several are stacked together.
@@ -450,6 +453,16 @@ if (GVAR(hasMedical)) then {
             1
         ] call CBA_fnc_addSetting;
     };
+
+    // Items inside count as carried for ACE actions, see fnc_stageItems.
+    [
+        format [QGVAR(kit_%1_directUse), _kitId],
+        "CHECKBOX",
+        [LLSTRING(Setting_DirectUse), LLSTRING(Setting_DirectUse_Desc)],
+        _category,
+        _kit select KIT_DIRECT_USE,
+        1
+    ] call CBA_fnc_addSetting;
 
     // Lists
 
