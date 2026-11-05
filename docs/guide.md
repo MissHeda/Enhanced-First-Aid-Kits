@@ -357,6 +357,7 @@ in order.
 | Remove when empty | Drops the kit item once the last thing is taken out. Off by default |
 | Show single item interactions | Lists every item of this kit in the ACE interaction menu. Off by default: the kit offers Open, Unpack everything and Quick access |
 | Treat out of this kit | Whether ACE treatments may use what is inside this kit type |
+| Use items without unpacking | While the ACE interaction menu is open, one of every item in the kit counts as carried, so any ACE action (earplugs, cable ties, spray paint, tools - from any mod) can use it; what it uses comes out of the kit. Not for magazines or worn items. Off for EFAK's kits, on for the utility pouch and engineer bag of Enhanced Utility Pouches. Kits of other mods set the default with `directUse = 1` in `EFAK_Kits` |
 | Treat out of it lying nearby | How far from the medic it may lie on the ground and still be used for treatments, 0-15 m. 3 m for the MFAK and MFAK+, off (0) for the others |
 
 See *Compat addons* above for what the kits hold with KAT, ACM or ACM Extended.

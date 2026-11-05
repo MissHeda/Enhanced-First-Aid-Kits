@@ -15,6 +15,7 @@ on the server and every client.
   Double click or drag moves one item, **Ctrl** + click the whole stack, **Shift** + click half.
 - **Crate, vehicle or ground** - fill a kit straight from a medical crate, a vehicle or the ground.
 - **Quick access** - see what's inside and take a stack out without opening the kit.
+- **Use without unpacking** - per kit setting: ACE actions use any item right out of the kit (earplugs, cable ties, spray paint). Off for the medical kits by default.
 - **Treat from the kit** - ACE uses bandages, morphine and co. right out of the kit.
 - **ACE Arsenal tab** - fill every kit on its own; loadouts keep what's inside.
 - **Eden crates** - set what the kits in a crate or vehicle hold, right in its Eden attributes.
