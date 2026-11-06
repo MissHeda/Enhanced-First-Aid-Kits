@@ -1,5 +1,6 @@
 PREP(openPouch);
 PREP(initButtons);
+PREP(applyTheme);
 PREP(paintButton);
 PREP(setButton);
 PREP(onButtonHover);

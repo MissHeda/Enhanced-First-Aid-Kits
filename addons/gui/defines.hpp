@@ -140,8 +140,10 @@
 #define C_INFO         {RGBA_INFO}
 #define C_THUMB        {RGBA_THUMB}
 
+// S_WINDOW, S_ACCENT, S_ACCENT_HOVER and S_ON_ACCENT are the theme's (class EFAK_Theme, read by
+// XEH_preInit), so they only work in SQF that runs after it.
 #define S_CLEAR        [RGBA_CLEAR]
-#define S_WINDOW       [RGBA_WINDOW]
+#define S_WINDOW       GVAR(themeWindow)
 #define S_CARD         [RGBA_CARD]
 #define S_FIELD        [RGBA_FIELD]
 #define S_FIELD_HOVER  [RGBA_FIELD_HOVER]
@@ -149,9 +151,9 @@
 #define S_TEXT         [RGBA_TEXT]
 #define S_TEXT2        [RGBA_TEXT2]
 #define S_MUTED        [RGBA_MUTED]
-#define S_ACCENT       [RGBA_ACCENT]
-#define S_ACCENT_HOVER [RGBA_ACCENT_HOVER]
-#define S_ON_ACCENT    [RGBA_ON_ACCENT]
+#define S_ACCENT       GVAR(themeAccent)
+#define S_ACCENT_HOVER GVAR(themeAccentHover)
+#define S_ON_ACCENT    GVAR(themeOnAccent)
 #define S_GAIN         [RGBA_GAIN]
 #define S_LOSS         [RGBA_LOSS]
 #define S_INFO         [RGBA_INFO]
@@ -165,6 +167,8 @@
 #define HEX_TEXT2  "#A3ACB9"
 #define HEX_MUTED  "#69717E"
 #define HEX_ACCENT "#F5A524"
+// The theme's accent in markup, for SQF (HEX_ACCENT is EFAK's own, for config)
+#define HEX_THEME_ACCENT GVAR(themeAccentHex)
 
 // Put in front of an item's name in a list: the engine draws the name right against the picture.
 #define LIST_NAME_GAP " "

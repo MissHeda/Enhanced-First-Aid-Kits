@@ -465,6 +465,48 @@ framework in use is of another revision. Enhanced Utility Pouches does exactly t
 `tools/sync_framework.py` and its `compat_efak` addon, which hands the names back to EFAK when both
 are loaded.
 
+## Restyling EFAK from another mod
+
+A look-only mod (new models, pictures, window colours) needs no copy of EFAK and no patched file. It
+loads after EFAK and changes values only, so it keeps working through EFAK updates:
+
+```cpp
+class CfgPatches {
+    class my_restyle {
+        requiredAddons[] = {"efak_kits", "efak_gui"};
+        // ...
+    };
+};
+
+// Models and pictures: the prototype class - every instance class inherits from it.
+class CfgWeapons {
+    class EFAK_KitBase;
+    class efak_IFAK: EFAK_KitBase {
+        model = "\my\restyle\data\ifak.p3d";
+        picture = "\my\restyle\ui\ifak_ca.paa";
+        editorPreview = "\my\restyle\ui\ifak_ca.paa";
+    };
+};
+
+// The pictures in the kit window and the menus, and an image behind the contents list.
+class EFAK_Kits {
+    class IFAK {
+        icon = "\my\restyle\ui\ifak_ca.paa";
+        iconContents = "\my\restyle\ui\ifak_ca.paa";
+        background = "\my\restyle\ui\ifak_bg_ca.paa";
+    };
+};
+
+// The windows' colours and glass, see addons/gui/CfgTheme.hpp for every value.
+class EFAK_Theme {
+    accent[] = {0.35, 0.85, 0.95, 1};
+    glossPouch = "\my\restyle\ui\gloss_pouch_ca.paa";
+};
+```
+
+Change only the values you replace - leave out `displayName`, contents and the rest, so EFAK's
+own stay in force.
+
 ## Scripting
 
 Public functions live in `efak_core`:

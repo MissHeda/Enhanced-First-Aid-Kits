@@ -37,6 +37,6 @@ if (isNull _display) exitWith {};
 private _counter = _display displayCtrl IDC_DRAG_COUNT;
 
 // Just the number, as the counts in the lists show it.
-_counter ctrlSetStructuredText parseText format ["%1x", GVAR(dragAmount)];
+_counter ctrlSetStructuredText parseText format ["<t color='%2'>%1x</t>", GVAR(dragAmount), HEX_THEME_ACCENT];
 
 _counter ctrlShow true;

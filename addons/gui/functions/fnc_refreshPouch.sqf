@@ -179,7 +179,7 @@ _hint ctrlCommit 0;
 if (GVAR(message) isEqualTo "") then {
     _hint ctrlSetStructuredText parseText LLSTRING(Hint_Controls);
 } else {
-    _hint ctrlSetStructuredText parseText format ["<t color='%1'>%2</t>", HEX_ACCENT, GVAR(message)];
+    _hint ctrlSetStructuredText parseText format ["<t color='%1'>%2</t>", HEX_THEME_ACCENT, GVAR(message)];
 };
 
 private _free = ((_hintH - ctrlTextHeight _hint) / 2) max 0;

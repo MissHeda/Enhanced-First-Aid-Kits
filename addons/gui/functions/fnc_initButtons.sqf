@@ -26,6 +26,8 @@ disableSerialization;
 
 params ["_display"];
 
+[_display] call FUNC(applyTheme);
+
 private _buttons = createHashMap;
 private _panels = createHashMap;
 private _rects = ["Mid", "Lft", "Rgt"];

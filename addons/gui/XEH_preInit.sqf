@@ -5,6 +5,42 @@ ADDON = false;
 
 #include "XEH_PREP.hpp"
 
+// The theme another mod may set in class EFAK_Theme (CfgTheme.hpp). A colour that is not four numbers
+// keeps EFAK's own. GVAR(themed) says whether anything differs, so fnc_applyTheme can skip the work.
+private _theme = configFile >> "EFAK_Theme";
+private _fnc_colour = {
+    params ["_name", "_own"];
+    private _value = getArray (_theme >> _name);
+    if (count _value == 4 && {_value findIf {!(_x isEqualType 0)} == -1}) then {_value} else {_own}
+};
+private _fnc_texture = {
+    params ["_name", "_own"];
+    private _entry = _theme >> _name;
+    [_own, getText _entry] select (isText _entry)
+};
+
+GVAR(themeAccent) = ["accent", [RGBA_ACCENT]] call _fnc_colour;
+GVAR(themeAccentHover) = ["accentHover", [RGBA_ACCENT_HOVER]] call _fnc_colour;
+GVAR(themeAccentSoft) = ["accentSoft", [RGBA_ACCENT_SOFT]] call _fnc_colour;
+GVAR(themeOnAccent) = ["onAccent", [RGBA_ON_ACCENT]] call _fnc_colour;
+GVAR(themeWindow) = ["window", [RGBA_WINDOW]] call _fnc_colour;
+GVAR(themeGlossPouch) = ["glossPouch", UI_TEX(gloss_pouch_ca)] call _fnc_texture;
+GVAR(themeGlossContents) = ["glossContents", UI_TEX(gloss_contents_ca)] call _fnc_texture;
+
+private _digits = "0123456789ABCDEF";
+GVAR(themeAccentHex) = "#" + (((GVAR(themeAccent) select [0, 3]) apply {
+    private _v = 0 max (round (_x * 255)) min 255;
+    (_digits select [floor (_v / 16), 1]) + (_digits select [_v % 16, 1])
+}) joinString "");
+
+GVAR(themed) = [
+    GVAR(themeAccent), GVAR(themeAccentSoft), GVAR(themeWindow),
+    toLowerANSI GVAR(themeGlossPouch), toLowerANSI GVAR(themeGlossContents)
+] isNotEqualTo [
+    [RGBA_ACCENT], [RGBA_ACCENT_SOFT], [RGBA_WINDOW],
+    toLowerANSI UI_TEX(gloss_pouch_ca), toLowerANSI UI_TEX(gloss_contents_ca)
+];
+
 // The kit the window is showing and who or what holds it - the player, a casualty or a crate.
 GVAR(kitClass) = "";
 GVAR(renaming) = "";              // the kit whose name is being typed, see fnc_onRenameClick
