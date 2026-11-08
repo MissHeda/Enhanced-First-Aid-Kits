@@ -164,6 +164,7 @@ if (isServer) then {
         if ((_args select 0) > EFAK_SYNC_ATTEMPTS) exitWith {
             [_handle] call CBA_fnc_removePerFrameHandler;
             WARNING("No kit contents from the server - kits on this machine may show the wrong contents.");
+            GVAR(serverMissing) = true;
 
             // Most often the mod is missing on the server: no kit gets an id there, so every kit stays
             // "being prepared" and empty. Said where the player sees it, not only in the log.
@@ -174,6 +175,22 @@ if (isServer) then {
 
         [QGVAR(requestSync), [clientOwner]] call CBA_fnc_serverEvent;
     }, EFAK_SYNC_INTERVAL, [0]] call CBA_fnc_addPerFrameHandler;
+};
+
+// Requests the server never answered are asked again (see fnc_convertKits). Nothing else would ask:
+// a loadout event only comes when the inventory changes.
+if (hasInterface) then {
+    [{
+        private _unit = ACE_player;
+
+        if (isNull _unit || {!local _unit}) exitWith {};
+
+        private _pending = _unit getVariable QGVAR(pendingConversions);
+
+        if (isNil "_pending" || {(values _pending) findIf {_x isNotEqualTo []} == -1}) exitWith {};
+
+        [_unit] call FUNC(convertKits);
+    }, EFAK_REQUEST_TIMEOUT, []] call CBA_fnc_addPerFrameHandler;
 };
 
 if !(hasInterface) exitWith {};

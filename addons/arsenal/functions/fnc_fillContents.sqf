@@ -59,7 +59,7 @@ if (_instances isEqualTo []) exitWith {
     switch (true) do {
         case (GVAR(selectedPreparing)): {
             _title ctrlSetText format [LLSTRING(Header_Contents), [GVAR(selected)] call EFUNC(core,getKitName)];
-            _hint ctrlSetText LLSTRING(Hint_Preparing);
+            _hint ctrlSetText ([LLSTRING(Hint_Preparing), LELSTRING(core,NoServer_Short)] select EGVAR(core,serverMissing));
         };
         case (GVAR(groups) isEqualTo []): {
             _title ctrlSetText "";

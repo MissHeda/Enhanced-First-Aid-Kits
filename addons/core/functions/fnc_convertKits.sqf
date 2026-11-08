@@ -109,6 +109,23 @@ private _served = [];
     _y params ["_slot", "_class", "_count"];
 
     private _inFlight = _pending getOrDefault [_x, []];
+
+    // A request the server has not answered in time was lost (or the server is not there): it is
+    // asked again, with the contents it was meant to bring. Should the first answer still come, the
+    // second finds no prototype left and gives its id straight back.
+    private _retry = [];
+
+    _inFlight = _inFlight select {
+        if (CBA_missionTime > (_x param [2, 1e10])) then {
+            _retry pushBack (_x select 1);
+            false
+        } else {
+            true
+        };
+    };
+
+    _pending set [_x, _inFlight];
+
     private _missing = _count - (count _inFlight);
 
     if (_missing <= 0) then {continue};
@@ -120,13 +137,17 @@ private _served = [];
     private _promised = _queue getOrDefault [_queueKey, []];
 
     for "_i" from 1 to _missing do {
-        private _contents = if (_promised isEqualTo []) then {-1} else {_promised deleteAt 0};
+        private _contents = switch (true) do {
+            case (_retry isNotEqualTo []): {_retry deleteAt 0};
+            case (_promised isNotEqualTo []): {_promised deleteAt 0};
+            default {-1};
+        };
 
         GVAR(nextRequestId) = GVAR(nextRequestId) + 1;
 
         // Recorded before the request goes out: on a host the grant comes back before
         // serverEvent even returns.
-        _inFlight pushBack [GVAR(nextRequestId), _contents];
+        _inFlight pushBack [GVAR(nextRequestId), _contents, CBA_missionTime + EFAK_REQUEST_TIMEOUT];
 
         [
             QGVAR(requestInstance),

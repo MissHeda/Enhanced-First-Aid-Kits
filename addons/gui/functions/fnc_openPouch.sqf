@@ -37,7 +37,7 @@ if !([_kitClass] call EFUNC(core,isKit)) exitWith {
 // A kit nobody has carried yet - one lying in a crate since the mission started - is not a kit of its
 // own until somebody picks it up, and holds nothing that could be shown.
 if ((toLowerANSI _kitClass) in EGVAR(core,needsConversion)) exitWith {
-    [LLSTRING(Error_NotOpenedYet)] call ACEFUNC(common,displayTextStructured);
+    [[LLSTRING(Error_NotOpenedYet), LELSTRING(core,NoServer_Short)] select EGVAR(core,serverMissing)] call ACEFUNC(common,displayTextStructured);
 };
 
 // Called straight out of the interaction menu, which is still closing.

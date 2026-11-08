@@ -164,7 +164,7 @@ private _selectedPreparing = -1;
         _ctrl lbSetPicture [_index, _picture];
         _ctrl lbSetColor [_index, COLOR_GREYED];
         _ctrl lbSetPictureColor [_index, COLOR_GREYED];
-        _ctrl lbSetTooltip [_index, LLSTRING(Hint_Preparing)];
+        _ctrl lbSetTooltip [_index, [LLSTRING(Hint_Preparing), LELSTRING(core,NoServer_Short)] select EGVAR(core,serverMissing)];
 
         if (_prototype == GVAR(selected)) then {_selectedPreparing = _index};
     };

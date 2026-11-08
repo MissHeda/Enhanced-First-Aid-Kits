@@ -33,6 +33,9 @@ GVAR(debugPFH) = -1;
 GVAR(virtualLoadQueued) = false;
 // The editor has no server to wait for: whatever it holds is all there is.
 GVAR(contentsSynced) = isServer || {is3DEN};
+// Set on a client once the server never answered: EFAK is missing on the server (or another
+// version). Kits are never prepared then, and every place that shows one says why.
+GVAR(serverMissing) = false;
 // Bumped on every contents change, so anything that caches per kit knows when to give up.
 GVAR(contentsStamp) = 0;
 GVAR(whitelistLookup) = createHashMap;      // kit id -> lowercase class -> true

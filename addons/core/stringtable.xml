@@ -271,6 +271,9 @@
         <Key ID="STR_efak_core_Action_Wear">
             <English>Put on: %1</English>
         </Key>
+        <Key ID="STR_efak_core_NoServer_Short">
+            <English>No answer from the server - this mod has to be loaded on the server too, in the same version</English>
+        </Key>
         <Key ID="STR_efak_core_Sync_NoServer">
             <English>%1: no answer from the server. The mod has to be loaded on the server too, in the same version - until then kits stay empty and are never prepared.</English>
         </Key>

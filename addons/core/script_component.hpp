@@ -66,6 +66,9 @@
 // until it has an answer.
 #define EFAK_SYNC_INTERVAL          5
 #define EFAK_SYNC_ATTEMPTS          24
+// An instance request the server has not answered after this many seconds is sent again. A lost
+// request must not leave a kit "being prepared" until the player happens to drop it.
+#define EFAK_REQUEST_TIMEOUT        10
 
 // ----- Kit contents in loadouts (format documented in fnc_getLoadoutKits) -----
 // Bump the version whenever the entry layout changes. Loadouts carrying another version are
